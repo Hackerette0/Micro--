@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Micro--</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -148,7 +149,7 @@
     /* ── stats strip — Swiss thin numerals, inline in sticky bar ── */
     .stats-strip {
       display: grid;
-      grid-template-columns: repeat(5, 1fr) 2fr 70px;
+      grid-template-columns: repeat(6, 1fr) 2fr 70px;
       gap: 0;
       flex: 1;
     }
@@ -169,11 +170,12 @@
       color: var(--mid);
     }
     /* difficulty colors — vivid enough on #0A0A0A */
-    .n-done { color: var(--A); }
-    .n-easy { color: var(--easy); }
-    .n-med  { color: var(--med); }
-    .n-hard { color: var(--hard); }
-    .n-ms   { color: var(--paper); }
+    .n-done   { color: var(--A); }
+    .n-easy   { color: var(--easy); }
+    .n-med    { color: var(--med); }
+    .n-hard   { color: var(--hard); }
+    .n-ms     { color: var(--paper); }
+    .n-streak { color: #FF9500; }
 
     .prog-cell {
       padding: 10px 20px;
@@ -315,7 +317,7 @@
     /* ── problem row ── */
     .prow {
       display: grid;
-      grid-template-columns: 38px 44px 1fr auto;
+      grid-template-columns: 38px 44px 1fr auto auto;
       align-items: center; gap: 12px;
       padding: 9px 0;
       border-bottom: 1px solid var(--dim);
@@ -419,6 +421,161 @@
     footer a:hover { text-decoration: underline; }
 
     /* ══════════════════════════════════════
+       NOTES
+    ══════════════════════════════════════ */
+    .notes-btn {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .5rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--dim); cursor: pointer;
+      background: none; border: none; padding: 2px 4px;
+      transition: color .12s; white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .notes-btn:hover { color: var(--paper); }
+    .notes-btn.has-notes { color: var(--mid); }
+    .notes-btn.has-notes .nb-dot { color: var(--A); }
+
+    .notes-panel {
+      display: none;
+      border-top: 1px solid var(--A);
+      background: #0C0C0C;
+      padding: 16px 18px 14px 18px;
+    }
+    .notes-panel.open { display: block; }
+
+    /* previous entries feed */
+    .note-entry {
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--dim);
+    }
+    .note-entry:last-of-type { border-bottom: none; margin-bottom: 8px; }
+    .note-meta {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .48rem; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--A); margin-bottom: 6px;
+    }
+    .note-text {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .78rem; line-height: 1.65;
+      color: var(--paper); white-space: pre-wrap;
+    }
+
+    /* new note input */
+    .notes-new { margin-top: 10px; border-top: 1px solid var(--dim); padding-top: 12px; }
+    .note-new-label {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .48rem; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 6px;
+    }
+    .note-ta {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid var(--dim);
+      color: var(--paper);
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .78rem; line-height: 1.65;
+      padding: 6px 0; resize: none; min-height: 64px;
+      outline: none; transition: border-color .15s;
+    }
+    .note-ta:focus { border-bottom-color: var(--A); }
+    .note-ta::placeholder { color: var(--dim); font-style: italic; }
+    .note-actions {
+      display: flex; justify-content: flex-end;
+      gap: 16px; margin-top: 8px; align-items: center;
+    }
+    .note-cancel {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .55rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--mid); cursor: pointer;
+      background: none; border: none; padding: 0;
+    }
+    .note-cancel:hover { color: var(--paper); }
+    .note-save {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .55rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--A); cursor: pointer;
+      background: none; border: none; padding: 0;
+    }
+    .note-save:hover { opacity: .7; }
+
+    /* ══════════════════════════════════════
+       CODE BLOCKS IN NOTES (macOS terminal style)
+    ══════════════════════════════════════ */
+    .code-block-wrap {
+      background: #1C1C1E;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 10px 0;
+      border: 1px solid #333;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    }
+    .code-traffic {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: #2A2A2D;
+      border-bottom: 1px solid #333;
+    }
+    .traffic-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .td-red    { background: #FF5F57; }
+    .td-yellow { background: #FEBC2E; }
+    .td-green  { background: #28C840; }
+    .code-body { padding: 0; }
+    .code-body pre {
+      margin: 0;
+      padding: 14px 16px;
+      overflow-x: auto;
+      background: transparent !important;
+    }
+    .code-body pre code.hljs {
+      background: transparent !important;
+      padding: 0;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+    /* inline code snippet (single backtick) */
+    .note-inline-code {
+      background: #2A2A2D;
+      color: #E06C75;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+    }
+    /* plain text segments in a note with code blocks */
+    .note-text-inline { white-space: pre-wrap; }
+
+    /* insert-code button in notes toolbar */
+    .note-toolbar {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 4px;
+    }
+    .note-new-label { flex: 1; }
+    .btn-insert-code {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--mid); cursor: pointer;
+      background: #1A1A1A; border: 1px solid var(--dim);
+      padding: 3px 7px; border-radius: 3px;
+      transition: color .12s, border-color .12s;
+      flex-shrink: 0;
+    }
+    .btn-insert-code:hover { color: var(--paper); border-color: var(--mid); }
+
+    /* ══════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════ */
     @media (max-width: 640px) {
@@ -429,6 +586,7 @@
       .hero-logo { font-size: clamp(4rem, 18vw, 6rem); letter-spacing: -4px; }
       .hero-sub { font-size: .85rem; letter-spacing: 2px; }
       .stats-strip { grid-template-columns: repeat(3,1fr); }
+      .sbox.streak-box { display: none; }
       .prog-cell { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--dim); }
       .cnt-cell  { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--dim); }
       .prow { grid-template-columns: 28px 36px 1fr; }
@@ -465,6 +623,10 @@
       <div class="sbox">
         <span class="n n-ms" id="s-ms">0</span>
         <span class="l">MS ★</span>
+      </div>
+      <div class="sbox streak-box">
+        <span class="n n-streak" id="s-streak">0</span>
+        <span class="l">🔥 Streak</span>
       </div>
       <div class="prog-cell">
         <div class="prog-meta">
@@ -524,6 +686,7 @@
   <a href="https://github.com/Hackerette0/Micro--" target="_blank">GitHub ↗</a>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
 const EMOJIS = ['🍀','🐽','🥓','🫐','🫒'];
 const ALREADY_SOLVED = 78;
@@ -829,18 +992,170 @@ const TOTAL = PROBLEMS.length;
 // ── State ──
 const SK = 'micro_v2';
 let st = (()=>{try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};}})();
-let done = new Set(st.done||[]);
-let eMap = st.emojis||{};
+let done      = new Set(st.done||[]);
+let eMap      = st.emojis||{};
 let revisions = st.revisions||{};
+let notes     = st.notes||{};
 let filt = 'all', diffF = null;
 
-function save(){ localStorage.setItem(SK,JSON.stringify({done:[...done],emojis:eMap,revisions})); }
+// ── Streak state ──
+const STREAK_SK = 'micro_streak';
+let streakData = (()=>{
+  try{ return JSON.parse(localStorage.getItem(STREAK_SK))||{count:0,lastDate:null,best:0}; }
+  catch{ return {count:0,lastDate:null,best:0}; }
+})();
+
+function recordActivity(){
+  const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD
+  if(streakData.lastDate === today) return; // already logged today
+  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  if(!streakData.lastDate || streakData.lastDate < yesterday){
+    // first time ever, or streak broken
+    streakData.count = 1;
+  } else {
+    // consecutive day
+    streakData.count = (streakData.count||0)+1;
+  }
+  streakData.lastDate = today;
+  streakData.best = Math.max(streakData.best||0, streakData.count);
+  localStorage.setItem(STREAK_SK, JSON.stringify(streakData));
+  updateStreakDisplay();
+}
+function updateStreakDisplay(){
+  const el = document.getElementById('s-streak');
+  if(el) el.textContent = streakData.count||0;
+}
+
+function save(){
+  localStorage.setItem(SK,JSON.stringify({done:[...done],emojis:eMap,revisions,notes}));
+}
+
+// ── Notes helpers ──
+function fmtDate(ts){
+  return new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function noteCount(id){ return (notes[id]||[]).length; }
+
+function openNotes(id){
+  const panel=document.getElementById(`np-${id}`);
+  if(panel){ panel.classList.add('open'); }
+  const ta=document.getElementById(`nt-${id}`);
+  if(ta) setTimeout(()=>ta.focus(),80);
+  updateNoteBtn(id);
+}
+function toggleNotes(id){
+  const panel=document.getElementById(`np-${id}`);
+  if(!panel) return;
+  const isOpen=panel.classList.toggle('open');
+  if(isOpen){
+    const ta=document.getElementById(`nt-${id}`);
+    if(ta) setTimeout(()=>ta.focus(),80);
+  }
+  updateNoteBtn(id);
+}
+function closeNotes(id){
+  const panel=document.getElementById(`np-${id}`);
+  if(panel) panel.classList.remove('open');
+}
+function saveNote(id){
+  const ta=document.getElementById(`nt-${id}`);
+  if(!ta||!ta.value.trim()) return;
+  if(!notes[id]) notes[id]=[];
+  notes[id].push({date:Date.now(),text:ta.value.trim(),attempt:notes[id].length+1});
+  recordActivity();
+  save();
+  ta.value='';
+  renderFeed(id);
+  updateNoteBtn(id);
+  updateNewLabel(id);
+}
+function renderFeed(id){
+  const feed=document.getElementById(`nf-${id}`);
+  if(!feed) return;
+  const entries=notes[id]||[];
+  feed.innerHTML=entries.map(n=>`
+    <div class="note-entry">
+      <div class="note-meta">Attempt ${n.attempt} · ${fmtDate(n.date)}</div>
+      <div class="note-text">${parseNoteText(n.text)}</div>
+    </div>`).join('');
+}
+function updateNoteBtn(id){
+  const btn=document.querySelector(`[data-nb="${id}"]`);
+  if(!btn) return;
+  const c=noteCount(id);
+  btn.classList.toggle('has-notes',c>0);
+  btn.innerHTML=c>0?`✎ <span class="nb-dot">·${c}</span>`:`✎`;
+}
+function updateNewLabel(id){
+  const lbl=document.getElementById(`nl-${id}`);
+  if(lbl) lbl.textContent=`Attempt ${(notes[id]||[]).length+1}`;
+}
 function pickEmoji(id){ if(!eMap[id]) eMap[id]=EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; return eMap[id]; }
+
+// ── Code block parsing ──
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function parseNoteText(text){
+  // Split on fenced code blocks  ```lang\n...\n```
+  const parts = text.split(/(```[\s\S]*?```)/g);
+  return parts.map(part=>{
+    if(part.startsWith('```') && part.endsWith('```')){
+      const inner = part.slice(3,-3);
+      const nl = inner.indexOf('\n');
+      const lang = nl>-1 ? inner.slice(0,nl).trim() : '';
+      const code = nl>-1 ? inner.slice(nl+1) : inner;
+      let highlighted;
+      try{
+        if(lang && typeof hljs !== 'undefined' && hljs.getLanguage(lang)){
+          highlighted = hljs.highlight(code,{language:lang}).value;
+        } else if(typeof hljs !== 'undefined'){
+          highlighted = hljs.highlightAuto(code).value;
+        } else {
+          highlighted = escHtml(code);
+        }
+      } catch(e){ highlighted = escHtml(code); }
+      return `<div class="code-block-wrap">
+        <div class="code-traffic">
+          <span class="traffic-dot td-red"></span>
+          <span class="traffic-dot td-yellow"></span>
+          <span class="traffic-dot td-green"></span>
+        </div>
+        <div class="code-body"><pre><code class="hljs">${highlighted}</code></pre></div>
+      </div>`;
+    } else {
+      if(!part) return '';
+      // First escape the whole plain-text segment, then re-render inline `code`
+      const escaped = escHtml(part);
+      const inlined = escaped.replace(/`([^`]+)`/g, (_,c)=>`<code class="note-inline-code">${c}</code>`);
+      return `<span class="note-text-inline">${inlined}</span>`;
+    }
+  }).join('');
+}
+
+// ── Insert code template into textarea ──
+function insertCode(id){
+  const ta = document.getElementById(`nt-${id}`);
+  if(!ta) return;
+  const s = ta.selectionStart;
+  const e = ta.selectionEnd;
+  const sel = ta.value.slice(s,e);
+  const tpl = sel ? `\`\`\`java\n${sel}\n\`\`\`` : '```java\n// paste your code here\n```';
+  ta.value = ta.value.slice(0,s) + tpl + ta.value.slice(e);
+  const newPos = sel ? s+tpl.length : s+9; // position cursor after ```java\n
+  ta.setSelectionRange(newPos,newPos);
+  ta.focus();
+}
 
 // ── Toggle ──
 function toggle(id){
-  if(done.has(id)){done.delete(id);delete eMap[id];delete revisions[id];}
-  else{done.add(id);pickEmoji(id);}
+  if(done.has(id)){
+    done.delete(id);delete eMap[id];delete revisions[id];
+    closeNotes(id);
+  } else {
+    done.add(id);pickEmoji(id);
+    recordActivity();
+    setTimeout(()=>openNotes(id),250); // auto-prompt for first note
+  }
   save();
   const row=document.querySelector(`[data-id="${id}"]`);
   if(row){
@@ -864,9 +1179,12 @@ function toggle(id){
 function revise(id){
   if(!done.has(id)) return;
   revisions[id]=(revisions[id]||0)+1;
+  recordActivity();
   save();
   const el=document.querySelector(`[data-rev="${id}"]`);
   if(el){ el.textContent='↺'+revisions[id]; el.classList.add('active'); }
+  updateNewLabel(id);
+  setTimeout(()=>openNotes(id),150); // auto-prompt for revision note
 }
 
 // ── Stats ──
@@ -951,6 +1269,8 @@ function render(){
         row.dataset.ms=p.ms;
 
         const rc=revisions[p.id]||0;
+        const nc=noteCount(p.id);
+        const nextAttempt=nc+1;
         row.innerHTML=`
           <div class="etog-wrap">
             <button class="etog${isDone?' on':''}" onclick="toggle(${p.id})">${isDone?(eMap[p.id]||'🍀'):'—'}</button>
@@ -963,8 +1283,32 @@ function render(){
             <span class="badge b-${p.diff.toLowerCase()}">${p.diff}</span>
             <span class="badge b-topic">${p.topic}</span>
           </div>
+          <button class="notes-btn${nc>0?' has-notes':''}" data-nb="${p.id}" onclick="toggleNotes(${p.id})" title="Notes">${nc>0?`✎ <span class='nb-dot'>·${nc}</span>`:'✎'}</button>
+        `;
+
+        // notes panel — lives below the row
+        const notePanel=document.createElement('div');
+        notePanel.className='notes-panel';
+        notePanel.id=`np-${p.id}`;
+        notePanel.innerHTML=`
+          <div class="notes-feed" id="nf-${p.id}"></div>
+          <div class="notes-new">
+            <div class="note-toolbar">
+              <div class="note-new-label" id="nl-${p.id}">Attempt ${nextAttempt}</div>
+              <button class="btn-insert-code" onclick="insertCode(${p.id})" title="Insert code block">&lt;/&gt; code</button>
+            </div>
+            <textarea class="note-ta" id="nt-${p.id}" rows="3"
+              placeholder="What did you learn? Key insight, edge case, pattern you missed… Use \`\`\`java … \`\`\` for code blocks"></textarea>
+            <div class="note-actions">
+              <button class="note-cancel" onclick="closeNotes(${p.id})">Cancel</button>
+              <button class="note-save" onclick="saveNote(${p.id})">Save note</button>
+            </div>
+          </div>
         `;
         wDiv.appendChild(row);
+        wDiv.appendChild(notePanel);
+        // populate existing notes
+        if(nc>0) renderFeed(p.id);
       });
       body.appendChild(wDiv);
     });
@@ -1024,6 +1368,7 @@ document.getElementById('clear-btn').addEventListener('click',()=>{
 });
 
 render();
+updateStreakDisplay(); // initialise streak counter in header
 
 // ── Sticky filters: lock just below the header ──
 (function(){
