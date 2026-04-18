@@ -1383,12 +1383,20 @@ function importData(input){
   reader.readAsText(file);
 }
 
-// ── Auto-connect on load if config is saved ──
+// ── Default config — auto-connects on every device, no setup needed ──
+const DEFAULT_FB_CONFIG = {
+  apiKey:      'AIzaSyCRhAGdUWFcjUBOb5HjNSob-r3-i0pXzwg',
+  authDomain:  'micro-a7a32.firebaseapp.com',
+  databaseURL: 'https://micro-a7a32-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId:   'micro-a7a32'
+};
+
+// ── Auto-connect on load ──
 (function tryAutoConnect(){
-  const cfg = localStorage.getItem(FB_CONFIG_KEY);
-  if(!cfg) return;
+  const saved = localStorage.getItem(FB_CONFIG_KEY);
+  const cfg = saved ? JSON.parse(saved) : DEFAULT_FB_CONFIG;
   try {
-    connectFirebase(JSON.parse(cfg)).then(result => {
+    connectFirebase(cfg).then(result => {
       if(result === true){
         cloudLoad().then(loaded => { if(loaded){ render(); updateStreakDisplay(); }});
       }
