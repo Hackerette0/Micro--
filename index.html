@@ -34,60 +34,123 @@
     }
 
     /* ══════════════════════════════════════
-       HEADER
+       HEADER — compact sticky bar
     ══════════════════════════════════════ */
     .header {
-      position: sticky; top: 0; z-index: 100;
-      background: var(--ink);
-      border-bottom: 1px solid var(--dim);
-      padding: 22px 48px 0;
-    }
-    .header-inner { max-width: 1200px; margin: 0 auto; }
-
-    .brand-row {
-      display: flex; align-items: flex-end;
-      justify-content: space-between; flex-wrap: wrap;
-      gap: 8px; margin-bottom: 20px;
-      padding-bottom: 18px;
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--dim);
     }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: stretch;
+    }
 
-    /* ════ BRAND NAME — UNCHANGED ════ */
+    /* compact logo in sticky bar */
     .brand-name {
       font-family: 'Barlow Condensed', Arial, sans-serif;
-      font-size: 4.5rem;
+      font-size: 2.1rem;
       font-weight: 900;
-      letter-spacing: -4px;
-      line-height: .9;
+      letter-spacing: -2px;
+      line-height: 1;
       color: var(--A);
       text-transform: uppercase;
+      padding: 10px 20px 10px 0;
+      border-right: 1px solid var(--dim);
+      display: flex; align-items: center;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .brand-right {
-      display: flex; flex-direction: column;
-      align-items: flex-end; gap: 6px;
+    /* ══════════════════════════════════════
+       HERO — full-screen carousel
+    ══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 56px;
     }
-    .brand-tag {
-      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: .58rem; font-weight: 400;
-      letter-spacing: 2.5px; text-transform: uppercase;
-      color: var(--mid);
+
+    /* carousel layers */
+    .cbg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .cs {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 2s ease;
+      will-change: opacity;
     }
-    .brand-goal {
-      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: .58rem; font-weight: 700;
-      letter-spacing: 2px; text-transform: uppercase;
+    .cs.on { opacity: 1; }
+    #cs1 { background-image: url('microsft1.jpg'); }
+    #cs2 { background-image: url('Microsoft.png'); }
+    #cs3 { background-image: url('microsoft2.jpg'); }
+    #cs4 { background-image: url('microsoft3.jpg'); }
+    #cs5 { background-image: url('microsoft4.jpg'); }
+    .co {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10,10,10,0.95) 0%,
+        rgba(10,10,10,0.55) 45%,
+        rgba(10,10,10,0.25) 100%
+      );
+    }
+
+    /* hero editorial content */
+    .hero-content { position: relative; z-index: 2; }
+    .hero-logo {
+      font-family: 'Barlow Condensed', Arial, sans-serif;
+      font-size: clamp(5.5rem, 13vw, 11rem);
+      font-weight: 900;
+      letter-spacing: -8px;
+      line-height: 0.85;
+      color: var(--A);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero-sub {
+      font-family: 'Barlow Condensed', Arial, sans-serif;
+      font-size: 1.1rem; font-weight: 400;
+      letter-spacing: 5px; text-transform: uppercase;
       color: var(--paper);
-      border: 1px solid var(--dim);
-      padding: 4px 12px;
+      margin-bottom: 6px;
+    }
+    .hero-meta {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 36px;
+    }
+    .hero-scroll {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .55rem; font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--mid);
+      display: flex; align-items: center; gap: 10px;
+      animation: breathe 2.4s ease-in-out infinite;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block; width: 1px; height: 28px;
+      background: var(--mid);
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50%       { opacity: 1;   transform: translateY(4px); }
     }
 
-    /* ── stats strip — Swiss thin numerals on black ── */
+    /* ── stats strip — Swiss thin numerals, inline in sticky bar ── */
     .stats-strip {
       display: grid;
-      grid-template-columns: repeat(5, 1fr) 2fr 80px;
+      grid-template-columns: repeat(5, 1fr) 2fr 70px;
       gap: 0;
-      border-top: 1px solid var(--dim);
+      flex: 1;
     }
     .sbox {
       padding: 10px 16px;
@@ -154,20 +217,18 @@
     }
     .btn {
       background: transparent;
-      border: 1px solid var(--dim);
+      border: none;
+      border-bottom: 1px solid transparent;
       color: var(--mid);
-      padding: 5px 14px;
+      padding: 4px 6px;
       font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: .58rem; font-weight: 400;
       letter-spacing: 1.5px; text-transform: uppercase;
       cursor: pointer; transition: all .12s;
     }
-    .btn:hover { border-color: var(--paper); color: var(--paper); }
-    .btn.on {
-      background: var(--A); border-color: var(--A);
-      color: var(--ink); font-weight: 700;
-    }
-    .btn.rst { border-color: transparent; color: var(--dim); }
+    .btn:hover { color: var(--paper); border-bottom-color: var(--dim); }
+    .btn.on { color: var(--A); border-bottom-color: var(--A); font-weight: 700; }
+    .btn.rst { color: var(--dim); }
     .btn.rst:hover { color: var(--A); }
 
     /* ══════════════════════════════════════
@@ -246,7 +307,7 @@
     /* ── problem row ── */
     .prow {
       display: grid;
-      grid-template-columns: 30px 44px 1fr auto;
+      grid-template-columns: 38px 44px 1fr auto;
       align-items: center; gap: 12px;
       padding: 9px 0;
       border-bottom: 1px solid var(--dim);
@@ -263,22 +324,33 @@
     }
     .prow.hide { display: none; }
 
-    /* emoji toggle */
+    /* emoji toggle + revision counter */
+    .etog-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1px;
+    }
     .etog {
       width: 26px; height: 26px;
-      border: 1px solid var(--dim);
+      border: none;
       background: transparent; cursor: pointer;
       display: flex; align-items: center; justify-content: center;
-      font-size: 11px; color: var(--dim);
+      font-size: 13px; color: var(--dim);
       transition: all .1s;
       font-family: inherit;
     }
-    .etog:hover { border-color: var(--A); color: var(--paper); }
-    .etog.on {
-      border-color: transparent;
-      background: transparent;
-      font-size: 17px;
+    .etog:hover { color: var(--paper); }
+    .etog.on { font-size: 18px; }
+
+    .rev-cnt {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .42rem; font-weight: 700;
+      color: var(--mid); cursor: pointer;
+      letter-spacing: .5px; line-height: 1;
+      user-select: none; display: none;
     }
+    .rev-cnt.active { color: var(--A); }
+    .prow.done .rev-cnt { display: block; }
+    .rev-cnt:hover { color: var(--A); }
 
     .pnum {
       font-size: .58rem; font-weight: 400;
@@ -293,20 +365,21 @@
     }
     .pname:hover { color: var(--A); }
 
-    .badges { display: flex; gap: 4px; flex-wrap: nowrap; align-items: center; }
+    .badges { display: flex; gap: 8px; flex-wrap: nowrap; align-items: center; }
 
     .badge {
       font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      font-size: .5rem; font-weight: 700;
-      letter-spacing: 1.5px; text-transform: uppercase;
-      padding: 2px 7px; white-space: nowrap;
+      font-size: .5rem; font-weight: 500;
+      letter-spacing: .8px; text-transform: uppercase;
+      white-space: nowrap;
     }
-    /* difficulty badges — Swiss 1px rule, colour-coded */
-    .b-easy   { color: var(--easy); border: 1px solid var(--easy); }
-    .b-medium { color: var(--med);  border: 1px solid var(--med); }
-    .b-hard   { color: var(--hard); border: 1px solid var(--hard); }
-    .b-ms     { color: var(--A);    border: 1px solid var(--A); }
-    .b-topic  { color: var(--mid);  border: 1px solid var(--dim); }
+    /* difficulty — plain coloured text, no boxes */
+    .b-easy   { color: var(--easy); }
+    .b-medium { color: var(--med); }
+    .b-hard   { color: var(--hard); }
+    .b-ms     { color: var(--A); font-size: .75rem; }
+    .b-topic  { color: var(--mid); text-transform: none; font-style: italic;
+                letter-spacing: 0; font-weight: 400; }
 
     /* MS row — thin red left rule */
     .prow[data-ms="true"] {
@@ -341,11 +414,13 @@
        RESPONSIVE
     ══════════════════════════════════════ */
     @media (max-width: 640px) {
-      .header { padding: 16px 20px 0; }
       .filters, .main { padding-left: 20px; padding-right: 20px; }
       footer { padding: 14px 20px; }
-      .brand-name { font-size: 3rem; letter-spacing: -2px; }
-      .stats-strip { grid-template-columns: repeat(3,1fr); grid-template-rows: auto auto; }
+      .brand-name { font-size: 1.6rem; letter-spacing: -1px; padding: 8px 12px 8px 0; }
+      .hero { padding: 0 20px 40px; }
+      .hero-logo { font-size: clamp(4rem, 18vw, 6rem); letter-spacing: -4px; }
+      .hero-sub { font-size: .85rem; letter-spacing: 2px; }
+      .stats-strip { grid-template-columns: repeat(3,1fr); }
       .prog-cell { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--dim); }
       .cnt-cell  { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--dim); }
       .prow { grid-template-columns: 28px 36px 1fr; }
@@ -357,16 +432,10 @@
 </head>
 <body>
 
-<!-- ══════ HEADER ══════ -->
+<!-- ══════ STICKY HEADER ══════ -->
 <header class="header">
   <div class="header-inner">
-    <div class="brand-row">
-      <div class="brand-name">Micro--</div>
-      <div class="brand-right">
-        <span class="brand-tag">Microsoft Hyderabad · SDE I/II · H2 2026</span>
-        <span class="brand-goal">Target: 350+ LeetCode</span>
-      </div>
-    </div>
+    <div class="brand-name">Micro--</div>
 
     <div class="stats-strip">
       <div class="sbox">
@@ -404,6 +473,24 @@
     </div>
   </div>
 </header>
+
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="cbg" aria-hidden="true">
+    <div class="cs" id="cs1"></div>
+    <div class="cs" id="cs2"></div>
+    <div class="cs" id="cs3"></div>
+    <div class="cs" id="cs4"></div>
+    <div class="cs" id="cs5"></div>
+    <div class="co"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-logo">Micro--</div>
+    <div class="hero-sub">Microsoft Hyderabad &nbsp;·&nbsp; SDE I/II &nbsp;·&nbsp; H2 2026</div>
+    <div class="hero-meta">276 problems &nbsp;·&nbsp; 20 weeks &nbsp;·&nbsp; Target 350+</div>
+    <div class="hero-scroll">scroll to begin</div>
+  </div>
+</section>
 
 <!-- ══════ FILTERS ══════ -->
 <div class="filters">
@@ -734,14 +821,15 @@ const SK = 'micro_v2';
 let st = (()=>{try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};}})();
 let done = new Set(st.done||[]);
 let eMap = st.emojis||{};
+let revisions = st.revisions||{};
 let filt = 'all', diffF = null;
 
-function save(){ localStorage.setItem(SK,JSON.stringify({done:[...done],emojis:eMap})); }
+function save(){ localStorage.setItem(SK,JSON.stringify({done:[...done],emojis:eMap,revisions})); }
 function pickEmoji(id){ if(!eMap[id]) eMap[id]=EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; return eMap[id]; }
 
 // ── Toggle ──
 function toggle(id){
-  if(done.has(id)){done.delete(id);delete eMap[id];}
+  if(done.has(id)){done.delete(id);delete eMap[id];delete revisions[id];}
   else{done.add(id);pickEmoji(id);}
   save();
   const row=document.querySelector(`[data-id="${id}"]`);
@@ -751,9 +839,24 @@ function toggle(id){
     const btn=row.querySelector('.etog');
     btn.classList.toggle('on',isDone);
     btn.textContent=isDone?eMap[id]:'—';
+    const revEl=row.querySelector('.rev-cnt');
+    if(revEl){
+      const rc=revisions[id]||0;
+      revEl.textContent='↺'+(rc||'');
+      revEl.classList.toggle('active',rc>0);
+    }
     applyRowVis(row,id);
   }
   updateStats();
+}
+
+// ── Revise ──
+function revise(id){
+  if(!done.has(id)) return;
+  revisions[id]=(revisions[id]||0)+1;
+  save();
+  const el=document.querySelector(`[data-rev="${id}"]`);
+  if(el){ el.textContent='↺'+revisions[id]; el.classList.add('active'); }
 }
 
 // ── Stats ──
@@ -837,12 +940,16 @@ function render(){
         row.dataset.diff=p.diff;
         row.dataset.ms=p.ms;
 
+        const rc=revisions[p.id]||0;
         row.innerHTML=`
-          <button class="etog${isDone?' on':''}" onclick="toggle(${p.id})">${isDone?(eMap[p.id]||'🍀'):'—'}</button>
+          <div class="etog-wrap">
+            <button class="etog${isDone?' on':''}" onclick="toggle(${p.id})">${isDone?(eMap[p.id]||'🍀'):'—'}</button>
+            <span class="rev-cnt${rc>0?' active':''}" data-rev="${p.id}" onclick="revise(${p.id})" title="Log a revision">↺${rc||''}</span>
+          </div>
           <span class="pnum">${p.id}</span>
           <a class="pname" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.name}</a>
           <div class="badges">
-            ${p.ms?`<span class="badge b-ms">★ MS</span>`:''}
+            ${p.ms?`<span class="badge b-ms">★</span>`:''}
             <span class="badge b-${p.diff.toLowerCase()}">${p.diff}</span>
             <span class="badge b-topic">${p.topic}</span>
           </div>
@@ -907,6 +1014,19 @@ document.getElementById('clear-btn').addEventListener('click',()=>{
 });
 
 render();
+
+// ── Background Carousel ──
+(function(){
+  const slides = document.querySelectorAll('.cs');
+  if (!slides.length) return;
+  let cur = 0;
+  slides[0].classList.add('on');
+  setInterval(() => {
+    slides[cur].classList.remove('on');
+    cur = (cur + 1) % slides.length;
+    slides[cur].classList.add('on');
+  }, 4500);
+})();
 </script>
 </body>
 </html>
