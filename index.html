@@ -1208,20 +1208,30 @@ let streakData = (()=>{
   catch{ return {count:0,lastDate:null,best:0}; }
 })();
 
+function logicalNow(){
+  // "Day" resets at 3:30 AM IST — anything before 3:30 AM counts as the previous day
+  // Subtract 3h 30min so midnight→3:29 AM still reads as yesterday's date
+  return new Date(Date.now() - (3.5 * 60 * 60 * 1000));
+}
+function localDateStr(d){
+  const dt = d || logicalNow();
+  return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+}
+
 function recordActivity(){
-  const today = new Date().toISOString().slice(0,10); // YYYY-MM-DD
-  if(streakData.lastDate === today) return; // already logged today
-  const yesterday = new Date(Date.now()-86400000).toISOString().slice(0,10);
+  const today = localDateStr();
+  if(streakData.lastDate === today) return; // already counted today
+
+  const yesterday = localDateStr(new Date(logicalNow().getTime() - 86400000));
   if(!streakData.lastDate || streakData.lastDate < yesterday){
-    // first time ever, or streak broken
-    streakData.count = 1;
+    streakData.count = 1; // first time, or streak broken
   } else {
-    // consecutive day
-    streakData.count = (streakData.count||0)+1;
+    streakData.count = (streakData.count||0)+1; // consecutive day
   }
   streakData.lastDate = today;
   streakData.best = Math.max(streakData.best||0, streakData.count);
   localStorage.setItem(STREAK_SK, JSON.stringify(streakData));
+  cloudSave();
   updateStreakDisplay();
 }
 function updateStreakDisplay(){
