@@ -887,8 +887,8 @@
   </div>
 </div>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
 const EMOJIS = ['🍀','🐽','🥓','🫐','🫒'];
@@ -1242,24 +1242,33 @@ function setSyncStatus(status, msg){
   if(status==='busy')  { el.textContent='◌ Syncing…';     el.style.color='var(--med)';  }
 }
 
-async function connectFirebase(cfg, isManual=false){
+async function connectFirebase(cfg){
   try {
     setSyncStatus('busy');
     if(typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
-    // delete existing app if any
-    if(firebase.apps.length) { await firebase.app().delete(); fbDb=null; }
-    firebase.initializeApp(cfg);
+    // clean up any existing app
+    if(firebase.apps && firebase.apps.length){
+      try { await firebase.apps[0].delete(); } catch(e){}
+    }
+    fbDb = null;
+    firebase.initializeApp({
+      apiKey:      cfg.apiKey,
+      authDomain:  cfg.authDomain  || `${cfg.projectId}.firebaseapp.com`,
+      databaseURL: cfg.databaseURL,
+      projectId:   cfg.projectId
+    });
     fbDb = firebase.database();
-    // verify connection with a ping
-    await fbDb.ref('.info/connected').get();
+    // actual connectivity test — write a small heartbeat
+    await fbDb.ref('micro/_ping').set(Date.now());
     setSyncStatus('ok');
     localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(cfg));
     return true;
   } catch(e){
+    console.error('Firebase connect failed:', e.code || e.message, e);
+    try{ if(firebase.apps.length) await firebase.apps[0].delete(); }catch(x){}
     fbDb = null;
     setSyncStatus('error');
-    console.error('Firebase connect failed:', e);
-    return false;
+    return { ok:false, msg: e.message||'Unknown error' };
   }
 }
 
@@ -1322,17 +1331,17 @@ async function saveSyncConfig(){
   const projectId  = document.getElementById('fb-project-id').value.trim();
   if(!apiKey||!databaseURL||!projectId){ showSyncMsg('err','Please fill in all three fields.'); return; }
   showSyncMsg('ok','Connecting…');
-  const ok = await connectFirebase({apiKey, databaseURL, projectId, authDomain:`${projectId}.firebaseapp.com`});
-  if(ok){
-    showSyncMsg('ok','Connected! Loading your cloud data…');
+  const result = await connectFirebase({apiKey, databaseURL, projectId});
+  if(result === true){
+    showSyncMsg('ok','✓ Connected! Loading your cloud data…');
     const loaded = await cloudLoad();
     if(loaded){ render(); updateStreakDisplay(); }
-    // push local data if nothing in cloud yet
-    else { await cloudSave(); }
-    setTimeout(closeSyncModal, 1200);
+    else { await cloudSave(); } // first time — push local data up
     document.getElementById('sync-disconnect-btn').style.display='block';
+    setTimeout(closeSyncModal, 1400);
   } else {
-    showSyncMsg('err','Connection failed — double-check your API Key and Database URL.');
+    const errMsg = (result && result.msg) ? result.msg : 'Unknown error';
+    showSyncMsg('err', `Failed: ${errMsg} — make sure your Realtime Database is created and rules are set to test mode.`);
   }
 }
 function disconnectSync(){
@@ -1379,8 +1388,10 @@ function importData(input){
   const cfg = localStorage.getItem(FB_CONFIG_KEY);
   if(!cfg) return;
   try {
-    connectFirebase(JSON.parse(cfg)).then(ok => {
-      if(ok) cloudLoad().then(loaded => { if(loaded){ render(); updateStreakDisplay(); }});
+    connectFirebase(JSON.parse(cfg)).then(result => {
+      if(result === true){
+        cloudLoad().then(loaded => { if(loaded){ render(); updateStreakDisplay(); }});
+      }
     });
   } catch(e){}
 })();
