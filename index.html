@@ -49,6 +49,32 @@
       display: flex; align-items: stretch;
     }
 
+    /* Microsoft color-cycling 'I' */
+    .ms-i {
+      display: inline-block;
+      animation: ms-cycle 4.8s ease-in-out infinite;
+    }
+    @keyframes ms-cycle {
+      /* Blue pulse */
+      0%   { color: rgba(0,164,239,0.15); }
+      8%   { color: rgba(0,164,239,1);    }
+      18%  { color: rgba(0,164,239,0.15); }
+      /* Yellow pulse */
+      25%  { color: rgba(255,185,0,0.15); }
+      33%  { color: rgba(255,185,0,1);    }
+      43%  { color: rgba(255,185,0,0.15); }
+      /* Green pulse */
+      50%  { color: rgba(127,186,0,0.15); }
+      58%  { color: rgba(127,186,0,1);    }
+      68%  { color: rgba(127,186,0,0.15); }
+      /* Red pulse */
+      75%  { color: rgba(242,80,34,0.15); }
+      83%  { color: rgba(242,80,34,1);    }
+      93%  { color: rgba(242,80,34,0.15); }
+      /* back to blue */
+      100% { color: rgba(0,164,239,0.15); }
+    }
+
     /* compact logo in sticky bar */
     .brand-name {
       font-family: 'Barlow Condensed', Arial, sans-serif;
@@ -601,7 +627,7 @@
 <!-- ══════ STICKY HEADER ══════ -->
 <header class="header">
   <div class="header-inner">
-    <div class="brand-name">Micro--</div>
+    <div class="brand-name">M<span class="ms-i">i</span>cro--</div>
 
     <div class="stats-strip">
       <div class="sbox">
@@ -655,7 +681,7 @@
     <div class="co"></div>
   </div>
   <div class="hero-content">
-    <div class="hero-logo">Micro--</div>
+    <div class="hero-logo">M<span class="ms-i">i</span>cro--</div>
     <div class="hero-sub">Microsoft Hyderabad &nbsp;·&nbsp; SDE I/II &nbsp;·&nbsp; H2 2026</div>
     <div class="hero-meta">276 problems &nbsp;·&nbsp; 20 weeks &nbsp;·&nbsp; Target 350+</div>
     <div class="hero-scroll">scroll to begin</div>
