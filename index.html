@@ -204,11 +204,19 @@
     /* ══════════════════════════════════════
        FILTERS
     ══════════════════════════════════════ */
+    .filters-wrap {
+      position: sticky;
+      top: 0; /* updated by JS to sit just below the header */
+      z-index: 150;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--dim);
+    }
     .filters {
       max-width: 1200px; margin: 0 auto;
-      padding: 14px 48px;
+      padding: 10px 48px;
       display: flex; gap: 4px; flex-wrap: wrap; align-items: center;
-      border-bottom: 1px solid var(--dim);
     }
     .fl {
       font-size: .5rem; font-weight: 700;
@@ -493,6 +501,7 @@
 </section>
 
 <!-- ══════ FILTERS ══════ -->
+<div class="filters-wrap">
 <div class="filters">
   <span class="fl">View</span>
   <button class="btn on" data-f="all">All</button>
@@ -504,6 +513,7 @@
   <button class="btn" data-d="Medium">Medium</button>
   <button class="btn" data-d="Hard">Hard</button>
   <button class="btn rst" id="clear-btn">✕</button>
+</div>
 </div>
 
 <!-- ══════ MAIN ══════ -->
@@ -1014,6 +1024,16 @@ document.getElementById('clear-btn').addEventListener('click',()=>{
 });
 
 render();
+
+// ── Sticky filters: lock just below the header ──
+(function(){
+  const hdr = document.querySelector('.header');
+  const fw  = document.querySelector('.filters-wrap');
+  if (!hdr || !fw) return;
+  const pin = () => { fw.style.top = hdr.offsetHeight + 'px'; };
+  pin();
+  window.addEventListener('resize', pin);
+})();
 
 // ── Background Carousel ──
 (function(){
