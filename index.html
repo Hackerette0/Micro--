@@ -477,16 +477,43 @@
       border-bottom: 1px solid var(--dim);
     }
     .note-entry:last-of-type { border-bottom: none; margin-bottom: 8px; }
+
+    .note-meta-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
     .note-meta {
       font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
       font-size: .48rem; font-weight: 700;
       letter-spacing: 2.5px; text-transform: uppercase;
-      color: var(--A); margin-bottom: 6px;
+      color: var(--A);
     }
+    .note-entry-actions {
+      display: flex; gap: 10px;
+      opacity: 0; transition: opacity .15s;
+    }
+    .note-entry:hover .note-entry-actions { opacity: 1; }
+
+    .note-action-btn {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .48rem; font-weight: 400;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--mid); background: none; border: none;
+      cursor: pointer; padding: 0; transition: color .1s;
+    }
+    .note-action-btn:hover { color: var(--paper); }
+    .note-del-btn:hover { color: var(--hard); }
+
     .note-text {
       font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
       font-size: .78rem; line-height: 1.65;
       color: var(--paper); white-space: pre-wrap;
+    }
+    .note-edited-tag {
+      font-size: .42rem; color: var(--dim);
+      font-style: italic; margin-left: 6px;
+      letter-spacing: 1px;
     }
 
     /* new note input */
@@ -602,6 +629,113 @@
     .btn-insert-code:hover { color: var(--paper); border-color: var(--mid); }
 
     /* ══════════════════════════════════════
+       CLOUD SYNC MODAL
+    ══════════════════════════════════════ */
+    .sync-overlay {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sync-overlay.hidden { display: none; }
+    .sync-modal {
+      background: #111;
+      border: 1px solid var(--dim);
+      width: 90%; max-width: 500px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 32px 36px 28px;
+    }
+    .sync-modal h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 900;
+      letter-spacing: -1px; text-transform: uppercase;
+      color: var(--A); margin-bottom: 6px;
+    }
+    .sync-modal p {
+      font-size: .72rem; color: var(--mid);
+      line-height: 1.6; margin-bottom: 16px;
+    }
+    .sync-steps {
+      border-left: 2px solid var(--dim);
+      padding-left: 14px; margin-bottom: 20px;
+    }
+    .sync-step {
+      font-size: .65rem; color: var(--mid);
+      line-height: 1.7; margin-bottom: 4px;
+    }
+    .sync-step a { color: var(--A); }
+    .sync-step strong { color: var(--paper); }
+    .sync-field-label {
+      font-size: .48rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 5px; display: block;
+    }
+    .sync-input {
+      width: 100%; background: #1A1A1A;
+      border: 1px solid var(--dim); color: var(--paper);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; padding: 8px 10px;
+      outline: none; margin-bottom: 12px;
+      transition: border-color .15s;
+    }
+    .sync-input:focus { border-color: var(--A); }
+    .sync-actions {
+      display: flex; gap: 12px; justify-content: flex-end;
+      margin-top: 8px; flex-wrap: wrap;
+    }
+    .sync-connect-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--ink); background: var(--A);
+      border: none; padding: 8px 20px; cursor: pointer;
+      transition: opacity .12s;
+    }
+    .sync-connect-btn:hover { opacity: .8; }
+    .sync-disconnect-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--hard); background: none;
+      border: 1px solid var(--hard); padding: 8px 14px; cursor: pointer;
+    }
+    .sync-cancel-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--mid); background: none; border: none;
+      padding: 8px 0; cursor: pointer;
+    }
+    .sync-msg {
+      font-size: .62rem; margin-top: 10px; padding: 8px 12px;
+      border-left: 2px solid var(--dim);
+    }
+    .sync-msg.ok  { color: var(--easy); border-color: var(--easy); }
+    .sync-msg.err { color: var(--hard); border-color: var(--hard); }
+    .sync-divider {
+      border: none; border-top: 1px solid var(--dim);
+      margin: 20px 0;
+    }
+    /* footer sync controls */
+    .footer-sync {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .sync-status-dot {
+      font-size: .52rem; letter-spacing: 1px;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .footer-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .52rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--mid); background: none;
+      border: 1px solid var(--dim); padding: 4px 10px;
+      cursor: pointer; transition: all .12s;
+    }
+    .footer-btn:hover { color: var(--paper); border-color: var(--mid); }
+    .footer-btn.primary { color: var(--A); border-color: var(--A); }
+
+    /* ══════════════════════════════════════
        RESPONSIVE
     ══════════════════════════════════════ */
     @media (max-width: 640px) {
@@ -708,10 +842,53 @@
 <main class="main" id="app"></main>
 
 <footer>
-  <span>Progress auto-saves in browser</span>
+  <div class="footer-sync">
+    <span class="sync-status-dot" id="sync-status" style="color:var(--dim)">○ Not synced</span>
+    <button class="footer-btn primary" onclick="showSyncModal()">☁ Cloud Sync</button>
+    <button class="footer-btn" onclick="exportData()">↓ Export</button>
+    <label class="footer-btn" style="cursor:pointer">
+      ↑ Import <input type="file" accept=".json" style="display:none" onchange="importData(this)"/>
+    </label>
+  </div>
   <a href="https://github.com/Hackerette0/Micro--" target="_blank">GitHub ↗</a>
 </footer>
 
+<!-- ══════ CLOUD SYNC MODAL ══════ -->
+<div class="sync-overlay hidden" id="sync-overlay">
+  <div class="sync-modal">
+    <h2>☁ Cloud Sync</h2>
+    <p>Connect a free Firebase Realtime Database — once set up, your progress syncs instantly across every device you open this link on.</p>
+
+    <div class="sync-steps">
+      <div class="sync-step">1. Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> and sign in with Google.</div>
+      <div class="sync-step">2. Click <strong>Add project</strong> → name it "micro-tracker" → disable Analytics → Create.</div>
+      <div class="sync-step">3. In the left sidebar: <strong>Build → Realtime Database → Create database</strong> → choose any location → Start in <strong>test mode</strong> → Enable.</div>
+      <div class="sync-step">4. Go to <strong>Project Settings</strong> (gear icon) → Your apps → click <strong>&lt;/&gt; Web</strong> → Register app → copy the <code>firebaseConfig</code> values below.</div>
+    </div>
+
+    <label class="sync-field-label">API Key</label>
+    <input class="sync-input" id="fb-api-key" placeholder="AIzaSy…"/>
+
+    <label class="sync-field-label">Database URL</label>
+    <input class="sync-input" id="fb-db-url" placeholder="https://your-project-default-rtdb.firebaseio.com"/>
+
+    <label class="sync-field-label">Project ID</label>
+    <input class="sync-input" id="fb-project-id" placeholder="your-project-id"/>
+
+    <div id="sync-msg" class="sync-msg" style="display:none"></div>
+
+    <hr class="sync-divider"/>
+
+    <div class="sync-actions">
+      <button class="sync-cancel-btn" onclick="closeSyncModal()">Cancel</button>
+      <button class="sync-disconnect-btn" id="sync-disconnect-btn" onclick="disconnectSync()" style="display:none">Disconnect</button>
+      <button class="sync-connect-btn" onclick="saveSyncConfig()">Connect & Sync</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
 const EMOJIS = ['🍀','🐽','🥓','🫐','🫒'];
@@ -1052,8 +1229,165 @@ function updateStreakDisplay(){
   if(el) el.textContent = streakData.count||0;
 }
 
+// ── Cloud Sync (Firebase Realtime Database) ──
+const FB_CONFIG_KEY = 'micro_fb_config';
+let fbDb = null;
+
+function setSyncStatus(status, msg){
+  const el = document.getElementById('sync-status');
+  if(!el) return;
+  if(status==='ok')    { el.textContent='● Synced';       el.style.color='var(--easy)'; }
+  if(status==='error') { el.textContent='● Sync error';   el.style.color='var(--hard)'; }
+  if(status==='none')  { el.textContent='○ Not synced';   el.style.color='var(--dim)';  }
+  if(status==='busy')  { el.textContent='◌ Syncing…';     el.style.color='var(--med)';  }
+}
+
+async function connectFirebase(cfg, isManual=false){
+  try {
+    setSyncStatus('busy');
+    if(typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
+    // delete existing app if any
+    if(firebase.apps.length) { await firebase.app().delete(); fbDb=null; }
+    firebase.initializeApp(cfg);
+    fbDb = firebase.database();
+    // verify connection with a ping
+    await fbDb.ref('.info/connected').get();
+    setSyncStatus('ok');
+    localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(cfg));
+    return true;
+  } catch(e){
+    fbDb = null;
+    setSyncStatus('error');
+    console.error('Firebase connect failed:', e);
+    return false;
+  }
+}
+
+async function cloudSave(){
+  if(!fbDb) return;
+  try {
+    await fbDb.ref('micro').set({
+      data: {done:[...done], emojis:eMap, revisions, notes},
+      streak: streakData,
+      ts: Date.now()
+    });
+    setSyncStatus('ok');
+  } catch(e){ setSyncStatus('error'); }
+}
+
+async function cloudLoad(){
+  if(!fbDb) return false;
+  try {
+    const snap = await fbDb.ref('micro').get();
+    if(!snap.exists()) return false;
+    const val = snap.val();
+    if(val.data){
+      done = new Set(val.data.done||[]);
+      eMap = val.data.emojis||{};
+      revisions = val.data.revisions||{};
+      notes = val.data.notes||{};
+      localStorage.setItem(SK, JSON.stringify({done:[...done],emojis:eMap,revisions,notes}));
+    }
+    if(val.streak){
+      streakData = val.streak;
+      localStorage.setItem(STREAK_SK, JSON.stringify(streakData));
+    }
+    return true;
+  } catch(e){ setSyncStatus('error'); return false; }
+}
+
+// ── Sync modal UI ──
+function showSyncModal(){
+  const cfg = JSON.parse(localStorage.getItem(FB_CONFIG_KEY)||'{}');
+  if(cfg.apiKey){ document.getElementById('fb-api-key').value=cfg.apiKey; }
+  if(cfg.databaseURL){ document.getElementById('fb-db-url').value=cfg.databaseURL; }
+  if(cfg.projectId){ document.getElementById('fb-project-id').value=cfg.projectId; }
+  const disBtn = document.getElementById('sync-disconnect-btn');
+  if(disBtn) disBtn.style.display = fbDb ? 'block' : 'none';
+  document.getElementById('sync-msg').style.display='none';
+  document.getElementById('sync-overlay').classList.remove('hidden');
+}
+function closeSyncModal(){
+  document.getElementById('sync-overlay').classList.add('hidden');
+}
+function showSyncMsg(type, text){
+  const el = document.getElementById('sync-msg');
+  el.className = `sync-msg ${type}`;
+  el.textContent = text;
+  el.style.display = 'block';
+}
+async function saveSyncConfig(){
+  const apiKey     = document.getElementById('fb-api-key').value.trim();
+  const databaseURL= document.getElementById('fb-db-url').value.trim();
+  const projectId  = document.getElementById('fb-project-id').value.trim();
+  if(!apiKey||!databaseURL||!projectId){ showSyncMsg('err','Please fill in all three fields.'); return; }
+  showSyncMsg('ok','Connecting…');
+  const ok = await connectFirebase({apiKey, databaseURL, projectId, authDomain:`${projectId}.firebaseapp.com`});
+  if(ok){
+    showSyncMsg('ok','Connected! Loading your cloud data…');
+    const loaded = await cloudLoad();
+    if(loaded){ render(); updateStreakDisplay(); }
+    // push local data if nothing in cloud yet
+    else { await cloudSave(); }
+    setTimeout(closeSyncModal, 1200);
+    document.getElementById('sync-disconnect-btn').style.display='block';
+  } else {
+    showSyncMsg('err','Connection failed — double-check your API Key and Database URL.');
+  }
+}
+function disconnectSync(){
+  if(!confirm('Disconnect cloud sync? Your local data stays, but changes won\'t sync.')) return;
+  localStorage.removeItem(FB_CONFIG_KEY);
+  if(firebase.apps.length) firebase.app().delete();
+  fbDb = null;
+  setSyncStatus('none');
+  closeSyncModal();
+}
+
+// ── Export / Import JSON ──
+function exportData(){
+  const payload = {v:'micro_v2', ts:Date.now(), data:{done:[...done],emojis:eMap,revisions,notes}, streak:streakData};
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `micro-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+function importData(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(parsed.data){
+        done = new Set(parsed.data.done||[]);
+        eMap = parsed.data.emojis||{};
+        revisions = parsed.data.revisions||{};
+        notes = parsed.data.notes||{};
+      }
+      if(parsed.streak) streakData = parsed.streak;
+      save(); // saves locally + to cloud if connected
+      render(); updateStreakDisplay();
+      input.value='';
+    } catch(err){ alert('Invalid backup file.'); }
+  };
+  reader.readAsText(file);
+}
+
+// ── Auto-connect on load if config is saved ──
+(function tryAutoConnect(){
+  const cfg = localStorage.getItem(FB_CONFIG_KEY);
+  if(!cfg) return;
+  try {
+    connectFirebase(JSON.parse(cfg)).then(ok => {
+      if(ok) cloudLoad().then(loaded => { if(loaded){ render(); updateStreakDisplay(); }});
+    });
+  } catch(e){}
+})();
+
 function save(){
   localStorage.setItem(SK,JSON.stringify({done:[...done],emojis:eMap,revisions,notes}));
+  cloudSave(); // non-blocking, no-op if not connected
 }
 
 // ── Notes helpers ──
@@ -1099,12 +1433,66 @@ function renderFeed(id){
   const feed=document.getElementById(`nf-${id}`);
   if(!feed) return;
   const entries=notes[id]||[];
-  feed.innerHTML=entries.map(n=>`
-    <div class="note-entry">
-      <div class="note-meta">Attempt ${n.attempt} · ${fmtDate(n.date)}</div>
+  feed.innerHTML=entries.map((n,i)=>`
+    <div class="note-entry" id="ne-${id}-${i}">
+      <div class="note-meta-row">
+        <span class="note-meta">Attempt ${n.attempt} · ${fmtDate(n.date)}${n.edited?`<span class="note-edited-tag">edited</span>`:''}</span>
+        <div class="note-entry-actions">
+          <button class="note-action-btn" onclick="editNote(${id},${i})">✏ edit</button>
+          <button class="note-action-btn note-del-btn" onclick="deleteNote(${id},${i})">✕ delete</button>
+        </div>
+      </div>
       <div class="note-text">${parseNoteText(n.text)}</div>
     </div>`).join('');
 }
+function editNote(id, idx){
+  const entry = document.getElementById(`ne-${id}-${idx}`);
+  if(!entry) return;
+  const n = notes[id][idx];
+  entry.innerHTML = `
+    <div class="note-meta-row">
+      <span class="note-meta">Attempt ${n.attempt} · ${fmtDate(n.date)}</span>
+    </div>
+    <div class="note-toolbar" style="margin-bottom:4px">
+      <button class="btn-insert-code" onclick="insertCodeInEdit(${id},${idx})">&lt;/&gt; code</button>
+    </div>
+    <textarea class="note-ta" id="net-${id}-${idx}" rows="4">${n.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+    <div class="note-actions">
+      <button class="note-cancel" onclick="renderFeed(${id})">Cancel</button>
+      <button class="note-save" onclick="saveEditNote(${id},${idx})">Save</button>
+    </div>`;
+  const ta = document.getElementById(`net-${id}-${idx}`);
+  if(ta) setTimeout(()=>ta.focus(), 60);
+}
+function saveEditNote(id, idx){
+  const ta = document.getElementById(`net-${id}-${idx}`);
+  if(!ta||!ta.value.trim()) return;
+  notes[id][idx].text = ta.value.trim();
+  notes[id][idx].edited = Date.now();
+  save();
+  renderFeed(id);
+}
+function deleteNote(id, idx){
+  notes[id].splice(idx,1);
+  // re-index attempt numbers
+  notes[id].forEach((n,i)=>n.attempt=i+1);
+  save();
+  renderFeed(id);
+  updateNoteBtn(id);
+  updateNewLabel(id);
+}
+function insertCodeInEdit(id, idx){
+  const ta = document.getElementById(`net-${id}-${idx}`);
+  if(!ta) return;
+  const s=ta.selectionStart, e=ta.selectionEnd;
+  const sel=ta.value.slice(s,e);
+  const tpl=sel?`\`\`\`java\n${sel}\n\`\`\``:'```java\n// paste your code here\n```';
+  ta.value=ta.value.slice(0,s)+tpl+ta.value.slice(e);
+  const newPos=sel?s+tpl.length:s+9;
+  ta.setSelectionRange(newPos,newPos);
+  ta.focus();
+}
+
 function updateNoteBtn(id){
   const btn=document.querySelector(`[data-nb="${id}"]`);
   if(!btn) return;
@@ -1405,6 +1793,11 @@ updateStreakDisplay(); // initialise streak counter in header
   pin();
   window.addEventListener('resize', pin);
 })();
+
+// ── Close sync modal on overlay click ──
+document.getElementById('sync-overlay').addEventListener('click', function(e){
+  if(e.target === this) closeSyncModal();
+});
 
 // ── Background Carousel ──
 (function(){
