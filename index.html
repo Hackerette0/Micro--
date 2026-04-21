@@ -38,6 +38,18 @@
       display: flex; align-items: center; white-space: nowrap;
       flex-shrink: 0; text-decoration: none;
     }
+    .nav-tab {
+      font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid); text-decoration: none;
+      display: flex; align-items: center;
+      padding: 0 18px; border-right: 1px solid var(--dim);
+      white-space: nowrap; flex-shrink: 0;
+      transition: color .12s; height: 100%;
+    }
+    .nav-tab:hover { color: var(--paper); }
+    .nav-tab.active { color: var(--paper); border-bottom: 2px solid var(--infy); }
     .ms-i { display: inline-block; animation: ms-cycle 4.8s ease-in-out infinite; }
     @keyframes ms-cycle {
       0%   { color: rgba(0,164,239,0.15); } 8%   { color: rgba(0,164,239,1); }
@@ -218,6 +230,8 @@
 <header class="header">
   <div class="header-inner">
     <a href="index.html" class="brand-name">M<span class="ms-i">i</span>cro--</a>
+    <a href="index.html"   class="nav-tab">MS Tracker</a>
+    <a href="infosys.html" class="nav-tab active">Infosys SP</a>
     <div class="stats-strip">
       <div class="sbox">
         <span class="n n-done" id="s-done">0</span>
@@ -264,6 +278,8 @@
   <a href="index.html">← MS Tracker</a>
 </footer>
 
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 <script>
 const EMOJIS = ['🍀','🐽','🥓','🫐','🫒'];
 
@@ -363,8 +379,43 @@ let done  = new Set(st.done||[]);
 let eMap  = st.emojis||{};
 let filt  = 'all';
 
+// ── Firebase sync (same project as MS tracker, separate path) ──
+const FB_CFG = {
+  apiKey:      'AIzaSyCRhAGdUWFcjUBOb5HjNSob-r3-i0pXzwg',
+  authDomain:  'micro-a7a32.firebaseapp.com',
+  databaseURL: 'https://micro-a7a32-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId:   'micro-a7a32'
+};
+let fbDb = null;
+
+async function initFb(){
+  try {
+    if(typeof firebase==='undefined') return;
+    // Use existing app if already initialized (shared with MS tracker on same page load)
+    if(!firebase.apps.length) firebase.initializeApp(FB_CFG);
+    fbDb = firebase.database();
+    const snap = await fbDb.ref('infosys').get();
+    if(snap.exists()){
+      const d = snap.val();
+      done = new Set(d.done||[]);
+      eMap = d.emojis||{};
+      localStorage.setItem(SK, JSON.stringify({done:[...done],emojis:eMap}));
+      render();
+    } else {
+      // First time — push local data up
+      await cloudSave();
+    }
+  } catch(e){ console.error('Infosys Firebase init failed:', e); }
+}
+async function cloudSave(){
+  if(!fbDb) return;
+  try { await fbDb.ref('infosys').set({done:[...done], emojis:eMap, ts:Date.now()}); }
+  catch(e){}
+}
+
 function save(){
   localStorage.setItem(SK, JSON.stringify({done:[...done], emojis:eMap}));
+  cloudSave();
 }
 
 function pickEmoji(id){ if(!eMap[id]) eMap[id]=EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; return eMap[id]; }
@@ -508,6 +559,7 @@ document.getElementById('clear-btn').addEventListener('click',()=>{
 })();
 
 render();
+initFb(); // auto-connect Firebase and load cloud data
 </script>
 </body>
 </html>
