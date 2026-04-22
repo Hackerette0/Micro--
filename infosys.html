@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Infosys SP — Micro--</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --ink:   #0A0A0A; --paper: #F0EDE8; --mid: #888078;
+      --dim:   #2A2828; --off:   #111111;
+      --A:     #FF3A20; --easy:  #6EC97E; --med: #D4A847; --hard: #E07060;
+      --infy:  #007DC5;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--ink); color: var(--paper);
+      font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+      font-size: 13px; line-height: 1.5; min-height: 100vh; }
+
+    /* ── HEADER ── */
+    .header {
+      position: sticky; top: 0; z-index: 200;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--dim);
+    }
+    .header-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: stretch;
+    }
+    .brand-name {
+      font-family: 'Barlow Condensed',Arial,sans-serif;
+      font-size: 2.1rem; font-weight: 900; letter-spacing: -2px; line-height: 1;
+      color: var(--A); text-transform: uppercase;
+      padding: 10px 20px 10px 0; border-right: 1px solid var(--dim);
+      display: flex; align-items: center; white-space: nowrap;
+      flex-shrink: 0; text-decoration: none;
+    }
+    .nav-tab {
+      font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid); text-decoration: none;
+      display: flex; align-items: center;
+      padding: 0 18px; border-right: 1px solid var(--dim);
+      white-space: nowrap; flex-shrink: 0;
+      transition: color .12s; height: 100%;
+    }
+    .nav-tab:hover { color: var(--paper); }
+    .nav-tab.active { color: var(--paper); border-bottom: 2px solid var(--infy); }
+    .ms-i { display: inline-block; animation: ms-cycle 4.8s ease-in-out infinite; }
+    @keyframes ms-cycle {
+      0%   { color: rgba(0,164,239,0.15); } 8%   { color: rgba(0,164,239,1); }
+      18%  { color: rgba(0,164,239,0.15); } 25%  { color: rgba(255,185,0,0.15); }
+      33%  { color: rgba(255,185,0,1); }    43%  { color: rgba(255,185,0,0.15); }
+      50%  { color: rgba(127,186,0,0.15); } 58%  { color: rgba(127,186,0,1); }
+      68%  { color: rgba(127,186,0,0.15); } 75%  { color: rgba(242,80,34,0.15); }
+      83%  { color: rgba(242,80,34,1); }    93%  { color: rgba(242,80,34,0.15); }
+      100% { color: rgba(0,164,239,0.15); }
+    }
+
+    /* stats strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4,1fr) 2fr;
+      gap: 0; flex: 1;
+    }
+    .sbox {
+      padding: 10px 16px; border-right: 1px solid var(--dim);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .sbox:last-child { border-right: none; }
+    .sbox .n {
+      font-family: 'Inter',sans-serif;
+      font-size: 1.8rem; font-weight: 300; line-height: 1; letter-spacing: -1px;
+    }
+    .sbox .l { font-size:.5rem; font-weight:400; letter-spacing:2px; text-transform:uppercase; color:var(--mid); }
+    .n-done { color: var(--infy); }
+    .n-conf { color: var(--A); }
+    .n-easy { color: var(--easy); }
+    .n-hard { color: var(--hard); }
+    .prog-cell {
+      padding: 10px 20px; border-right: 1px solid var(--dim);
+      display: flex; flex-direction: column; justify-content: center; gap: 8px;
+    }
+    .prog-meta {
+      display: flex; justify-content: space-between;
+      font-size:.5rem; font-weight:400; letter-spacing:2px; text-transform:uppercase; color:var(--mid);
+    }
+    .prog-meta span { color:var(--paper); font-weight:700; }
+    .prog-track { height:1px; background:var(--dim); }
+    .prog-fill  { height:100%; background:var(--infy); transition:width .3s ease; }
+
+    /* ── FILTERS ── */
+    .filters-wrap {
+      position: sticky; top: 0; z-index: 150;
+      background: rgba(10,10,10,0.97);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--dim);
+    }
+    .filters {
+      max-width: 1200px; margin: 0 auto;
+      padding: 10px 48px;
+      display: flex; gap: 4px; flex-wrap: wrap; align-items: center;
+    }
+    .fl { font-size:.5rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--mid); margin-right:8px; }
+    .btn {
+      background:transparent; border:none; border-bottom:1px solid transparent;
+      color:var(--mid); padding:4px 6px;
+      font-family:'Inter',sans-serif; font-size:.58rem; font-weight:400;
+      letter-spacing:1.5px; text-transform:uppercase;
+      cursor:pointer; transition:all .12s;
+    }
+    .btn:hover { color:var(--paper); border-bottom-color:var(--dim); }
+    .btn.on  { color:var(--infy); border-bottom-color:var(--infy); font-weight:700; }
+    .btn.rst { color:var(--dim); }
+    .btn.rst:hover { color:var(--A); }
+
+    /* ── MAIN ── */
+    .main { max-width:1200px; margin:0 auto; padding:0 48px 80px; }
+
+    /* ── YEAR BLOCK ── */
+    .year-block { border-bottom:1px solid var(--dim); }
+    .year-hdr {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      align-items: center; gap: 28px;
+      padding: 18px 0;
+      background: var(--ink); cursor: pointer; user-select: none;
+      border-bottom: 1px solid var(--dim);
+      transition: background .1s;
+    }
+    .year-block.closed .year-hdr { border-bottom: none; }
+    .year-hdr:hover { background: var(--off); }
+    .year-block.closed .year-body { display: none; }
+
+    .yh-left { display:flex; flex-direction:column; gap:3px; }
+    .yh-num  {
+      font-size:.5rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--infy);
+    }
+    .yh-title {
+      font-family:'Barlow Condensed',Arial,sans-serif;
+      font-size:1.3rem; font-weight:900; letter-spacing:-1px; color:var(--paper);
+    }
+    .yh-sub { font-size:.63rem; color:var(--mid); }
+    .yh-badge {
+      font-size:.52rem; font-weight:400; letter-spacing:2px; text-transform:uppercase;
+      color:var(--mid); white-space:nowrap;
+    }
+    .yh-bar { display:flex; align-items:center; gap:10px; }
+    .yh-cnt { font-size:.6rem; font-weight:700; color:var(--paper); min-width:40px; text-align:right; }
+    .mini-track { width:80px; height:1px; background:var(--dim); }
+    .mini-fill  { height:100%; background:var(--infy); transition:width .3s; }
+    .yh-chev { font-size:.7rem; color:var(--mid); transition:transform .2s; }
+    .year-block.closed .yh-chev { transform:rotate(-90deg); }
+
+    /* ── PROBLEM ROW ── */
+    .prow {
+      display: grid;
+      grid-template-columns: 38px 1fr auto auto auto;
+      align-items: center; gap: 12px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--dim);
+      transition: background .08s;
+    }
+    .prow:last-child { border-bottom: none; }
+    .prow:hover { background: var(--off); }
+    .prow.done { opacity: .35; }
+    .prow.done .pname { text-decoration:line-through; text-decoration-color:var(--infy); color:var(--mid); }
+    .prow.hide { display: none; }
+
+    .etog {
+      width:26px; height:26px; border:none;
+      background:transparent; cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size:13px; color:var(--dim); transition:all .1s;
+    }
+    .etog:hover { color:var(--paper); }
+    .etog.on { font-size:18px; }
+
+    .pname {
+      font-family:'Inter',sans-serif; font-size:.8rem; font-weight:400;
+      color:var(--paper); text-decoration:none; transition:color .1s;
+    }
+    .pname:hover { color:var(--infy); }
+
+    .badges { display:flex; gap:8px; align-items:center; flex-wrap:nowrap; }
+    .badge {
+      font-family:'Inter',sans-serif; font-size:.5rem; font-weight:500;
+      letter-spacing:.8px; text-transform:uppercase; white-space:nowrap;
+    }
+    .b-easy   { color:var(--easy); }
+    .b-medium { color:var(--med); }
+    .b-hard   { color:var(--hard); }
+    .b-sql    { color:var(--infy); }
+    .b-topic  { color:var(--mid); font-style:italic; font-weight:400; letter-spacing:0; text-transform:none; }
+
+    .conf-tag {
+      font-size:.44rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+      color:var(--A); white-space:nowrap;
+    }
+    .rec-tag {
+      font-size:.44rem; font-weight:400; letter-spacing:1.5px; text-transform:uppercase;
+      color:var(--dim); white-space:nowrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top:1px solid var(--dim); padding:18px 48px;
+      max-width:1200px; margin:0 auto;
+      display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+    }
+    footer span { font-size:.55rem; letter-spacing:2px; text-transform:uppercase; color:var(--mid); }
+    footer a { color:var(--A); text-decoration:none; font-size:.58rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
+    footer a:hover { text-decoration:underline; }
+
+    @media (max-width:640px) {
+      .filters,.main,footer { padding-left:20px; padding-right:20px; }
+      .stats-strip { grid-template-columns:repeat(2,1fr); }
+      .prog-cell { grid-column:1/-1; border-right:none; border-top:1px solid var(--dim); }
+      .prow { grid-template-columns:28px 1fr; }
+      .badges,.conf-tag,.rec-tag { display:none; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <a href="index.html" class="brand-name">M<span class="ms-i">i</span>cro--</a>
+    <a href="index.html"   class="nav-tab">MS Tracker</a>
+    <a href="infosys.html" class="nav-tab active">Infosys SP</a>
+    <div class="stats-strip">
+      <div class="sbox">
+        <span class="n n-done" id="s-done">0</span>
+        <span class="l">Done</span>
+      </div>
+      <div class="sbox">
+        <span class="n n-conf" id="s-conf">0</span>
+        <span class="l">★ Confirmed</span>
+      </div>
+      <div class="sbox">
+        <span class="n n-easy" id="s-easy">0</span>
+        <span class="l">Easy ✓</span>
+      </div>
+      <div class="sbox">
+        <span class="n n-hard" id="s-hard">0</span>
+        <span class="l">Hard ✓</span>
+      </div>
+      <div class="prog-cell">
+        <div class="prog-meta">
+          <span style="color:var(--mid)">Progress</span>
+          <span id="prog-txt">0 / 58</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="filters-wrap">
+  <div class="filters">
+    <span class="fl">View</span>
+    <button class="btn on" data-f="all">All</button>
+    <button class="btn" data-f="pending">Pending</button>
+    <button class="btn" data-f="done">Done</button>
+    <button class="btn" data-f="conf">★ Confirmed Only</button>
+    <button class="btn rst" id="clear-btn">✕</button>
+  </div>
+</div>
+
+<main class="main" id="app"></main>
+
+<footer>
+  <span>Sourced from candidate reports 2020–2025 · ★ = asked in actual exam/interview</span>
+  <a href="index.html">← MS Tracker</a>
+</footer>
+
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script>
+const EMOJIS = ['🍀','🐽','🥓','🫐','🫒'];
+
+const YEARS = [
+  { id:2020, label:'HackWithInfy / Power Programmer Era',     sub:'Topics only — no specific problems disclosed publicly' },
+  { id:2021, label:'HackWithInfy Round 2 · Power Programmer', sub:'First specific problem type documented — greedy scheduling' },
+  { id:2022, label:'HackWithInfy · Best Documented Year',     sub:'3 precise problems from Codeforces blog + confirmed interview questions' },
+  { id:2023, label:'SP Off-Campus · InfyTQ Drive',            sub:'OA + Advantage Round + in-person interview documented' },
+  { id:2024, label:'SP Off-Campus · Dec OA + Feb 2025 Interview', sub:'Rotting Oranges & LCS confirmed OA · 3 confirmed interview problems' },
+  { id:2025, label:'HackWithInfy July + Sep 2025 Interviews', sub:'New surprise coding round + most complete interview picture yet' },
+];
+
+// [id, year, name, diff E/M/H, topic, url, confirmed true/false]
+const RAW = [
+  // ── 2020 ── Topic-based recs: DP Knapsack, BFS/DFS Grid, Greedy, String Prefix
+  [1001,2020,'Flood Fill','E','DFS · Grid','https://leetcode.com/problems/flood-fill/',false],
+  [1002,2020,'Number of Islands','M','BFS/DFS · Grid','https://leetcode.com/problems/number-of-islands/',false],
+  [1003,2020,'01 Matrix','M','BFS · Grid','https://leetcode.com/problems/01-matrix/',false],
+  [1004,2020,'Coin Change','M','DP · Knapsack','https://leetcode.com/problems/coin-change/',false],
+  [1005,2020,'Partition Equal Subset Sum','M','DP · Knapsack','https://leetcode.com/problems/partition-equal-subset-sum/',false],
+  [1006,2020,'Target Sum','M','DP · Knapsack','https://leetcode.com/problems/target-sum/',false],
+  [1007,2020,'Jump Game','M','Greedy · Array','https://leetcode.com/problems/jump-game/',false],
+  [1008,2020,'Best Time to Buy and Sell Stock','E','Greedy · Array','https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',false],
+  [1009,2020,'Longest Common Prefix','E','String · Prefix','https://leetcode.com/problems/longest-common-prefix/',false],
+
+  // ── 2021 ── DP, Graph, Greedy Scheduling
+  [1010,2021,'Task Scheduler','M','Greedy · Scheduling','https://leetcode.com/problems/task-scheduler/',true],
+  [1011,2021,'Meeting Rooms II','M','Greedy · Intervals','https://leetcode.com/problems/meeting-rooms-ii/',false],
+  [1012,2021,'Non-overlapping Intervals','M','Greedy · Intervals','https://leetcode.com/problems/non-overlapping-intervals/',false],
+  [1013,2021,'Course Schedule','M','Graph · Cycle Detection','https://leetcode.com/problems/course-schedule/',false],
+  [1014,2021,'Clone Graph','M','Graph · DFS','https://leetcode.com/problems/clone-graph/',false],
+  [1015,2021,'Pacific Atlantic Water Flow','M','Graph · BFS/DFS','https://leetcode.com/problems/pacific-atlantic-water-flow/',false],
+  [1016,2021,'House Robber','M','1D DP','https://leetcode.com/problems/house-robber/',false],
+  [1017,2021,'Longest Increasing Subsequence','M','DP','https://leetcode.com/problems/longest-increasing-subsequence/',false],
+
+  // ── 2022 ── Sieve, DP on Strings, Tarjan's SCC, MST, Cycle Detection
+  [1018,2022,'Count Primes','M','Sieve · Math','https://leetcode.com/problems/count-primes/',true],
+  [1019,2022,'Is Subsequence','E','Strings · Subsequence','https://leetcode.com/problems/is-subsequence/',false],
+  [1020,2022,'Delete Operation for Two Strings','M','DP · Strings','https://leetcode.com/problems/delete-operation-for-two-strings/',true],
+  [1021,2022,'Distinct Subsequences','H','DP · Strings','https://leetcode.com/problems/distinct-subsequences/',true],
+  [1022,2022,'Edit Distance','M','DP · Strings','https://leetcode.com/problems/edit-distance/',false],
+  [1023,2022,'Critical Connections in a Network','H','Tarjan\'s SCC','https://leetcode.com/problems/critical-connections-in-a-network/',true],
+  [1024,2022,'Min Cost to Connect All Points','M','MST · Kruskal\'s','https://leetcode.com/problems/min-cost-to-connect-all-points/',true],
+  [1025,2022,'Linked List Cycle','E','Linked List · Floyd\'s','https://leetcode.com/problems/linked-list-cycle/',true],
+  [1026,2022,'Linked List Cycle II','M','Linked List · Floyd\'s','https://leetcode.com/problems/linked-list-cycle-ii/',false],
+  [1027,2022,'Course Schedule','M','Cycle Detection · Directed Graph','https://leetcode.com/problems/course-schedule/',true],
+
+  // ── 2023 ── Prefix Sum, Intervals, Graphs, Cycle Detection, SQL
+  [1028,2023,'Merge Intervals','M','Intervals · Greedy','https://leetcode.com/problems/merge-intervals/',false],
+  [1029,2023,'Group Anagrams','M','String · HashMap','https://leetcode.com/problems/group-anagrams/',false],
+  [1030,2023,'Subarray Sum Equals K','M','Prefix Sum · HashMap','https://leetcode.com/problems/subarray-sum-equals-k/',false],
+  [1031,2023,'Continuous Subarray Sum','M','Prefix Sum','https://leetcode.com/problems/continuous-subarray-sum/',false],
+  [1032,2023,'Course Schedule II','M','Topological Sort','https://leetcode.com/problems/course-schedule-ii/',true],
+  [1033,2023,'Number of Provinces','M','Graph · DFS','https://leetcode.com/problems/number-of-provinces/',false],
+  [1034,2023,'Word Search','M','Backtracking · Grid','https://leetcode.com/problems/word-search/',false],
+  [1035,2023,'Employees Earning More Than Their Managers','E','SQL · Joins','https://leetcode.com/problems/employees-earning-more-than-their-managers/',true],
+  [1036,2023,'Department Top Three Salaries','H','SQL · Window Fn','https://leetcode.com/problems/department-top-three-salaries/',false],
+
+  // ── 2024 ── Confirmed OA + Confirmed Interview + Reported others
+  [1037,2024,'Rotting Oranges','M','BFS · Grid','https://leetcode.com/problems/rotting-oranges/',true],
+  [1038,2024,'Longest Common Subsequence','M','DP · Strings','https://leetcode.com/problems/longest-common-subsequence/',true],
+  [1039,2024,'Insert Interval','M','Intervals · Arrays','https://leetcode.com/problems/insert-interval/',true],
+  [1040,2024,'Gas Station','M','Greedy · Circular Array','https://leetcode.com/problems/gas-station/',true],
+  [1041,2024,'Confirmation Rate','M','SQL · Aggregation','https://leetcode.com/problems/confirmation-rate/',true],
+  [1042,2024,'Find Median from Data Stream','H','Heap · Design','https://leetcode.com/problems/find-median-from-data-stream/',false],
+  [1043,2024,'Sliding Window Maximum','H','Sliding Window · Deque','https://leetcode.com/problems/sliding-window-maximum/',false],
+  [1044,2024,'Network Delay Time','M','Dijkstra · Graph','https://leetcode.com/problems/network-delay-time/',false],
+  [1045,2024,'Reverse Linked List','E','Linked List','https://leetcode.com/problems/reverse-linked-list/',false],
+  [1046,2024,'Swap Nodes in Pairs','M','Linked List','https://leetcode.com/problems/swap-nodes-in-pairs/',false],
+
+  // ── 2025 ── Confirmed interview + Surprise round + BFS variants + Trees + Seg Tree
+  [1047,2025,'Minimum Window Substring','H','Sliding Window · Hard','https://leetcode.com/problems/minimum-window-substring/',true],
+  [1048,2025,'Longest Substring Without Repeating Characters','M','Sliding Window','https://leetcode.com/problems/longest-substring-without-repeating-characters/',true],
+  [1049,2025,'Frequency of the Most Frequent Element','M','Sliding Window','https://leetcode.com/problems/frequency-of-the-most-frequent-element/',false],
+  [1050,2025,'Alien Dictionary','H','Topological Sort','https://leetcode.com/problems/alien-dictionary/',true],
+  [1051,2025,'Word Ladder','H','BFS Variant · Graph','https://leetcode.com/problems/word-ladder/',false],
+  [1052,2025,'Jump Game IV','H','BFS Variant','https://leetcode.com/problems/jump-game-iv/',false],
+  [1053,2025,'Binary Tree Maximum Path Sum','H','Trees · DFS','https://leetcode.com/problems/binary-tree-maximum-path-sum/',false],
+  [1054,2025,'Distribute Coins in Binary Tree','M','Trees · DFS','https://leetcode.com/problems/distribute-coins-in-binary-tree/',false],
+  [1055,2025,'Serialize and Deserialize Binary Tree','H','Trees · Design','https://leetcode.com/problems/serialize-and-deserialize-binary-tree/',false],
+  [1056,2025,'Range Sum Query - Mutable','M','Segment Tree','https://leetcode.com/problems/range-sum-query-mutable/',false],
+  [1057,2025,'My Calendar I','M','Design · Intervals','https://leetcode.com/problems/my-calendar-i/',false],
+  [1058,2025,'Reverse Nodes in k-Group','H','Linked List','https://leetcode.com/problems/reverse-nodes-in-k-group/',false],
+];
+
+const PROBLEMS = RAW.map(r=>({
+  id:r[0], year:r[1], name:r[2],
+  diff: r[3]==='E'?'Easy':r[3]==='M'?'Medium':'Hard',
+  topic:r[4], url:r[5], confirmed:r[6]
+}));
+const TOTAL = PROBLEMS.length;
+
+// ── State ──
+const SK = 'infosys_v1';
+let st = (()=>{ try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};} })();
+let done  = new Set(st.done||[]);
+let eMap  = st.emojis||{};
+let filt  = 'all';
+
+// ── Firebase sync (same project as MS tracker, separate path) ──
+const FB_CFG = {
+  apiKey:      'AIzaSyCRhAGdUWFcjUBOb5HjNSob-r3-i0pXzwg',
+  authDomain:  'micro-a7a32.firebaseapp.com',
+  databaseURL: 'https://micro-a7a32-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId:   'micro-a7a32'
+};
+let fbDb = null;
+
+async function initFb(){
+  try {
+    if(typeof firebase==='undefined') return;
+    // Use existing app if already initialized (shared with MS tracker on same page load)
+    if(!firebase.apps.length) firebase.initializeApp(FB_CFG);
+    fbDb = firebase.database();
+    const snap = await fbDb.ref('infosys').get();
+    if(snap.exists()){
+      const d = snap.val();
+      done = new Set(d.done||[]);
+      eMap = d.emojis||{};
+      localStorage.setItem(SK, JSON.stringify({done:[...done],emojis:eMap}));
+      render();
+    } else {
+      // First time — push local data up
+      await cloudSave();
+    }
+  } catch(e){ console.error('Infosys Firebase init failed:', e); }
+}
+async function cloudSave(){
+  if(!fbDb) return;
+  try { await fbDb.ref('infosys').set({done:[...done], emojis:eMap, ts:Date.now()}); }
+  catch(e){}
+}
+
+function save(){
+  localStorage.setItem(SK, JSON.stringify({done:[...done], emojis:eMap}));
+  cloudSave();
+}
+
+function pickEmoji(id){ if(!eMap[id]) eMap[id]=EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; return eMap[id]; }
+
+// ── Toggle ──
+function toggle(id){
+  if(done.has(id)){ done.delete(id); delete eMap[id]; }
+  else { done.add(id); pickEmoji(id); }
+  save();
+  const row = document.querySelector(`[data-id="${id}"]`);
+  if(row){
+    const isDone = done.has(id);
+    row.classList.toggle('done', isDone);
+    const btn = row.querySelector('.etog');
+    btn.classList.toggle('on', isDone);
+    btn.textContent = isDone ? eMap[id] : '—';
+    applyRowVis(row, id);
+  }
+  updateStats();
+}
+
+// ── Stats ──
+function updateStats(){
+  const dc = [...done].filter(id=>PROBLEMS.find(p=>p.id===id)).length;
+  const cc = PROBLEMS.filter(p=>p.confirmed&&done.has(p.id)).length;
+  const ec = PROBLEMS.filter(p=>p.diff==='Easy'&&done.has(p.id)).length;
+  const hc = PROBLEMS.filter(p=>p.diff==='Hard'&&done.has(p.id)).length;
+  const pct = Math.round(dc/TOTAL*100);
+
+  document.getElementById('s-done').textContent = dc;
+  document.getElementById('s-conf').textContent = cc;
+  document.getElementById('s-easy').textContent = ec;
+  document.getElementById('s-hard').textContent = hc;
+  document.getElementById('prog-txt').textContent = `${dc} / ${TOTAL}`;
+  document.getElementById('prog-fill').style.width = pct+'%';
+
+  YEARS.forEach(y=>{
+    const yp = PROBLEMS.filter(p=>p.year===y.id);
+    const yd = yp.filter(p=>done.has(p.id)).length;
+    const f  = document.getElementById(`mf-${y.id}`);
+    const c  = document.getElementById(`pc-${y.id}`);
+    if(f) f.style.width = (yp.length ? Math.round(yd/yp.length*100):0)+'%';
+    if(c) c.textContent = `${yd}/${yp.length}`;
+  });
+}
+
+// ── Filter ──
+function applyRowVis(row, id){
+  const isDone = done.has(id);
+  const isConf = row.dataset.conf==='true';
+  let vis = true;
+  if(filt==='pending' && isDone)  vis=false;
+  if(filt==='done'    && !isDone) vis=false;
+  if(filt==='conf'    && !isConf) vis=false;
+  row.classList.toggle('hide', !vis);
+}
+function applyFilters(){
+  document.querySelectorAll('.prow').forEach(row=>applyRowVis(row, parseInt(row.dataset.id)));
+  document.querySelectorAll('.year-block').forEach(yb=>{
+    yb.style.display = yb.querySelectorAll('.prow:not(.hide)').length ? '' : 'none';
+  });
+}
+
+// ── Render ──
+function render(){
+  const app = document.getElementById('app');
+  app.innerHTML = '';
+
+  YEARS.forEach(y=>{
+    const yProbs = PROBLEMS.filter(p=>p.year===y.id);
+    const sec = document.createElement('div');
+    sec.className = 'year-block';
+
+    sec.innerHTML = `
+      <div class="year-hdr" onclick="this.closest('.year-block').classList.toggle('closed')">
+        <div class="yh-left">
+          <span class="yh-num">${y.id}</span>
+          <span class="yh-title">${y.label}</span>
+          <span class="yh-sub">${y.sub}</span>
+        </div>
+        <span class="yh-badge">${yProbs.filter(p=>p.confirmed).length} confirmed · ${yProbs.length} total</span>
+        <div class="yh-bar">
+          <div class="mini-track"><div class="mini-fill" id="mf-${y.id}" style="width:0%"></div></div>
+          <span class="yh-cnt" id="pc-${y.id}">0/${yProbs.length}</span>
+        </div>
+        <span class="yh-chev">▾</span>
+      </div>
+      <div class="year-body" id="yb-${y.id}"></div>`;
+
+    const body = sec.querySelector(`#yb-${y.id}`);
+    yProbs.forEach(p=>{
+      const isDone = done.has(p.id);
+      const row = document.createElement('div');
+      row.className = `prow${isDone?' done':''}`;
+      row.dataset.id   = p.id;
+      row.dataset.diff = p.diff;
+      row.dataset.conf = p.confirmed;
+
+      const diffClass = p.diff==='Easy'?'b-easy':p.diff==='Medium'?'b-medium':'b-hard';
+      const isSql = p.topic.toLowerCase().includes('sql');
+
+      row.innerHTML = `
+        <button class="etog${isDone?' on':''}" onclick="toggle(${p.id})">${isDone?(eMap[p.id]||'🍀'):'—'}</button>
+        <a class="pname" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.name}</a>
+        <div class="badges">
+          <span class="badge ${isSql?'b-sql':diffClass}">${isSql?'SQL':p.diff}</span>
+          <span class="badge b-topic">${p.topic}</span>
+        </div>
+        ${p.confirmed ? `<span class="conf-tag">★ Confirmed</span>` : `<span class="rec-tag">→ Rec</span>`}`;
+
+      body.appendChild(row);
+    });
+    app.appendChild(sec);
+  });
+
+  applyFilters();
+  updateStats();
+}
+
+// ── Filter listeners ──
+document.querySelectorAll('[data-f]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-f]').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on'); filt=btn.dataset.f; applyFilters();
+  });
+});
+document.getElementById('clear-btn').addEventListener('click',()=>{
+  filt='all';
+  document.querySelectorAll('[data-f]').forEach(b=>b.classList.remove('on'));
+  document.querySelector('[data-f="all"]').classList.add('on');
+  applyFilters();
+});
+
+// ── Sticky filters pin ──
+(function(){
+  const hdr=document.querySelector('.header');
+  const fw=document.querySelector('.filters-wrap');
+  if(!hdr||!fw) return;
+  const pin=()=>{ fw.style.top=hdr.offsetHeight+'px'; };
+  pin(); window.addEventListener('resize',pin);
+})();
+
+render();
+initFb(); // auto-connect Firebase and load cloud data
+</script>
+</body>
+</html>

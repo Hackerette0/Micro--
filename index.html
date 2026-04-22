@@ -3,101 +3,255 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Infosys SP — Micro--</title>
+  <title>Micro--</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Inter:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Inter:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root {
-      --ink:   #0A0A0A; --paper: #F0EDE8; --mid: #888078;
-      --dim:   #2A2828; --off:   #111111;
-      --A:     #FF3A20; --easy:  #6EC97E; --med: #D4A847; --hard: #E07060;
-      --infy:  #007DC5;
-    }
-    html { scroll-behavior: smooth; }
-    body { background: var(--ink); color: var(--paper);
-      font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
-      font-size: 13px; line-height: 1.5; min-height: 100vh; }
 
-    /* ── HEADER ── */
+    :root {
+      --ink:      #0A0A0A;   /* body background */
+      --paper:    #F0EDE8;   /* primary text */
+      --mid:      #888078;   /* muted text */
+      --dim:      #2A2828;   /* subtle border */
+      --off:      #111111;   /* hover tint */
+      --rule:     #2A2828;   /* 1px dividers */
+      --A:        #FF3A20;   /* THE one color */
+      --easy:     #6EC97E;   /* calibrated for black ground */
+      --med:      #D4A847;
+      --hard:     #E07060;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--ink);
+      color: var(--paper);
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* ══════════════════════════════════════
+       HEADER — compact sticky bar
+    ══════════════════════════════════════ */
     .header {
       position: sticky; top: 0; z-index: 200;
       background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--dim);
     }
     .header-inner {
       max-width: 1200px; margin: 0 auto;
       display: flex; align-items: stretch;
     }
+
+    /* Microsoft color-cycling 'I' */
+    .ms-i {
+      display: inline-block;
+      animation: ms-cycle 4.8s ease-in-out infinite;
+    }
+    @keyframes ms-cycle {
+      /* Blue pulse */
+      0%   { color: rgba(0,164,239,0.15); }
+      8%   { color: rgba(0,164,239,1);    }
+      18%  { color: rgba(0,164,239,0.15); }
+      /* Yellow pulse */
+      25%  { color: rgba(255,185,0,0.15); }
+      33%  { color: rgba(255,185,0,1);    }
+      43%  { color: rgba(255,185,0,0.15); }
+      /* Green pulse */
+      50%  { color: rgba(127,186,0,0.15); }
+      58%  { color: rgba(127,186,0,1);    }
+      68%  { color: rgba(127,186,0,0.15); }
+      /* Red pulse */
+      75%  { color: rgba(242,80,34,0.15); }
+      83%  { color: rgba(242,80,34,1);    }
+      93%  { color: rgba(242,80,34,0.15); }
+      /* back to blue */
+      100% { color: rgba(0,164,239,0.15); }
+    }
+
+    /* compact logo in sticky bar */
     .brand-name {
-      font-family: 'Barlow Condensed',Arial,sans-serif;
-      font-size: 2.1rem; font-weight: 900; letter-spacing: -2px; line-height: 1;
-      color: var(--A); text-transform: uppercase;
-      padding: 10px 20px 10px 0; border-right: 1px solid var(--dim);
-      display: flex; align-items: center; white-space: nowrap;
-      flex-shrink: 0; text-decoration: none;
+      font-family: 'Barlow Condensed', Arial, sans-serif;
+      font-size: 2.1rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1;
+      color: var(--A);
+      text-transform: uppercase;
+      padding: 10px 20px 10px 0;
+      border-right: 1px solid var(--dim);
+      display: flex; align-items: center;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
     .nav-tab {
-      font-family: 'Inter','Helvetica Neue',Helvetica,Arial,sans-serif;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
       font-size: .5rem; font-weight: 700;
       letter-spacing: 2px; text-transform: uppercase;
       color: var(--mid); text-decoration: none;
       display: flex; align-items: center;
-      padding: 0 18px; border-right: 1px solid var(--dim);
+      padding: 0 18px;
+      border-right: 1px solid var(--dim);
       white-space: nowrap; flex-shrink: 0;
       transition: color .12s; height: 100%;
     }
     .nav-tab:hover { color: var(--paper); }
-    .nav-tab.active { color: var(--paper); border-bottom: 2px solid var(--infy); }
-    .ms-i { display: inline-block; animation: ms-cycle 4.8s ease-in-out infinite; }
-    @keyframes ms-cycle {
-      0%   { color: rgba(0,164,239,0.15); } 8%   { color: rgba(0,164,239,1); }
-      18%  { color: rgba(0,164,239,0.15); } 25%  { color: rgba(255,185,0,0.15); }
-      33%  { color: rgba(255,185,0,1); }    43%  { color: rgba(255,185,0,0.15); }
-      50%  { color: rgba(127,186,0,0.15); } 58%  { color: rgba(127,186,0,1); }
-      68%  { color: rgba(127,186,0,0.15); } 75%  { color: rgba(242,80,34,0.15); }
-      83%  { color: rgba(242,80,34,1); }    93%  { color: rgba(242,80,34,0.15); }
-      100% { color: rgba(0,164,239,0.15); }
+    .nav-tab.active { color: var(--paper); border-bottom: 2px solid var(--A); }
+
+    /* ══════════════════════════════════════
+       HERO — full-screen carousel
+    ══════════════════════════════════════ */
+    .hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 48px 56px;
     }
 
-    /* stats strip */
+    /* carousel layers */
+    .cbg { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    .cs {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0; transition: opacity 2s ease;
+      will-change: opacity;
+    }
+    .cs.on { opacity: 1; }
+    #cs1 { background-image: url('microsft1.jpg'); }
+    #cs2 { background-image: url('Microsoft.png'); }
+    #cs3 { background-image: url('microsoft2.jpg'); }
+    #cs4 { background-image: url('microsoft3.jpg'); }
+    #cs5 { background-image: url('microsoft4.jpg'); }
+    .co {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(10,10,10,0.95) 0%,
+        rgba(10,10,10,0.55) 45%,
+        rgba(10,10,10,0.25) 100%
+      );
+    }
+
+    /* hero editorial content */
+    .hero-content { position: relative; z-index: 2; }
+    .hero-logo {
+      font-family: 'Barlow Condensed', Arial, sans-serif;
+      font-size: clamp(5.5rem, 13vw, 11rem);
+      font-weight: 900;
+      letter-spacing: -8px;
+      line-height: 0.85;
+      color: var(--A);
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero-sub {
+      font-family: 'Barlow Condensed', Arial, sans-serif;
+      font-size: 1.1rem; font-weight: 400;
+      letter-spacing: 5px; text-transform: uppercase;
+      color: var(--paper);
+      margin-bottom: 6px;
+    }
+    .hero-meta {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 36px;
+    }
+    .hero-scroll {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .55rem; font-weight: 400;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--mid);
+      display: flex; align-items: center; gap: 10px;
+      animation: breathe 2.4s ease-in-out infinite;
+    }
+    .hero-scroll::before {
+      content: '';
+      display: block; width: 1px; height: 28px;
+      background: var(--mid);
+    }
+    @keyframes breathe {
+      0%, 100% { opacity: 0.4; transform: translateY(0); }
+      50%       { opacity: 1;   transform: translateY(4px); }
+    }
+
+    /* ── stats strip — Swiss thin numerals, inline in sticky bar ── */
     .stats-strip {
       display: grid;
-      grid-template-columns: repeat(4,1fr) 2fr;
-      gap: 0; flex: 1;
+      grid-template-columns: repeat(6, 1fr) 2fr 70px;
+      gap: 0;
+      flex: 1;
     }
     .sbox {
-      padding: 10px 16px; border-right: 1px solid var(--dim);
+      padding: 10px 16px;
+      border-right: 1px solid var(--dim);
       display: flex; flex-direction: column; gap: 4px;
     }
     .sbox:last-child { border-right: none; }
     .sbox .n {
-      font-family: 'Inter',sans-serif;
-      font-size: 1.8rem; font-weight: 300; line-height: 1; letter-spacing: -1px;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 1.8rem; font-weight: 300; line-height: 1;
+      letter-spacing: -1px;
     }
-    .sbox .l { font-size:.5rem; font-weight:400; letter-spacing:2px; text-transform:uppercase; color:var(--mid); }
-    .n-done { color: var(--infy); }
-    .n-conf { color: var(--A); }
-    .n-easy { color: var(--easy); }
-    .n-hard { color: var(--hard); }
+    .sbox .l {
+      font-size: .5rem; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid);
+    }
+    /* difficulty colors — vivid enough on #0A0A0A */
+    .n-done   { color: var(--A); }
+    .n-easy   { color: var(--easy); }
+    .n-med    { color: var(--med); }
+    .n-hard   { color: var(--hard); }
+    .n-ms     { color: var(--paper); }
+    .n-streak { color: #FF9500; }
+
     .prog-cell {
-      padding: 10px 20px; border-right: 1px solid var(--dim);
+      padding: 10px 20px;
+      border-right: 1px solid var(--dim);
       display: flex; flex-direction: column; justify-content: center; gap: 8px;
     }
     .prog-meta {
       display: flex; justify-content: space-between;
-      font-size:.5rem; font-weight:400; letter-spacing:2px; text-transform:uppercase; color:var(--mid);
+      font-size: .5rem; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid);
     }
-    .prog-meta span { color:var(--paper); font-weight:700; }
-    .prog-track { height:1px; background:var(--dim); }
-    .prog-fill  { height:100%; background:var(--infy); transition:width .3s ease; }
+    .prog-meta span { color: var(--paper); font-weight: 700; }
+    .prog-track { height: 1px; background: var(--dim); }
+    .prog-fill  { height: 100%; background: var(--A); transition: width .3s ease; }
 
-    /* ── FILTERS ── */
+    .cnt-cell {
+      padding: 10px 16px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cnt-cell .cnt-num {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .6rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--A); text-align: center; line-height: 1.5;
+    }
+
+    /* ══════════════════════════════════════
+       FILTERS
+    ══════════════════════════════════════ */
     .filters-wrap {
-      position: sticky; top: 0; z-index: 150;
+      position: sticky;
+      top: 0; /* updated by JS to sit just below the header */
+      z-index: 150;
       background: rgba(10,10,10,0.97);
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
       border-bottom: 1px solid var(--dim);
     }
     .filters {
@@ -105,61 +259,104 @@
       padding: 10px 48px;
       display: flex; gap: 4px; flex-wrap: wrap; align-items: center;
     }
-    .fl { font-size:.5rem; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--mid); margin-right:8px; }
-    .btn {
-      background:transparent; border:none; border-bottom:1px solid transparent;
-      color:var(--mid); padding:4px 6px;
-      font-family:'Inter',sans-serif; font-size:.58rem; font-weight:400;
-      letter-spacing:1.5px; text-transform:uppercase;
-      cursor:pointer; transition:all .12s;
+    .fl {
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--mid); margin-right: 8px;
     }
-    .btn:hover { color:var(--paper); border-bottom-color:var(--dim); }
-    .btn.on  { color:var(--infy); border-bottom-color:var(--infy); font-weight:700; }
-    .btn.rst { color:var(--dim); }
-    .btn.rst:hover { color:var(--A); }
+    .btn {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid transparent;
+      color: var(--mid);
+      padding: 4px 6px;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      cursor: pointer; transition: all .12s;
+    }
+    .btn:hover { color: var(--paper); border-bottom-color: var(--dim); }
+    .btn.on { color: var(--A); border-bottom-color: var(--A); font-weight: 700; }
+    .btn.rst { color: var(--dim); }
+    .btn.rst:hover { color: var(--A); }
 
-    /* ── MAIN ── */
-    .main { max-width:1200px; margin:0 auto; padding:0 48px 80px; }
+    /* ══════════════════════════════════════
+       MAIN
+    ══════════════════════════════════════ */
+    .main {
+      max-width: 1200px; margin: 0 auto;
+      padding: 32px 48px 80px;
+    }
 
-    /* ── YEAR BLOCK ── */
-    .year-block { border-bottom:1px solid var(--dim); }
-    .year-hdr {
+    /* ── phase block ── */
+    .phase { border-bottom: 1px solid var(--dim); }
+
+    .phase-hdr {
       display: grid;
       grid-template-columns: 1fr auto auto auto;
       align-items: center; gap: 28px;
       padding: 18px 0;
-      background: var(--ink); cursor: pointer; user-select: none;
+      background: var(--ink);
+      cursor: pointer; user-select: none;
       border-bottom: 1px solid var(--dim);
       transition: background .1s;
     }
-    .year-block.closed .year-hdr { border-bottom: none; }
-    .year-hdr:hover { background: var(--off); }
-    .year-block.closed .year-body { display: none; }
+    .phase.closed .phase-hdr { border-bottom: none; }
+    .phase-hdr:hover { background: var(--off); }
 
-    .yh-left { display:flex; flex-direction:column; gap:3px; }
-    .yh-num  {
-      font-size:.5rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--infy);
+    .ph-title-wrap { display: flex; flex-direction: column; gap: 3px; }
+    .ph-num {
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--A);
     }
-    .yh-title {
-      font-family:'Barlow Condensed',Arial,sans-serif;
-      font-size:1.3rem; font-weight:900; letter-spacing:-1px; color:var(--paper);
+    .ph-title {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .92rem; font-weight: 700;
+      letter-spacing: -.2px; text-transform: none;
+      color: var(--paper);
     }
-    .yh-sub { font-size:.63rem; color:var(--mid); }
-    .yh-badge {
-      font-size:.52rem; font-weight:400; letter-spacing:2px; text-transform:uppercase;
-      color:var(--mid); white-space:nowrap;
+    .ph-sub {
+      font-size: .63rem; color: var(--mid);
+      font-style: normal; font-weight: 400; margin-top: 1px;
     }
-    .yh-bar { display:flex; align-items:center; gap:10px; }
-    .yh-cnt { font-size:.6rem; font-weight:700; color:var(--paper); min-width:40px; text-align:right; }
-    .mini-track { width:80px; height:1px; background:var(--dim); }
-    .mini-fill  { height:100%; background:var(--infy); transition:width .3s; }
-    .yh-chev { font-size:.7rem; color:var(--mid); transition:transform .2s; }
-    .year-block.closed .yh-chev { transform:rotate(-90deg); }
 
-    /* ── PROBLEM ROW ── */
+    .ph-wk {
+      font-size: .52rem; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid); white-space: nowrap;
+    }
+
+    .ph-bar-wrap { display: flex; align-items: center; gap: 10px; }
+    .ph-cnt {
+      font-size: .6rem; font-weight: 700;
+      color: var(--paper); min-width: 40px; text-align: right;
+      letter-spacing: .5px;
+    }
+    .mini-track { width: 80px; height: 1px; background: var(--dim); }
+    .mini-fill  { height: 100%; background: var(--A); transition: width .3s; }
+
+    .ph-chev {
+      font-size: .7rem; color: var(--mid);
+      transition: transform .2s; user-select: none;
+    }
+    .phase.closed .ph-chev  { transform: rotate(-90deg); }
+    .phase.closed .phase-body { display: none; }
+
+    /* ── week label ── */
+    .week-lbl {
+      padding: 7px 0 5px;
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 3px; text-transform: uppercase;
+      color: var(--mid);
+      border-bottom: 1px solid var(--dim);
+      margin-top: 2px;
+    }
+
+    /* ── problem row ── */
     .prow {
       display: grid;
-      grid-template-columns: 38px 1fr auto auto auto;
+      grid-template-columns: 38px 44px 1fr auto auto;
       align-items: center; gap: 12px;
       padding: 9px 0;
       border-bottom: 1px solid var(--dim);
@@ -167,366 +364,1411 @@
     }
     .prow:last-child { border-bottom: none; }
     .prow:hover { background: var(--off); }
+
     .prow.done { opacity: .35; }
-    .prow.done .pname { text-decoration:line-through; text-decoration-color:var(--infy); color:var(--mid); }
+    .prow.done .pname {
+      text-decoration: line-through;
+      text-decoration-color: var(--A);
+      color: var(--mid);
+    }
     .prow.hide { display: none; }
 
-    .etog {
-      width:26px; height:26px; border:none;
-      background:transparent; cursor:pointer;
-      display:flex; align-items:center; justify-content:center;
-      font-size:13px; color:var(--dim); transition:all .1s;
+    /* emoji toggle + revision counter */
+    .etog-wrap {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 1px;
     }
-    .etog:hover { color:var(--paper); }
-    .etog.on { font-size:18px; }
+    .etog {
+      width: 26px; height: 26px;
+      border: none;
+      background: transparent; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; color: var(--dim);
+      transition: all .1s;
+      font-family: inherit;
+    }
+    .etog:hover { color: var(--paper); }
+    .etog.on { font-size: 18px; }
+
+    .rev-cnt {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .42rem; font-weight: 700;
+      color: var(--mid); cursor: pointer;
+      letter-spacing: .5px; line-height: 1;
+      user-select: none; display: none;
+    }
+    .rev-cnt.active { color: var(--A); }
+    .prow.done .rev-cnt { display: block; }
+    .rev-cnt:hover { color: var(--A); }
+
+    .pnum {
+      font-size: .58rem; font-weight: 400;
+      color: var(--mid); letter-spacing: .5px; text-align: right;
+    }
 
     .pname {
-      font-family:'Inter',sans-serif; font-size:.8rem; font-weight:400;
-      color:var(--paper); text-decoration:none; transition:color .1s;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .8rem; font-weight: 400;
+      color: var(--paper); text-decoration: none;
+      transition: color .1s;
     }
-    .pname:hover { color:var(--infy); }
+    .pname:hover { color: var(--A); }
 
-    .badges { display:flex; gap:8px; align-items:center; flex-wrap:nowrap; }
+    .badges { display: flex; gap: 8px; flex-wrap: nowrap; align-items: center; }
+
     .badge {
-      font-family:'Inter',sans-serif; font-size:.5rem; font-weight:500;
-      letter-spacing:.8px; text-transform:uppercase; white-space:nowrap;
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: .5rem; font-weight: 500;
+      letter-spacing: .8px; text-transform: uppercase;
+      white-space: nowrap;
     }
-    .b-easy   { color:var(--easy); }
-    .b-medium { color:var(--med); }
-    .b-hard   { color:var(--hard); }
-    .b-sql    { color:var(--infy); }
-    .b-topic  { color:var(--mid); font-style:italic; font-weight:400; letter-spacing:0; text-transform:none; }
+    /* difficulty — plain coloured text, no boxes */
+    .b-easy   { color: var(--easy); }
+    .b-medium { color: var(--med); }
+    .b-hard   { color: var(--hard); }
+    .b-ms     { color: var(--A); font-size: .75rem; }
+    .b-topic  { color: var(--mid); text-transform: none; font-style: italic;
+                letter-spacing: 0; font-weight: 400; }
 
-    .conf-tag {
-      font-size:.44rem; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
-      color:var(--A); white-space:nowrap;
-    }
-    .rec-tag {
-      font-size:.44rem; font-weight:400; letter-spacing:1.5px; text-transform:uppercase;
-      color:var(--dim); white-space:nowrap;
+    /* MS row — thin red left rule */
+    .prow[data-ms="true"] {
+      border-left: 2px solid var(--A);
+      padding-left: 10px;
     }
 
-    /* ── FOOTER ── */
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
     footer {
-      border-top:1px solid var(--dim); padding:18px 48px;
-      max-width:1200px; margin:0 auto;
-      display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;
+      border-top: 1px solid var(--dim);
+      padding: 18px 48px;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 8px;
     }
-    footer span { font-size:.55rem; letter-spacing:2px; text-transform:uppercase; color:var(--mid); }
-    footer a { color:var(--A); text-decoration:none; font-size:.58rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; }
-    footer a:hover { text-decoration:underline; }
+    footer span {
+      font-size: .55rem; font-weight: 400;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid);
+    }
+    footer a {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: var(--A); text-decoration: none;
+      font-size: .58rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+    }
+    footer a:hover { text-decoration: underline; }
 
-    @media (max-width:640px) {
-      .filters,.main,footer { padding-left:20px; padding-right:20px; }
-      .stats-strip { grid-template-columns:repeat(2,1fr); }
-      .prog-cell { grid-column:1/-1; border-right:none; border-top:1px solid var(--dim); }
-      .prow { grid-template-columns:28px 1fr; }
-      .badges,.conf-tag,.rec-tag { display:none; }
+    /* ══════════════════════════════════════
+       NOTES
+    ══════════════════════════════════════ */
+    .notes-btn {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .5rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--dim); cursor: pointer;
+      background: none; border: none; padding: 2px 4px;
+      transition: color .12s; white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .notes-btn:hover { color: var(--paper); }
+    .notes-btn.has-notes { color: var(--mid); }
+    .notes-btn.has-notes .nb-dot { color: var(--A); }
+
+    .notes-panel {
+      display: none;
+      border-top: 1px solid var(--A);
+      background: #0C0C0C;
+      padding: 16px 18px 14px 18px;
+    }
+    .notes-panel.open { display: block; }
+
+    /* previous entries feed */
+    .note-entry {
+      padding-bottom: 14px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--dim);
+    }
+    .note-entry:last-of-type { border-bottom: none; margin-bottom: 8px; }
+
+    .note-meta-row {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+    .note-meta {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .48rem; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--A);
+    }
+    .note-entry-actions {
+      display: flex; gap: 10px;
+      opacity: 0; transition: opacity .15s;
+    }
+    .note-entry:hover .note-entry-actions { opacity: 1; }
+
+    .note-action-btn {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .48rem; font-weight: 400;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--mid); background: none; border: none;
+      cursor: pointer; padding: 0; transition: color .1s;
+    }
+    .note-action-btn:hover { color: var(--paper); }
+    .note-del-btn:hover { color: var(--hard); }
+
+    .note-text {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .78rem; line-height: 1.65;
+      color: var(--paper); white-space: pre-wrap;
+    }
+    .note-edited-tag {
+      font-size: .42rem; color: var(--dim);
+      font-style: italic; margin-left: 6px;
+      letter-spacing: 1px;
+    }
+
+    /* new note input */
+    .notes-new { margin-top: 10px; border-top: 1px solid var(--dim); padding-top: 12px; }
+    .note-new-label {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .48rem; font-weight: 700;
+      letter-spacing: 2.5px; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 6px;
+    }
+    .note-ta {
+      width: 100%; background: transparent;
+      border: none; border-bottom: 1px solid var(--dim);
+      color: var(--paper);
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .78rem; line-height: 1.65;
+      padding: 6px 0; resize: none; min-height: 64px;
+      outline: none; transition: border-color .15s;
+    }
+    .note-ta:focus { border-bottom-color: var(--A); }
+    .note-ta::placeholder { color: var(--dim); font-style: italic; }
+    .note-actions {
+      display: flex; justify-content: flex-end;
+      gap: 16px; margin-top: 8px; align-items: center;
+    }
+    .note-cancel {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .55rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--mid); cursor: pointer;
+      background: none; border: none; padding: 0;
+    }
+    .note-cancel:hover { color: var(--paper); }
+    .note-save {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .55rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--A); cursor: pointer;
+      background: none; border: none; padding: 0;
+    }
+    .note-save:hover { opacity: .7; }
+
+    /* ══════════════════════════════════════
+       CODE BLOCKS IN NOTES (macOS terminal style)
+    ══════════════════════════════════════ */
+    .code-block-wrap {
+      background: #1C1C1E;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 10px 0;
+      border: 1px solid #333;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    }
+    .code-traffic {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 14px;
+      background: #2A2A2D;
+      border-bottom: 1px solid #333;
+    }
+    .traffic-dot {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+      flex-shrink: 0;
+    }
+    .td-red    { background: #FF5F57; }
+    .td-yellow { background: #FEBC2E; }
+    .td-green  { background: #28C840; }
+    .code-body { padding: 0; }
+    .code-body pre {
+      margin: 0;
+      padding: 14px 16px;
+      overflow-x: auto;
+      background: transparent !important;
+    }
+    .code-body pre code.hljs {
+      background: transparent !important;
+      padding: 0;
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: .78rem;
+      line-height: 1.6;
+    }
+    /* inline code snippet (single backtick) */
+    .note-inline-code {
+      background: #2A2A2D;
+      color: #E06C75;
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .75rem;
+    }
+    /* plain text segments in a note with code blocks */
+    .note-text-inline { white-space: pre-wrap; }
+
+    /* insert-code button in notes toolbar */
+    .note-toolbar {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 4px;
+    }
+    .note-new-label { flex: 1; }
+    .btn-insert-code {
+      font-family: 'Inter', 'Helvetica Neue', Helvetica, sans-serif;
+      font-size: .5rem; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--mid); cursor: pointer;
+      background: #1A1A1A; border: 1px solid var(--dim);
+      padding: 3px 7px; border-radius: 3px;
+      transition: color .12s, border-color .12s;
+      flex-shrink: 0;
+    }
+    .btn-insert-code:hover { color: var(--paper); border-color: var(--mid); }
+
+    /* ══════════════════════════════════════
+       CLOUD SYNC MODAL
+    ══════════════════════════════════════ */
+    .sync-overlay {
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(0,0,0,0.88);
+      backdrop-filter: blur(6px);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .sync-overlay.hidden { display: none; }
+    .sync-modal {
+      background: #111;
+      border: 1px solid var(--dim);
+      width: 90%; max-width: 500px;
+      max-height: 90vh; overflow-y: auto;
+      padding: 32px 36px 28px;
+    }
+    .sync-modal h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem; font-weight: 900;
+      letter-spacing: -1px; text-transform: uppercase;
+      color: var(--A); margin-bottom: 6px;
+    }
+    .sync-modal p {
+      font-size: .72rem; color: var(--mid);
+      line-height: 1.6; margin-bottom: 16px;
+    }
+    .sync-steps {
+      border-left: 2px solid var(--dim);
+      padding-left: 14px; margin-bottom: 20px;
+    }
+    .sync-step {
+      font-size: .65rem; color: var(--mid);
+      line-height: 1.7; margin-bottom: 4px;
+    }
+    .sync-step a { color: var(--A); }
+    .sync-step strong { color: var(--paper); }
+    .sync-field-label {
+      font-size: .48rem; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      color: var(--mid); margin-bottom: 5px; display: block;
+    }
+    .sync-input {
+      width: 100%; background: #1A1A1A;
+      border: 1px solid var(--dim); color: var(--paper);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem; padding: 8px 10px;
+      outline: none; margin-bottom: 12px;
+      transition: border-color .15s;
+    }
+    .sync-input:focus { border-color: var(--A); }
+    .sync-actions {
+      display: flex; gap: 12px; justify-content: flex-end;
+      margin-top: 8px; flex-wrap: wrap;
+    }
+    .sync-connect-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 700;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--ink); background: var(--A);
+      border: none; padding: 8px 20px; cursor: pointer;
+      transition: opacity .12s;
+    }
+    .sync-connect-btn:hover { opacity: .8; }
+    .sync-disconnect-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--hard); background: none;
+      border: 1px solid var(--hard); padding: 8px 14px; cursor: pointer;
+    }
+    .sync-cancel-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .58rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--mid); background: none; border: none;
+      padding: 8px 0; cursor: pointer;
+    }
+    .sync-msg {
+      font-size: .62rem; margin-top: 10px; padding: 8px 12px;
+      border-left: 2px solid var(--dim);
+    }
+    .sync-msg.ok  { color: var(--easy); border-color: var(--easy); }
+    .sync-msg.err { color: var(--hard); border-color: var(--hard); }
+    .sync-divider {
+      border: none; border-top: 1px solid var(--dim);
+      margin: 20px 0;
+    }
+    /* footer sync controls */
+    .footer-sync {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    }
+    .sync-status-dot {
+      font-size: .52rem; letter-spacing: 1px;
+      text-transform: uppercase; font-weight: 700;
+    }
+    .footer-btn {
+      font-family: 'Inter', sans-serif;
+      font-size: .52rem; font-weight: 400;
+      letter-spacing: 1.5px; text-transform: uppercase;
+      color: var(--mid); background: none;
+      border: 1px solid var(--dim); padding: 4px 10px;
+      cursor: pointer; transition: all .12s;
+    }
+    .footer-btn:hover { color: var(--paper); border-color: var(--mid); }
+    .footer-btn.primary { color: var(--A); border-color: var(--A); }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 640px) {
+      .filters, .main { padding-left: 20px; padding-right: 20px; }
+      footer { padding: 14px 20px; }
+      .brand-name { font-size: 1.6rem; letter-spacing: -1px; padding: 8px 12px 8px 0; }
+      .hero { padding: 0 20px 40px; }
+      .hero-logo { font-size: clamp(4rem, 18vw, 6rem); letter-spacing: -4px; }
+      .hero-sub { font-size: .85rem; letter-spacing: 2px; }
+      .stats-strip { grid-template-columns: repeat(3,1fr); }
+      .sbox.streak-box { display: none; }
+      .prog-cell { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--dim); }
+      .cnt-cell  { grid-column: 1 / -1; border-right: none; border-top: 1px solid var(--dim); }
+      .prow { grid-template-columns: 28px 36px 1fr; }
+      .badges { display: none; }
+      .prow[data-ms="true"] .badges { display: flex; }
+      .b-topic { display: none; }
     }
   </style>
 </head>
 <body>
 
+<!-- ══════ STICKY HEADER ══════ -->
 <header class="header">
   <div class="header-inner">
-    <a href="index.html" class="brand-name">M<span class="ms-i">i</span>cro--</a>
-    <a href="index.html"   class="nav-tab">MS Tracker</a>
-    <a href="infosys.html" class="nav-tab active">Infosys SP</a>
+    <div class="brand-name">M<span class="ms-i">i</span>cro--</div>
+    <a href="index.html"   class="nav-tab active">MS Tracker</a>
+    <a href="infosys.html" class="nav-tab">Infosys SP</a>
+
     <div class="stats-strip">
       <div class="sbox">
         <span class="n n-done" id="s-done">0</span>
-        <span class="l">Done</span>
-      </div>
-      <div class="sbox">
-        <span class="n n-conf" id="s-conf">0</span>
-        <span class="l">★ Confirmed</span>
+        <span class="l">Solved</span>
       </div>
       <div class="sbox">
         <span class="n n-easy" id="s-easy">0</span>
         <span class="l">Easy ✓</span>
       </div>
       <div class="sbox">
+        <span class="n n-med" id="s-med">0</span>
+        <span class="l">Med ✓</span>
+      </div>
+      <div class="sbox">
         <span class="n n-hard" id="s-hard">0</span>
         <span class="l">Hard ✓</span>
+      </div>
+      <div class="sbox">
+        <span class="n n-ms" id="s-ms">0</span>
+        <span class="l">MS ★</span>
+      </div>
+      <div class="sbox streak-box">
+        <span class="n n-streak" id="s-streak">0</span>
+        <span class="l">🔥 Streak</span>
       </div>
       <div class="prog-cell">
         <div class="prog-meta">
           <span style="color:var(--mid)">Progress</span>
-          <span id="prog-txt">0 / 58</span>
+          <span id="prog-txt">0 / 276</span>
         </div>
-        <div class="prog-track"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+        <div class="prog-track">
+          <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+        </div>
+      </div>
+      <div class="cnt-cell">
+        <div class="cnt-num" id="countdown">276<br>to go</div>
       </div>
     </div>
   </div>
 </header>
 
-<div class="filters-wrap">
-  <div class="filters">
-    <span class="fl">View</span>
-    <button class="btn on" data-f="all">All</button>
-    <button class="btn" data-f="pending">Pending</button>
-    <button class="btn" data-f="done">Done</button>
-    <button class="btn" data-f="conf">★ Confirmed Only</button>
-    <button class="btn rst" id="clear-btn">✕</button>
+<!-- ══════ HERO ══════ -->
+<section class="hero">
+  <div class="cbg" aria-hidden="true">
+    <div class="cs" id="cs1"></div>
+    <div class="cs" id="cs2"></div>
+    <div class="cs" id="cs3"></div>
+    <div class="cs" id="cs4"></div>
+    <div class="cs" id="cs5"></div>
+    <div class="co"></div>
   </div>
+  <div class="hero-content">
+    <div class="hero-logo">M<span class="ms-i">i</span>cro--</div>
+    <div class="hero-sub">Microsoft Hyderabad &nbsp;·&nbsp; SDE I/II &nbsp;·&nbsp; H2 2026</div>
+    <div class="hero-meta">276 problems &nbsp;·&nbsp; 20 weeks &nbsp;·&nbsp; Target 350+</div>
+    <div class="hero-scroll">scroll to begin</div>
+  </div>
+</section>
+
+<!-- ══════ FILTERS ══════ -->
+<div class="filters-wrap">
+<div class="filters">
+  <span class="fl">View</span>
+  <button class="btn on" data-f="all">All</button>
+  <button class="btn" data-f="pending">Pending</button>
+  <button class="btn" data-f="done">Done</button>
+  <button class="btn" data-f="ms">★ MS Only</button>
+  <span class="fl" style="margin-left:10px">Diff</span>
+  <button class="btn" data-d="Easy">Easy</button>
+  <button class="btn" data-d="Medium">Medium</button>
+  <button class="btn" data-d="Hard">Hard</button>
+  <button class="btn rst" id="clear-btn">✕</button>
+</div>
 </div>
 
+<!-- ══════ MAIN ══════ -->
 <main class="main" id="app"></main>
 
 <footer>
-  <span>Sourced from candidate reports 2020–2025 · ★ = asked in actual exam/interview</span>
-  <a href="index.html">← MS Tracker</a>
+  <div class="footer-sync">
+    <span class="sync-status-dot" id="sync-status" style="color:var(--dim)">○ Not synced</span>
+    <button class="footer-btn primary" onclick="showSyncModal()">☁ Cloud Sync</button>
+    <button class="footer-btn" onclick="exportData()">↓ Export</button>
+    <label class="footer-btn" style="cursor:pointer">
+      ↑ Import <input type="file" accept=".json" style="display:none" onchange="importData(this)"/>
+    </label>
+  </div>
+  <a href="https://github.com/Hackerette0/Micro--" target="_blank">GitHub ↗</a>
 </footer>
+
+<!-- ══════ CLOUD SYNC MODAL ══════ -->
+<div class="sync-overlay hidden" id="sync-overlay">
+  <div class="sync-modal">
+    <h2>☁ Cloud Sync</h2>
+    <p>Connect a free Firebase Realtime Database — once set up, your progress syncs instantly across every device you open this link on.</p>
+
+    <div class="sync-steps">
+      <div class="sync-step">1. Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> and sign in with Google.</div>
+      <div class="sync-step">2. Click <strong>Add project</strong> → name it "micro-tracker" → disable Analytics → Create.</div>
+      <div class="sync-step">3. In the left sidebar: <strong>Build → Realtime Database → Create database</strong> → choose any location → Start in <strong>test mode</strong> → Enable.</div>
+      <div class="sync-step">4. Go to <strong>Project Settings</strong> (gear icon) → Your apps → click <strong>&lt;/&gt; Web</strong> → Register app → copy the <code>firebaseConfig</code> values below.</div>
+    </div>
+
+    <label class="sync-field-label">API Key</label>
+    <input class="sync-input" id="fb-api-key" placeholder="AIzaSy…"/>
+
+    <label class="sync-field-label">Database URL</label>
+    <input class="sync-input" id="fb-db-url" placeholder="https://your-project-default-rtdb.firebaseio.com"/>
+
+    <label class="sync-field-label">Project ID</label>
+    <input class="sync-input" id="fb-project-id" placeholder="your-project-id"/>
+
+    <div id="sync-msg" class="sync-msg" style="display:none"></div>
+
+    <hr class="sync-divider"/>
+
+    <div class="sync-actions">
+      <button class="sync-cancel-btn" onclick="closeSyncModal()">Cancel</button>
+      <button class="sync-disconnect-btn" id="sync-disconnect-btn" onclick="disconnectSync()" style="display:none">Disconnect</button>
+      <button class="sync-connect-btn" onclick="saveSyncConfig()">Connect & Sync</button>
+    </div>
+  </div>
+</div>
 
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script>
 const EMOJIS = ['🍀','🐽','🥓','🫐','🫒'];
+const ALREADY_SOLVED = 78;
 
-const YEARS = [
-  { id:2020, label:'HackWithInfy / Power Programmer Era',     sub:'Topics only — no specific problems disclosed publicly' },
-  { id:2021, label:'HackWithInfy Round 2 · Power Programmer', sub:'First specific problem type documented — greedy scheduling' },
-  { id:2022, label:'HackWithInfy · Best Documented Year',     sub:'3 precise problems from Codeforces blog + confirmed interview questions' },
-  { id:2023, label:'SP Off-Campus · InfyTQ Drive',            sub:'OA + Advantage Round + in-person interview documented' },
-  { id:2024, label:'SP Off-Campus · Dec OA + Feb 2025 Interview', sub:'Rotting Oranges & LCS confirmed OA · 3 confirmed interview problems' },
-  { id:2025, label:'HackWithInfy July + Sep 2025 Interviews', sub:'New surprise coding round + most complete interview picture yet' },
+const PHASES = [
+  {id:1, title:'Clear the Backlog',           sub:'Finish all open sections. Quick wins. Build the streak.',        weeks:'Wks 1–2'},
+  {id:2, title:'Stack & Linked List',         sub:'Pointers and memory. Microsoft loves these in Round 1.',        weeks:'Wks 3–4'},
+  {id:3, title:'Binary Trees & BST',          sub:'Recursion mastery. DFS, BFS, construction.',                    weeks:'Wks 5–7'},
+  {id:4, title:'Graph — Microsoft\'s #1',     sub:'BFS · DFS · Topo Sort. Appears in 60%+ of rounds.',            weeks:'Wks 8–10'},
+  {id:5, title:'Dynamic Programming',         sub:'1D → 2D → Hard DP. Microsoft\'s #2 topic.',                   weeks:'Wks 11–13'},
+  {id:6, title:'Backtracking & Binary Search',sub:'Exhaustive search, Trie, Heap, Bit Manipulation.',             weeks:'Wks 14–16'},
+  {id:7, title:'Microsoft Patterns',          sub:'Company-specific problems. Design, Intervals, Greedy.',        weeks:'Wks 17–18'},
+  {id:8, title:'350+ Final Push',             sub:'Mixed practice. Get the reps in. Close the gap.',              weeks:'Wks 19–20'},
 ];
 
-// [id, year, name, diff E/M/H, topic, url, confirmed true/false]
 const RAW = [
-  // ── 2020 ── Topic-based recs: DP Knapsack, BFS/DFS Grid, Greedy, String Prefix
-  [1001,2020,'Flood Fill','E','DFS · Grid','https://leetcode.com/problems/flood-fill/',false],
-  [1002,2020,'Number of Islands','M','BFS/DFS · Grid','https://leetcode.com/problems/number-of-islands/',false],
-  [1003,2020,'01 Matrix','M','BFS · Grid','https://leetcode.com/problems/01-matrix/',false],
-  [1004,2020,'Coin Change','M','DP · Knapsack','https://leetcode.com/problems/coin-change/',false],
-  [1005,2020,'Partition Equal Subset Sum','M','DP · Knapsack','https://leetcode.com/problems/partition-equal-subset-sum/',false],
-  [1006,2020,'Target Sum','M','DP · Knapsack','https://leetcode.com/problems/target-sum/',false],
-  [1007,2020,'Jump Game','M','Greedy · Array','https://leetcode.com/problems/jump-game/',false],
-  [1008,2020,'Best Time to Buy and Sell Stock','E','Greedy · Array','https://leetcode.com/problems/best-time-to-buy-and-sell-stock/',false],
-  [1009,2020,'Longest Common Prefix','E','String · Prefix','https://leetcode.com/problems/longest-common-prefix/',false],
-
-  // ── 2021 ── DP, Graph, Greedy Scheduling
-  [1010,2021,'Task Scheduler','M','Greedy · Scheduling','https://leetcode.com/problems/task-scheduler/',true],
-  [1011,2021,'Meeting Rooms II','M','Greedy · Intervals','https://leetcode.com/problems/meeting-rooms-ii/',false],
-  [1012,2021,'Non-overlapping Intervals','M','Greedy · Intervals','https://leetcode.com/problems/non-overlapping-intervals/',false],
-  [1013,2021,'Course Schedule','M','Graph · Cycle Detection','https://leetcode.com/problems/course-schedule/',false],
-  [1014,2021,'Clone Graph','M','Graph · DFS','https://leetcode.com/problems/clone-graph/',false],
-  [1015,2021,'Pacific Atlantic Water Flow','M','Graph · BFS/DFS','https://leetcode.com/problems/pacific-atlantic-water-flow/',false],
-  [1016,2021,'House Robber','M','1D DP','https://leetcode.com/problems/house-robber/',false],
-  [1017,2021,'Longest Increasing Subsequence','M','DP','https://leetcode.com/problems/longest-increasing-subsequence/',false],
-
-  // ── 2022 ── Sieve, DP on Strings, Tarjan's SCC, MST, Cycle Detection
-  [1018,2022,'Count Primes','M','Sieve · Math','https://leetcode.com/problems/count-primes/',true],
-  [1019,2022,'Is Subsequence','E','Strings · Subsequence','https://leetcode.com/problems/is-subsequence/',false],
-  [1020,2022,'Delete Operation for Two Strings','M','DP · Strings','https://leetcode.com/problems/delete-operation-for-two-strings/',true],
-  [1021,2022,'Distinct Subsequences','H','DP · Strings','https://leetcode.com/problems/distinct-subsequences/',true],
-  [1022,2022,'Edit Distance','M','DP · Strings','https://leetcode.com/problems/edit-distance/',false],
-  [1023,2022,'Critical Connections in a Network','H','Tarjan\'s SCC','https://leetcode.com/problems/critical-connections-in-a-network/',true],
-  [1024,2022,'Min Cost to Connect All Points','M','MST · Kruskal\'s','https://leetcode.com/problems/min-cost-to-connect-all-points/',true],
-  [1025,2022,'Linked List Cycle','E','Linked List · Floyd\'s','https://leetcode.com/problems/linked-list-cycle/',true],
-  [1026,2022,'Linked List Cycle II','M','Linked List · Floyd\'s','https://leetcode.com/problems/linked-list-cycle-ii/',false],
-  [1027,2022,'Course Schedule','M','Cycle Detection · Directed Graph','https://leetcode.com/problems/course-schedule/',true],
-
-  // ── 2023 ── Prefix Sum, Intervals, Graphs, Cycle Detection, SQL
-  [1028,2023,'Merge Intervals','M','Intervals · Greedy','https://leetcode.com/problems/merge-intervals/',false],
-  [1029,2023,'Group Anagrams','M','String · HashMap','https://leetcode.com/problems/group-anagrams/',false],
-  [1030,2023,'Subarray Sum Equals K','M','Prefix Sum · HashMap','https://leetcode.com/problems/subarray-sum-equals-k/',false],
-  [1031,2023,'Continuous Subarray Sum','M','Prefix Sum','https://leetcode.com/problems/continuous-subarray-sum/',false],
-  [1032,2023,'Course Schedule II','M','Topological Sort','https://leetcode.com/problems/course-schedule-ii/',true],
-  [1033,2023,'Number of Provinces','M','Graph · DFS','https://leetcode.com/problems/number-of-provinces/',false],
-  [1034,2023,'Word Search','M','Backtracking · Grid','https://leetcode.com/problems/word-search/',false],
-  [1035,2023,'Employees Earning More Than Their Managers','E','SQL · Joins','https://leetcode.com/problems/employees-earning-more-than-their-managers/',true],
-  [1036,2023,'Department Top Three Salaries','H','SQL · Window Fn','https://leetcode.com/problems/department-top-three-salaries/',false],
-
-  // ── 2024 ── Confirmed OA + Confirmed Interview + Reported others
-  [1037,2024,'Rotting Oranges','M','BFS · Grid','https://leetcode.com/problems/rotting-oranges/',true],
-  [1038,2024,'Longest Common Subsequence','M','DP · Strings','https://leetcode.com/problems/longest-common-subsequence/',true],
-  [1039,2024,'Insert Interval','M','Intervals · Arrays','https://leetcode.com/problems/insert-interval/',true],
-  [1040,2024,'Gas Station','M','Greedy · Circular Array','https://leetcode.com/problems/gas-station/',true],
-  [1041,2024,'Confirmation Rate','M','SQL · Aggregation','https://leetcode.com/problems/confirmation-rate/',true],
-  [1042,2024,'Find Median from Data Stream','H','Heap · Design','https://leetcode.com/problems/find-median-from-data-stream/',false],
-  [1043,2024,'Sliding Window Maximum','H','Sliding Window · Deque','https://leetcode.com/problems/sliding-window-maximum/',false],
-  [1044,2024,'Network Delay Time','M','Dijkstra · Graph','https://leetcode.com/problems/network-delay-time/',false],
-  [1045,2024,'Reverse Linked List','E','Linked List','https://leetcode.com/problems/reverse-linked-list/',false],
-  [1046,2024,'Swap Nodes in Pairs','M','Linked List','https://leetcode.com/problems/swap-nodes-in-pairs/',false],
-
-  // ── 2025 ── Confirmed interview + Surprise round + BFS variants + Trees + Seg Tree
-  [1047,2025,'Minimum Window Substring','H','Sliding Window · Hard','https://leetcode.com/problems/minimum-window-substring/',true],
-  [1048,2025,'Longest Substring Without Repeating Characters','M','Sliding Window','https://leetcode.com/problems/longest-substring-without-repeating-characters/',true],
-  [1049,2025,'Frequency of the Most Frequent Element','M','Sliding Window','https://leetcode.com/problems/frequency-of-the-most-frequent-element/',false],
-  [1050,2025,'Alien Dictionary','H','Topological Sort','https://leetcode.com/problems/alien-dictionary/',true],
-  [1051,2025,'Word Ladder','H','BFS Variant · Graph','https://leetcode.com/problems/word-ladder/',false],
-  [1052,2025,'Jump Game IV','H','BFS Variant','https://leetcode.com/problems/jump-game-iv/',false],
-  [1053,2025,'Binary Tree Maximum Path Sum','H','Trees · DFS','https://leetcode.com/problems/binary-tree-maximum-path-sum/',false],
-  [1054,2025,'Distribute Coins in Binary Tree','M','Trees · DFS','https://leetcode.com/problems/distribute-coins-in-binary-tree/',false],
-  [1055,2025,'Serialize and Deserialize Binary Tree','H','Trees · Design','https://leetcode.com/problems/serialize-and-deserialize-binary-tree/',false],
-  [1056,2025,'Range Sum Query - Mutable','M','Segment Tree','https://leetcode.com/problems/range-sum-query-mutable/',false],
-  [1057,2025,'My Calendar I','M','Design · Intervals','https://leetcode.com/problems/my-calendar-i/',false],
-  [1058,2025,'Reverse Nodes in k-Group','H','Linked List','https://leetcode.com/problems/reverse-nodes-in-k-group/',false],
+[1,1,1,'Rotate Array','M','Array',0,'rotate-array'],
+[2,1,1,'H-Index','M','Array',0,'h-index'],
+[3,1,1,'Insert Delete GetRandom O(1)','M','Array',0,'insert-delete-getrandom-o1'],
+[4,1,1,'Container With Most Water','M','Two Pointers',1,'container-with-most-water'],
+[5,1,1,'Minimum Size Subarray Sum','M','Sliding Window',1,'minimum-size-subarray-sum'],
+[6,1,1,'Rotate Image','M','Matrix',1,'rotate-image'],
+[7,1,1,'Set Matrix Zeroes','M','Matrix',1,'set-matrix-zeroes'],
+[8,1,1,'Game of Life','M','Matrix',0,'game-of-life'],
+[9,1,1,'Longest Consecutive Sequence','M','Hashmap',1,'longest-consecutive-sequence'],
+[10,1,2,'Summary Ranges','E','Intervals',0,'summary-ranges'],
+[11,1,2,'Merge Intervals','M','Intervals',1,'merge-intervals'],
+[12,1,2,'Insert Interval','M','Intervals',1,'insert-interval'],
+[13,1,2,'Minimum Arrows to Burst Balloons','M','Intervals',0,'minimum-number-of-arrows-to-burst-balloons'],
+[14,1,2,'Roman to Integer','E','String',0,'roman-to-integer'],
+[15,1,2,'Integer to Roman','M','String',0,'integer-to-roman'],
+[16,1,2,'Zigzag Conversion','M','String',0,'zigzag-conversion'],
+[17,1,2,'Find Index of First Occurrence in String','E','String',0,'find-the-index-of-the-first-occurrence-in-a-string'],
+[18,1,2,'Candy','H','Array',0,'candy'],
+[19,1,2,'Text Justification','H','String',0,'text-justification'],
+[20,1,2,'Substring with Concatenation of All Words','H','Sliding Window',0,'substring-with-concatenation-of-all-words'],
+[101,1,1,'Move Zeroes','E','Array',0,'move-zeroes'],
+[102,1,1,'Find All Numbers Disappeared in Array','E','Array',0,'find-all-numbers-disappeared-in-an-array'],
+[103,1,1,'Missing Number','E','Array',1,'missing-number'],
+[104,1,1,'Sort Colors','M','Array',1,'sort-colors'],
+[105,1,1,'Next Permutation','M','Array',1,'next-permutation'],
+[106,1,1,'Permutation in String','M','Sliding Window',1,'permutation-in-string'],
+[107,1,2,'Find All Anagrams in a String','M','Sliding Window',1,'find-all-anagrams-in-a-string'],
+[108,1,2,'Longest Repeating Character Replacement','M','Sliding Window',1,'longest-repeating-character-replacement'],
+[109,1,2,'Sliding Window Maximum','H','Sliding Window',1,'sliding-window-maximum'],
+[110,1,2,'First Missing Positive','H','Array',1,'first-missing-positive'],
+[111,1,2,'Decode Ways','M','String',1,'decode-ways'],
+[112,1,2,'Maximum Product Subarray','M','Array',1,'maximum-product-subarray'],
+[113,1,2,'Subarray Sum Equals K','M','Array',1,'subarray-sum-equals-k'],
+[114,1,2,'Continuous Subarray Sum','M','Array',1,'continuous-subarray-sum'],
+[115,1,2,'Jump Game III','M','Array',0,'jump-game-iii'],
+[21,2,3,'Min Stack','M','Stack',1,'min-stack'],
+[22,2,3,'Evaluate Reverse Polish Notation','M','Stack',1,'evaluate-reverse-polish-notation'],
+[23,2,3,'Simplify Path','M','Stack',0,'simplify-path'],
+[24,2,3,'Basic Calculator','H','Stack',0,'basic-calculator'],
+[25,2,3,'Linked List Cycle','E','Linked List',1,'linked-list-cycle'],
+[26,2,3,'Merge Two Sorted Lists','E','Linked List',1,'merge-two-sorted-lists'],
+[27,2,3,'Copy List with Random Pointer','M','Linked List',1,'copy-list-with-random-pointer'],
+[28,2,3,'Remove Nth Node From End of List','M','Linked List',1,'remove-nth-node-from-end-of-list'],
+[29,2,4,'Reverse Linked List II','M','Linked List',1,'reverse-linked-list-ii'],
+[30,2,4,'Remove Duplicates from Sorted List II','M','Linked List',0,'remove-duplicates-from-sorted-list-ii'],
+[31,2,4,'Rotate List','M','Linked List',0,'rotate-list'],
+[32,2,4,'Partition List','M','Linked List',0,'partition-list'],
+[33,2,4,'Reverse Nodes in k-Group','H','Linked List',1,'reverse-nodes-in-k-group'],
+[116,2,3,'Daily Temperatures','M','Stack',1,'daily-temperatures'],
+[117,2,3,'Next Greater Element I','E','Stack',0,'next-greater-element-i'],
+[118,2,3,'Next Greater Element II','M','Stack',0,'next-greater-element-ii'],
+[119,2,3,'Largest Rectangle in Histogram','H','Stack',1,'largest-rectangle-in-histogram'],
+[120,2,3,'Decode String','M','Stack',1,'decode-string'],
+[121,2,4,'Reorder List','M','Linked List',1,'reorder-list'],
+[122,2,4,'Swap Nodes in Pairs','M','Linked List',1,'swap-nodes-in-pairs'],
+[123,2,4,'Odd Even Linked List','M','Linked List',1,'odd-even-linked-list'],
+[124,2,4,'Intersection of Two Linked Lists','E','Linked List',1,'intersection-of-two-linked-lists'],
+[125,2,4,'Remove K Digits','M','Stack',0,'remove-k-digits'],
+[126,2,4,'Asteroid Collision','M','Stack',1,'asteroid-collision'],
+[127,2,4,'Car Fleet','M','Stack',1,'car-fleet'],
+[34,3,5,'Invert Binary Tree','E','Binary Tree',1,'invert-binary-tree'],
+[35,3,5,'Symmetric Tree','E','Binary Tree',1,'symmetric-tree'],
+[36,3,5,'Path Sum','E','Binary Tree',0,'path-sum'],
+[37,3,5,'Count Complete Tree Nodes','E','Binary Tree',0,'count-complete-tree-nodes'],
+[38,3,5,'Sum Root to Leaf Numbers','M','Binary Tree',0,'sum-root-to-leaf-numbers'],
+[39,3,5,'Flatten Binary Tree to Linked List','M','Binary Tree',1,'flatten-binary-tree-to-linked-list'],
+[40,3,6,'Populating Next Right Pointers II','M','Binary Tree',0,'populating-next-right-pointers-in-each-node-ii'],
+[41,3,6,'Construct BT from Preorder and Inorder','M','Binary Tree',1,'construct-binary-tree-from-preorder-and-inorder-traversal'],
+[42,3,6,'Construct BT from Inorder and Postorder','M','Binary Tree',0,'construct-binary-tree-from-inorder-and-postorder-traversal'],
+[43,3,6,'Binary Search Tree Iterator','M','Binary Tree',1,'binary-search-tree-iterator'],
+[44,3,6,'Lowest Common Ancestor of Binary Tree','M','Binary Tree',1,'lowest-common-ancestor-of-a-binary-tree'],
+[45,3,6,'Binary Tree Right Side View','M','Tree BFS',1,'binary-tree-right-side-view'],
+[46,3,6,'Binary Tree Zigzag Level Order Traversal','M','Tree BFS',1,'binary-tree-zigzag-level-order-traversal'],
+[47,3,7,'Binary Tree Maximum Path Sum','H','Binary Tree',1,'binary-tree-maximum-path-sum'],
+[48,3,7,'Minimum Absolute Difference in BST','E','BST',0,'minimum-absolute-difference-in-bst'],
+[49,3,7,'Kth Smallest Element in a BST','M','BST',1,'kth-smallest-element-in-a-bst'],
+[50,3,7,'Validate Binary Search Tree','M','BST',1,'validate-binary-search-tree'],
+[128,3,5,'Diameter of Binary Tree','E','Binary Tree',1,'diameter-of-binary-tree'],
+[129,3,5,'Balanced Binary Tree','E','Binary Tree',1,'balanced-binary-tree'],
+[130,3,5,'Binary Tree Paths','E','Binary Tree',0,'binary-tree-paths'],
+[131,3,5,'Sum of Left Leaves','E','Binary Tree',0,'sum-of-left-leaves'],
+[132,3,6,'Path Sum II','M','Binary Tree',1,'path-sum-ii'],
+[133,3,6,'Path Sum III','M','Binary Tree',1,'path-sum-iii'],
+[134,3,6,'All Nodes Distance K in Binary Tree','M','Binary Tree',1,'all-nodes-distance-k-in-binary-tree'],
+[135,3,7,'Serialize and Deserialize Binary Tree','H','Binary Tree',1,'serialize-and-deserialize-binary-tree'],
+[136,3,7,'Delete Node in a BST','M','BST',0,'delete-node-in-a-bst'],
+[137,3,7,'Convert BST to Greater Tree','M','BST',0,'convert-bst-to-greater-tree'],
+[138,3,7,'Trim a BST','M','BST',0,'trim-a-binary-search-tree'],
+[139,3,7,'House Robber III','M','Binary Tree',1,'house-robber-iii'],
+[140,3,7,'Maximum Width of Binary Tree','M','Binary Tree',1,'maximum-width-of-binary-tree'],
+[51,4,8,'Number of Islands','M','Graph',1,'number-of-islands'],
+[52,4,8,'Clone Graph','M','Graph',1,'clone-graph'],
+[53,4,8,'Course Schedule','M','Graph',1,'course-schedule'],
+[54,4,8,'Course Schedule II','M','Graph',1,'course-schedule-ii'],
+[55,4,9,'Surrounded Regions','M','Graph',0,'surrounded-regions'],
+[56,4,9,'Evaluate Division','M','Graph',0,'evaluate-division'],
+[57,4,9,'Snakes and Ladders','M','Graph BFS',0,'snakes-and-ladders'],
+[58,4,9,'Minimum Genetic Mutation','M','Graph BFS',0,'minimum-genetic-mutation'],
+[59,4,10,'Word Ladder','H','Graph BFS',1,'word-ladder'],
+[141,4,8,'Pacific Atlantic Water Flow','M','Graph',1,'pacific-atlantic-water-flow'],
+[142,4,8,'Number of Connected Components','M','Graph',1,'number-of-connected-components-in-an-undirected-graph'],
+[143,4,8,'Graph Valid Tree','M','Graph',1,'graph-valid-tree'],
+[144,4,9,'Redundant Connection','M','Graph',0,'redundant-connection'],
+[145,4,9,'Network Delay Time','M','Graph',1,'network-delay-time'],
+[146,4,9,'Is Graph Bipartite?','M','Graph',0,'is-graph-bipartite'],
+[147,4,9,'Alien Dictionary','H','Graph',1,'alien-dictionary'],
+[148,4,9,'Accounts Merge','M','Graph',1,'accounts-merge'],
+[149,4,9,'01 Matrix','M','Graph BFS',1,'01-matrix'],
+[150,4,9,'Rotting Oranges','M','Graph BFS',1,'rotting-oranges'],
+[151,4,10,'Perfect Squares','M','BFS/DP',1,'perfect-squares'],
+[152,4,10,'Open the Lock','M','Graph BFS',0,'open-the-lock'],
+[153,4,10,'Find if Path Exists in Graph','E','Graph',0,'find-if-path-exists-in-graph'],
+[154,4,10,'Time Needed to Inform All Employees','M','Graph',1,'time-needed-to-inform-all-employees'],
+[155,4,10,'Shortest Path in Binary Matrix','M','Graph BFS',1,'shortest-path-in-binary-matrix'],
+[156,4,10,'Number of Provinces','M','Graph',1,'number-of-provinces'],
+[157,4,10,'Minimum Height Trees','M','Graph',1,'minimum-height-trees'],
+[158,4,10,'Count Sub Islands','M','Graph',0,'count-sub-islands'],
+[159,4,10,'Swim in Rising Water','H','Graph',0,'swim-in-rising-water'],
+[60,5,11,'Climbing Stairs','E','1D DP',1,'climbing-stairs'],
+[61,5,11,'House Robber','M','1D DP',1,'house-robber'],
+[62,5,11,'Coin Change','M','1D DP',1,'coin-change'],
+[63,5,11,'Word Break','M','1D DP',1,'word-break'],
+[64,5,11,'Longest Increasing Subsequence','M','1D DP',1,'longest-increasing-subsequence'],
+[65,5,12,'Maximum Sum Circular Subarray','M',"Kadane's",0,'maximum-sum-circular-subarray'],
+[66,5,12,'Triangle','M','2D DP',0,'triangle'],
+[67,5,12,'Minimum Path Sum','M','2D DP',0,'minimum-path-sum'],
+[68,5,12,'Unique Paths II','M','2D DP',0,'unique-paths-ii'],
+[69,5,12,'Longest Palindromic Substring','M','2D DP',1,'longest-palindromic-substring'],
+[70,5,13,'Interleaving String','M','2D DP',0,'interleaving-string'],
+[71,5,13,'Edit Distance','M','2D DP',1,'edit-distance'],
+[72,5,13,'Maximal Square','M','2D DP',0,'maximal-square'],
+[73,5,13,'Best Time to Buy and Sell Stock III','H','2D DP',0,'best-time-to-buy-and-sell-stock-iii'],
+[74,5,13,'Best Time to Buy and Sell Stock IV','H','2D DP',0,'best-time-to-buy-and-sell-stock-iv'],
+[160,5,11,'Partition Equal Subset Sum','M','DP',1,'partition-equal-subset-sum'],
+[161,5,11,'Target Sum','M','DP',1,'target-sum'],
+[162,5,11,'Unique Binary Search Trees','M','DP',1,'unique-binary-search-trees'],
+[163,5,12,'Wildcard Matching','H','DP',1,'wildcard-matching'],
+[164,5,12,'Regular Expression Matching','H','DP',1,'regular-expression-matching'],
+[165,5,12,'Palindrome Partitioning','M','DP',1,'palindrome-partitioning'],
+[166,5,12,'Burst Balloons','H','DP',0,'burst-balloons'],
+[167,5,12,'Longest Common Subsequence','M','DP',1,'longest-common-subsequence'],
+[168,5,12,'Minimum Cost for Tickets','M','DP',0,'minimum-cost-for-tickets'],
+[169,5,13,'2 Keys Keyboard','M','DP',0,'2-keys-keyboard'],
+[170,5,13,'Maximum Length of Repeated Subarray','M','DP',0,'maximum-length-of-repeated-subarray'],
+[171,5,13,'Distinct Subsequences','H','DP',0,'distinct-subsequences'],
+[172,5,13,'Number of Longest Increasing Subsequences','M','DP',0,'number-of-longest-increasing-subsequence'],
+[173,5,13,'Minimum Falling Path Sum','M','DP',0,'minimum-falling-path-sum'],
+[174,5,13,'Out of Boundary Paths','M','DP',0,'out-of-boundary-paths'],
+[175,5,13,'Knight Probability in Chessboard','M','DP',0,'knight-probability-in-chessboard'],
+[176,5,13,'Last Stone Weight II','M','DP',1,'last-stone-weight-ii'],
+[177,5,13,'Ones and Zeroes','M','DP',0,'ones-and-zeroes'],
+[178,5,13,'Delete and Earn','M','DP',1,'delete-and-earn'],
+[179,5,13,'Decode Ways II','H','DP',0,'decode-ways-ii'],
+[180,5,13,'Stone Game','M','DP',0,'stone-game'],
+[181,5,13,'Count Vowels Permutation','M','DP',0,'count-vowels-permutation'],
+[182,5,13,'Painting the Walls','M','DP',0,'painting-the-walls'],
+[75,6,14,'Generate Parentheses','M','Backtracking',1,'generate-parentheses'],
+[76,6,14,'Letter Combinations of a Phone Number','M','Backtracking',1,'letter-combinations-of-a-phone-number'],
+[77,6,14,'Combination Sum','M','Backtracking',1,'combination-sum'],
+[78,6,14,'Combinations','M','Backtracking',0,'combinations'],
+[79,6,14,'Word Search','M','Backtracking',1,'word-search'],
+[80,6,14,'N-Queens II','H','Backtracking',0,'n-queens-ii'],
+[81,6,15,'Search Insert Position','E','Binary Search',0,'search-insert-position'],
+[82,6,15,'Search a 2D Matrix','M','Binary Search',1,'search-a-2d-matrix'],
+[83,6,15,'Find Minimum in Rotated Sorted Array','M','Binary Search',1,'find-minimum-in-rotated-sorted-array'],
+[84,6,15,'Median of Two Sorted Arrays','H','Binary Search',0,'median-of-two-sorted-arrays'],
+[85,6,15,'Implement Trie (Prefix Tree)','M','Trie',1,'implement-trie-prefix-tree'],
+[86,6,15,'Design Add and Search Words','M','Trie',0,'design-add-and-search-words-data-structure'],
+[87,6,15,'Add Binary','E','Bit Manipulation',0,'add-binary'],
+[88,6,15,'Number of 1 Bits','E','Bit Manipulation',0,'number-of-1-bits'],
+[89,6,15,'Reverse Bits','E','Bit Manipulation',0,'reverse-bits'],
+[90,6,15,'Find K Pairs with Smallest Sums','M','Heap',0,'find-k-pairs-with-smallest-sums'],
+[91,6,16,'Word Search II','H','Trie',0,'word-search-ii'],
+[92,6,16,'Find Median from Data Stream','H','Heap',1,'find-median-from-data-stream'],
+[93,6,16,'IPO','H','Heap',0,'ipo'],
+[94,6,16,'Single Number II','M','Bit Manipulation',0,'single-number-ii'],
+[95,6,16,'Bitwise AND of Numbers Range','M','Bit Manipulation',0,'bitwise-and-of-numbers-range'],
+[96,6,16,'Factorial Trailing Zeroes','M','Math',0,'factorial-trailing-zeroes'],
+[97,6,16,'Pow(x, n)','M','Math',1,'powx-n'],
+[98,6,16,'Max Points on a Line','H','Math',0,'max-points-on-a-line'],
+[99,6,16,'Sort List','M','Divide & Conquer',0,'sort-list'],
+[100,6,16,'Construct Quad Tree','M','Divide & Conquer',0,'construct-quad-tree'],
+[183,6,14,'Subsets','M','Backtracking',1,'subsets'],
+[184,6,14,'Subsets II','M','Backtracking',1,'subsets-ii'],
+[185,6,14,'Letter Case Permutation','M','Backtracking',0,'letter-case-permutation'],
+[186,6,14,'Beautiful Arrangement','M','Backtracking',0,'beautiful-arrangement'],
+[187,6,15,'Find K Closest Elements','M','Binary Search',1,'find-k-closest-elements'],
+[188,6,15,'Capacity to Ship Packages Within D Days','M','Binary Search',1,'capacity-to-ship-packages-within-d-days'],
+[189,6,15,'Koko Eating Bananas','M','Binary Search',1,'koko-eating-bananas'],
+[190,6,16,'Split Array Largest Sum','H','Binary Search',1,'split-array-largest-sum'],
+[191,6,16,'Minimum Days to Make m Bouquets','M','Binary Search',0,'minimum-number-of-days-to-make-m-bouquets'],
+[192,6,16,'Find Smallest Divisor Given a Threshold','M','Binary Search',0,'find-the-smallest-divisor-given-a-threshold'],
+[193,6,16,'Maximum XOR of Two Numbers in Array','M','Trie/Bit',1,'maximum-xor-of-two-numbers-in-an-array'],
+[194,6,16,'Sum of Two Integers','M','Bit Manipulation',1,'sum-of-two-integers'],
+[195,6,16,'Non-overlapping Intervals','M','Intervals',1,'non-overlapping-intervals'],
+[196,6,16,'Minimum Interval to Include Each Query','H','Intervals',0,'minimum-interval-to-include-each-query'],
+[197,7,17,'Top K Frequent Elements','M','Heap/Hash',1,'top-k-frequent-elements'],
+[198,7,17,'Top K Frequent Words','M','Heap/Hash',1,'top-k-frequent-words'],
+[199,7,17,'K Closest Points to Origin','M','Heap',1,'k-closest-points-to-origin'],
+[200,7,17,'Task Scheduler','M','Greedy',1,'task-scheduler'],
+[201,7,17,'Meeting Rooms II','M','Intervals',1,'meeting-rooms-ii'],
+[202,7,17,'Reorganize String','M','Greedy',1,'reorganize-string'],
+[203,7,17,'Design Twitter','M','Design',1,'design-twitter'],
+[204,7,17,'LFU Cache','H','Design',1,'lfu-cache'],
+[205,7,17,'Snapshot Array','M','Design',0,'snapshot-array'],
+[206,7,17,'Design HashMap','E','Design',0,'design-hashmap'],
+[207,7,17,'Excel Sheet Column Number','E','Math',0,'excel-sheet-column-number'],
+[208,7,17,'Excel Sheet Column Title','E','Math',0,'excel-sheet-column-title'],
+[209,7,17,'Reverse Integer','M','Math',1,'reverse-integer'],
+[210,7,17,'Integer to English Words','H','Math',1,'integer-to-english-words'],
+[211,7,17,'Find K-th Smallest in Sorted Matrix','M','Binary Search',1,'kth-smallest-element-in-a-sorted-matrix'],
+[212,7,17,'Closest Binary Search Tree Value','E','BST',1,'closest-binary-search-tree-value'],
+[213,7,17,'Shortest Unsorted Continuous Subarray','M','Array',1,'shortest-unsorted-continuous-subarray'],
+[214,7,17,'4Sum','M','Array',0,'4sum'],
+[215,7,17,'Contiguous Array','M','Hashmap',1,'contiguous-array'],
+[216,7,17,'Maximum Points You Can Obtain from Cards','M','Sliding Window',1,'maximum-points-you-can-obtain-from-cards'],
+[217,7,17,'Minimum Operations to Reduce X to Zero','M','Sliding Window',1,'minimum-operations-to-reduce-x-to-zero'],
+[218,7,17,'Find the Duplicate Number','M','Array',1,'find-the-duplicate-number'],
+[219,7,18,'Frequency of the Most Frequent Element','M','Sliding Window',1,'frequency-of-the-most-frequent-element'],
+[220,7,18,'First Bad Version','E','Binary Search',1,'first-bad-version'],
+[221,7,18,'Guess Number Higher or Lower','E','Binary Search',0,'guess-number-higher-or-lower'],
+[222,7,18,'Largest Number','M','Sort',1,'largest-number'],
+[223,7,18,'Car Pooling','M','Sort/Intervals',0,'car-pooling'],
+[224,7,18,'Vertical Order Traversal of Binary Tree','H','Binary Tree',1,'vertical-order-traversal-of-a-binary-tree'],
+[225,7,18,'Count of Smaller Numbers After Self','H','Sort/BIT',0,'count-of-smaller-numbers-after-self'],
+[226,7,18,'Range Sum Query - Mutable','M','Segment Tree',0,'range-sum-query-mutable'],
+[227,7,18,'Maximum Width Ramp','M','Array',0,'maximum-width-ramp'],
+[228,7,18,'Number of Ways to Arrive at Destination','M','Graph/DP',1,'number-of-ways-to-arrive-at-destination'],
+[229,7,18,'Connecting Cities with Min Cost','M','Graph',1,'connecting-cities-with-minimum-cost'],
+[230,7,18,'Number of Islands II','H','Graph',1,'number-of-islands-ii'],
+[231,7,18,'Minimum Score of Path Between Two Cities','M','Graph',0,'minimum-score-of-a-path-between-two-cities'],
+[232,8,19,'String to Integer (atoi)','M','String',1,'string-to-integer-atoi'],
+[233,8,19,'Multiply Strings','M','Math/String',1,'multiply-strings'],
+[234,8,19,'Add Strings','E','Math/String',1,'add-strings'],
+[235,8,19,'Reverse Words in a String III','E','String',0,'reverse-words-in-a-string-iii'],
+[236,8,19,'Maximum Consecutive Ones III','M','Sliding Window',1,'max-consecutive-ones-iii'],
+[237,8,19,'Maximum Erasure Value','M','Sliding Window',1,'maximum-erasure-value'],
+[238,8,19,'Maximum Number of Vowels in a Substring','M','Sliding Window',0,'maximum-number-of-vowels-in-a-substring-of-given-length'],
+[239,8,19,'Subarray Product Less Than K','M','Sliding Window',1,'subarray-product-less-than-k'],
+[240,8,19,'Longest Turbulent Subarray','M','Sliding Window',0,'longest-turbulent-subarray'],
+[241,8,19,'Ugly Number II','M','DP/Heap',0,'ugly-number-ii'],
+[242,8,19,'Largest Divisible Subset','M','DP',0,'largest-divisible-subset'],
+[243,8,19,'Minimum Difficulty of a Job Schedule','H','DP',1,'minimum-difficulty-of-a-job-schedule'],
+[244,8,19,'Number of Dice Rolls with Target Sum','M','DP',0,'number-of-dice-rolls-with-target-sum'],
+[245,8,19,'Paint House II','H','DP',1,'paint-house-ii'],
+[246,8,19,'Basic Calculator II','M','Stack',1,'basic-calculator-ii'],
+[247,8,19,'Power of Two','E','Bit',0,'power-of-two'],
+[248,8,19,'Count Primes','M','Math',0,'count-primes'],
+[249,8,19,'Group Shifted Strings','M','String/Hash',1,'group-shifted-strings'],
+[250,8,19,'Check if Array Is Sorted and Rotated','E','Array',0,'check-if-array-is-sorted-and-rotated'],
+[251,8,19,'Reverse Linked List','E','Linked List',1,'reverse-linked-list'],
+[252,8,19,'Middle of the Linked List','E','Linked List',1,'middle-of-the-linked-list'],
+[253,8,19,'Palindrome Linked List','E','Linked List',1,'palindrome-linked-list'],
+[254,8,19,'Minimum Absolute Difference','E','Array',0,'minimum-absolute-difference'],
+[255,8,20,'Stone Game IV','H','DP',0,'stone-game-iv'],
+[256,8,20,'Maximum Average Subarray I','E','Sliding Window',0,'maximum-average-subarray-i'],
+[257,8,20,'4Sum II','M','Hashmap',0,'4sum-ii'],
+[258,8,20,'Maximal Rectangle','H','Stack',1,'maximal-rectangle'],
+[259,8,20,'Word Break II','H','DP',1,'word-break-ii'],
+[260,8,20,'Serialize and Deserialize BST','M','BST',1,'serialize-and-deserialize-bst'],
+[261,8,20,'Find Duplicate Subtrees','M','Binary Tree',1,'find-duplicate-subtrees'],
+[262,8,20,'Recover Binary Search Tree','H','BST',0,'recover-binary-search-tree'],
+[263,8,20,'Maximum Frequency Stack','H','Design',1,'maximum-frequency-stack'],
+[264,8,20,'My Calendar I','M','Design',1,'my-calendar-i'],
+[265,8,20,'Random Pick with Weight','M','Design',0,'random-pick-with-weight'],
+[266,8,20,'Minimum Window Subsequence','H','Sliding Window',1,'minimum-window-subsequence'],
+[267,8,20,'Count Number of Nice Subarrays','M','Sliding Window',1,'count-number-of-nice-subarrays'],
+[268,8,20,'Minimum Number of Refueling Stops','H','DP/Heap',0,'minimum-number-of-refueling-stops'],
+[269,8,20,'Jump Game IV','H','BFS',0,'jump-game-iv'],
+[270,8,20,'Find Minimum in Rotated Sorted Array II','H','Binary Search',1,'find-minimum-in-rotated-sorted-array-ii'],
+[271,8,20,'Search in Rotated Sorted Array II','M','Binary Search',1,'search-in-rotated-sorted-array-ii'],
+[272,8,20,'Number of Operations to Make Network Connected','M','Graph',1,'number-of-operations-to-make-network-connected'],
+[273,8,20,'Minimum Cost to Connect All Points','M','Graph',1,'min-cost-to-connect-all-points'],
+[274,8,20,'Cheapest Flights Within K Stops','M','Graph',1,'cheapest-flights-within-k-stops'],
+[275,8,20,'Count Ways to Build Good Strings','M','DP',0,'count-ways-to-build-good-strings'],
+[276,8,20,'Trapping Rain Water II','H','Heap',0,'trapping-rain-water-ii'],
 ];
 
 const PROBLEMS = RAW.map(r=>({
-  id:r[0], year:r[1], name:r[2],
-  diff: r[3]==='E'?'Easy':r[3]==='M'?'Medium':'Hard',
-  topic:r[4], url:r[5], confirmed:r[6]
+  id:r[0],phase:r[1],week:r[2],name:r[3],
+  diff:r[4]==='E'?'Easy':r[4]==='M'?'Medium':'Hard',
+  topic:r[5],ms:!!r[6],
+  url:`https://leetcode.com/problems/${r[7]}/`
 }));
 const TOTAL = PROBLEMS.length;
 
 // ── State ──
-const SK = 'infosys_v1';
-let st = (()=>{ try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};} })();
-let done  = new Set(st.done||[]);
-let eMap  = st.emojis||{};
-let filt  = 'all';
+const SK = 'micro_v2';
+let st = (()=>{try{return JSON.parse(localStorage.getItem(SK))||{};}catch{return{};}})();
+let done      = new Set(st.done||[]);
+let eMap      = st.emojis||{};
+let revisions = st.revisions||{};
+let notes     = st.notes||{};
+let filt = 'all', diffF = null;
 
-// ── Firebase sync (same project as MS tracker, separate path) ──
-const FB_CFG = {
+// ── Streak state ──
+const STREAK_SK = 'micro_streak';
+let streakData = (()=>{
+  try{ return JSON.parse(localStorage.getItem(STREAK_SK))||{count:0,lastDate:null,best:0}; }
+  catch{ return {count:0,lastDate:null,best:0}; }
+})();
+
+function logicalNow(){
+  // "Day" resets at 3:30 AM IST — anything before 3:30 AM counts as the previous day
+  // Subtract 3h 30min so midnight→3:29 AM still reads as yesterday's date
+  return new Date(Date.now() - (3.5 * 60 * 60 * 1000));
+}
+function localDateStr(d){
+  const dt = d || logicalNow();
+  return `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+}
+
+function recordActivity(){
+  const today = localDateStr();
+  if(streakData.lastDate === today) return; // already counted today
+
+  const yesterday = localDateStr(new Date(logicalNow().getTime() - 86400000));
+  if(!streakData.lastDate || streakData.lastDate < yesterday){
+    streakData.count = 1; // first time, or streak broken
+  } else {
+    streakData.count = (streakData.count||0)+1; // consecutive day
+  }
+  streakData.lastDate = today;
+  streakData.best = Math.max(streakData.best||0, streakData.count);
+  localStorage.setItem(STREAK_SK, JSON.stringify(streakData));
+  cloudSave();
+  updateStreakDisplay();
+}
+function updateStreakDisplay(){
+  const el = document.getElementById('s-streak');
+  if(el) el.textContent = streakData.count||0;
+}
+
+// ── Cloud Sync (Firebase Realtime Database) ──
+const FB_CONFIG_KEY = 'micro_fb_config';
+let fbDb = null;
+
+function setSyncStatus(status, msg){
+  const el = document.getElementById('sync-status');
+  if(!el) return;
+  if(status==='ok')    { el.textContent='● Synced';       el.style.color='var(--easy)'; }
+  if(status==='error') { el.textContent='● Sync error';   el.style.color='var(--hard)'; }
+  if(status==='none')  { el.textContent='○ Not synced';   el.style.color='var(--dim)';  }
+  if(status==='busy')  { el.textContent='◌ Syncing…';     el.style.color='var(--med)';  }
+}
+
+async function connectFirebase(cfg){
+  try {
+    setSyncStatus('busy');
+    if(typeof firebase === 'undefined') throw new Error('Firebase SDK not loaded');
+    // clean up any existing app
+    if(firebase.apps && firebase.apps.length){
+      try { await firebase.apps[0].delete(); } catch(e){}
+    }
+    fbDb = null;
+    firebase.initializeApp({
+      apiKey:      cfg.apiKey,
+      authDomain:  cfg.authDomain  || `${cfg.projectId}.firebaseapp.com`,
+      databaseURL: cfg.databaseURL,
+      projectId:   cfg.projectId
+    });
+    fbDb = firebase.database();
+    // actual connectivity test — write a small heartbeat
+    await fbDb.ref('micro/_ping').set(Date.now());
+    setSyncStatus('ok');
+    localStorage.setItem(FB_CONFIG_KEY, JSON.stringify(cfg));
+    return true;
+  } catch(e){
+    console.error('Firebase connect failed:', e.code || e.message, e);
+    try{ if(firebase.apps.length) await firebase.apps[0].delete(); }catch(x){}
+    fbDb = null;
+    setSyncStatus('error');
+    return { ok:false, msg: e.message||'Unknown error' };
+  }
+}
+
+async function cloudSave(){
+  if(!fbDb) return;
+  try {
+    await fbDb.ref('micro').set({
+      data: {done:[...done], emojis:eMap, revisions, notes},
+      streak: streakData,
+      ts: Date.now()
+    });
+    setSyncStatus('ok');
+  } catch(e){ setSyncStatus('error'); }
+}
+
+async function cloudLoad(){
+  if(!fbDb) return false;
+  try {
+    const snap = await fbDb.ref('micro').get();
+    if(!snap.exists()) return false;
+    const val = snap.val();
+    if(val.data){
+      done = new Set(val.data.done||[]);
+      eMap = val.data.emojis||{};
+      revisions = val.data.revisions||{};
+      notes = val.data.notes||{};
+      localStorage.setItem(SK, JSON.stringify({done:[...done],emojis:eMap,revisions,notes}));
+    }
+    if(val.streak){
+      streakData = val.streak;
+      localStorage.setItem(STREAK_SK, JSON.stringify(streakData));
+    }
+    return true;
+  } catch(e){ setSyncStatus('error'); return false; }
+}
+
+// ── Sync modal UI ──
+function showSyncModal(){
+  const cfg = JSON.parse(localStorage.getItem(FB_CONFIG_KEY)||'{}');
+  if(cfg.apiKey){ document.getElementById('fb-api-key').value=cfg.apiKey; }
+  if(cfg.databaseURL){ document.getElementById('fb-db-url').value=cfg.databaseURL; }
+  if(cfg.projectId){ document.getElementById('fb-project-id').value=cfg.projectId; }
+  const disBtn = document.getElementById('sync-disconnect-btn');
+  if(disBtn) disBtn.style.display = fbDb ? 'block' : 'none';
+  document.getElementById('sync-msg').style.display='none';
+  document.getElementById('sync-overlay').classList.remove('hidden');
+}
+function closeSyncModal(){
+  document.getElementById('sync-overlay').classList.add('hidden');
+}
+function showSyncMsg(type, text){
+  const el = document.getElementById('sync-msg');
+  el.className = `sync-msg ${type}`;
+  el.textContent = text;
+  el.style.display = 'block';
+}
+async function saveSyncConfig(){
+  const apiKey     = document.getElementById('fb-api-key').value.trim();
+  const databaseURL= document.getElementById('fb-db-url').value.trim();
+  const projectId  = document.getElementById('fb-project-id').value.trim();
+  if(!apiKey||!databaseURL||!projectId){ showSyncMsg('err','Please fill in all three fields.'); return; }
+  showSyncMsg('ok','Connecting…');
+  const result = await connectFirebase({apiKey, databaseURL, projectId});
+  if(result === true){
+    showSyncMsg('ok','✓ Connected! Loading your cloud data…');
+    const loaded = await cloudLoad();
+    if(loaded){ render(); updateStreakDisplay(); }
+    else { await cloudSave(); } // first time — push local data up
+    document.getElementById('sync-disconnect-btn').style.display='block';
+    setTimeout(closeSyncModal, 1400);
+  } else {
+    const errMsg = (result && result.msg) ? result.msg : 'Unknown error';
+    showSyncMsg('err', `Failed: ${errMsg} — make sure your Realtime Database is created and rules are set to test mode.`);
+  }
+}
+function disconnectSync(){
+  if(!confirm('Disconnect cloud sync? Your local data stays, but changes won\'t sync.')) return;
+  localStorage.removeItem(FB_CONFIG_KEY);
+  if(firebase.apps.length) firebase.app().delete();
+  fbDb = null;
+  setSyncStatus('none');
+  closeSyncModal();
+}
+
+// ── Export / Import JSON ──
+function exportData(){
+  const payload = {v:'micro_v2', ts:Date.now(), data:{done:[...done],emojis:eMap,revisions,notes}, streak:streakData};
+  const blob = new Blob([JSON.stringify(payload,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `micro-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+}
+function importData(input){
+  const file = input.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = async e => {
+    try {
+      const parsed = JSON.parse(e.target.result);
+      if(parsed.data){
+        done = new Set(parsed.data.done||[]);
+        eMap = parsed.data.emojis||{};
+        revisions = parsed.data.revisions||{};
+        notes = parsed.data.notes||{};
+      }
+      if(parsed.streak) streakData = parsed.streak;
+      save(); // saves locally + to cloud if connected
+      render(); updateStreakDisplay();
+      input.value='';
+    } catch(err){ alert('Invalid backup file.'); }
+  };
+  reader.readAsText(file);
+}
+
+// ── Default config — auto-connects on every device, no setup needed ──
+const DEFAULT_FB_CONFIG = {
   apiKey:      'AIzaSyCRhAGdUWFcjUBOb5HjNSob-r3-i0pXzwg',
   authDomain:  'micro-a7a32.firebaseapp.com',
   databaseURL: 'https://micro-a7a32-default-rtdb.asia-southeast1.firebasedatabase.app',
   projectId:   'micro-a7a32'
 };
-let fbDb = null;
 
-async function initFb(){
+// ── Auto-connect on load ──
+(function tryAutoConnect(){
+  const saved = localStorage.getItem(FB_CONFIG_KEY);
+  const cfg = saved ? JSON.parse(saved) : DEFAULT_FB_CONFIG;
   try {
-    if(typeof firebase==='undefined') return;
-    // Use existing app if already initialized (shared with MS tracker on same page load)
-    if(!firebase.apps.length) firebase.initializeApp(FB_CFG);
-    fbDb = firebase.database();
-    const snap = await fbDb.ref('infosys').get();
-    if(snap.exists()){
-      const d = snap.val();
-      done = new Set(d.done||[]);
-      eMap = d.emojis||{};
-      localStorage.setItem(SK, JSON.stringify({done:[...done],emojis:eMap}));
-      render();
-    } else {
-      // First time — push local data up
-      await cloudSave();
-    }
-  } catch(e){ console.error('Infosys Firebase init failed:', e); }
-}
-async function cloudSave(){
-  if(!fbDb) return;
-  try { await fbDb.ref('infosys').set({done:[...done], emojis:eMap, ts:Date.now()}); }
-  catch(e){}
-}
+    connectFirebase(cfg).then(result => {
+      if(result === true){
+        cloudLoad().then(loaded => { if(loaded){ render(); updateStreakDisplay(); }});
+      }
+    });
+  } catch(e){}
+})();
 
 function save(){
-  localStorage.setItem(SK, JSON.stringify({done:[...done], emojis:eMap}));
-  cloudSave();
+  localStorage.setItem(SK,JSON.stringify({done:[...done],emojis:eMap,revisions,notes}));
+  cloudSave(); // non-blocking, no-op if not connected
 }
 
+// ── Notes helpers ──
+function fmtDate(ts){
+  return new Date(ts).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});
+}
+function noteCount(id){ return (notes[id]||[]).length; }
+
+function openNotes(id){
+  const panel=document.getElementById(`np-${id}`);
+  if(panel){ panel.classList.add('open'); }
+  const ta=document.getElementById(`nt-${id}`);
+  if(ta) setTimeout(()=>ta.focus(),80);
+  updateNoteBtn(id);
+}
+function toggleNotes(id){
+  const panel=document.getElementById(`np-${id}`);
+  if(!panel) return;
+  const isOpen=panel.classList.toggle('open');
+  if(isOpen){
+    const ta=document.getElementById(`nt-${id}`);
+    if(ta) setTimeout(()=>ta.focus(),80);
+  }
+  updateNoteBtn(id);
+}
+function closeNotes(id){
+  const panel=document.getElementById(`np-${id}`);
+  if(panel) panel.classList.remove('open');
+}
+function saveNote(id){
+  const ta=document.getElementById(`nt-${id}`);
+  if(!ta||!ta.value.trim()) return;
+  if(!notes[id]) notes[id]=[];
+  notes[id].push({date:Date.now(),text:ta.value.trim(),attempt:notes[id].length+1});
+  recordActivity();
+  save();
+  ta.value='';
+  renderFeed(id);
+  updateNoteBtn(id);
+  updateNewLabel(id);
+}
+function renderFeed(id){
+  const feed=document.getElementById(`nf-${id}`);
+  if(!feed) return;
+  const entries=notes[id]||[];
+  feed.innerHTML=entries.map((n,i)=>`
+    <div class="note-entry" id="ne-${id}-${i}">
+      <div class="note-meta-row">
+        <span class="note-meta">Attempt ${n.attempt} · ${fmtDate(n.date)}${n.edited?`<span class="note-edited-tag">edited</span>`:''}</span>
+        <div class="note-entry-actions">
+          <button class="note-action-btn" onclick="editNote(${id},${i})">✏ edit</button>
+          <button class="note-action-btn note-del-btn" onclick="deleteNote(${id},${i})">✕ delete</button>
+        </div>
+      </div>
+      <div class="note-text">${parseNoteText(n.text)}</div>
+    </div>`).join('');
+}
+function editNote(id, idx){
+  const entry = document.getElementById(`ne-${id}-${idx}`);
+  if(!entry) return;
+  const n = notes[id][idx];
+  entry.innerHTML = `
+    <div class="note-meta-row">
+      <span class="note-meta">Attempt ${n.attempt} · ${fmtDate(n.date)}</span>
+    </div>
+    <div class="note-toolbar" style="margin-bottom:4px">
+      <button class="btn-insert-code" onclick="insertCodeInEdit(${id},${idx})">&lt;/&gt; code</button>
+    </div>
+    <textarea class="note-ta" id="net-${id}-${idx}" rows="4">${n.text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</textarea>
+    <div class="note-actions">
+      <button class="note-cancel" onclick="renderFeed(${id})">Cancel</button>
+      <button class="note-save" onclick="saveEditNote(${id},${idx})">Save</button>
+    </div>`;
+  const ta = document.getElementById(`net-${id}-${idx}`);
+  if(ta) setTimeout(()=>ta.focus(), 60);
+}
+function saveEditNote(id, idx){
+  const ta = document.getElementById(`net-${id}-${idx}`);
+  if(!ta||!ta.value.trim()) return;
+  notes[id][idx].text = ta.value.trim();
+  notes[id][idx].edited = Date.now();
+  save();
+  renderFeed(id);
+}
+function deleteNote(id, idx){
+  notes[id].splice(idx,1);
+  // re-index attempt numbers
+  notes[id].forEach((n,i)=>n.attempt=i+1);
+  save();
+  renderFeed(id);
+  updateNoteBtn(id);
+  updateNewLabel(id);
+}
+function insertCodeInEdit(id, idx){
+  const ta = document.getElementById(`net-${id}-${idx}`);
+  if(!ta) return;
+  const s=ta.selectionStart, e=ta.selectionEnd;
+  const sel=ta.value.slice(s,e);
+  const tpl=sel?`\`\`\`java\n${sel}\n\`\`\``:'```java\n// paste your code here\n```';
+  ta.value=ta.value.slice(0,s)+tpl+ta.value.slice(e);
+  const newPos=sel?s+tpl.length:s+9;
+  ta.setSelectionRange(newPos,newPos);
+  ta.focus();
+}
+
+function updateNoteBtn(id){
+  const btn=document.querySelector(`[data-nb="${id}"]`);
+  if(!btn) return;
+  const c=noteCount(id);
+  btn.classList.toggle('has-notes',c>0);
+  btn.innerHTML=c>0?`✎ <span class="nb-dot">·${c}</span>`:`✎`;
+}
+function updateNewLabel(id){
+  const lbl=document.getElementById(`nl-${id}`);
+  if(lbl) lbl.textContent=`Attempt ${(notes[id]||[]).length+1}`;
+}
 function pickEmoji(id){ if(!eMap[id]) eMap[id]=EMOJIS[Math.floor(Math.random()*EMOJIS.length)]; return eMap[id]; }
+
+// ── Code block parsing ──
+function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function parseNoteText(text){
+  // Split on fenced code blocks  ```lang\n...\n```
+  const parts = text.split(/(```[\s\S]*?```)/g);
+  return parts.map(part=>{
+    if(part.startsWith('```') && part.endsWith('```')){
+      const inner = part.slice(3,-3);
+      const nl = inner.indexOf('\n');
+      const lang = nl>-1 ? inner.slice(0,nl).trim() : '';
+      const code = nl>-1 ? inner.slice(nl+1) : inner;
+      let highlighted;
+      try{
+        if(lang && typeof hljs !== 'undefined' && hljs.getLanguage(lang)){
+          highlighted = hljs.highlight(code,{language:lang}).value;
+        } else if(typeof hljs !== 'undefined'){
+          highlighted = hljs.highlightAuto(code).value;
+        } else {
+          highlighted = escHtml(code);
+        }
+      } catch(e){ highlighted = escHtml(code); }
+      return `<div class="code-block-wrap">
+        <div class="code-traffic">
+          <span class="traffic-dot td-red"></span>
+          <span class="traffic-dot td-yellow"></span>
+          <span class="traffic-dot td-green"></span>
+        </div>
+        <div class="code-body"><pre><code class="hljs">${highlighted}</code></pre></div>
+      </div>`;
+    } else {
+      if(!part) return '';
+      // First escape the whole plain-text segment, then re-render inline `code`
+      const escaped = escHtml(part);
+      const inlined = escaped.replace(/`([^`]+)`/g, (_,c)=>`<code class="note-inline-code">${c}</code>`);
+      return `<span class="note-text-inline">${inlined}</span>`;
+    }
+  }).join('');
+}
+
+// ── Insert code template into textarea ──
+function insertCode(id){
+  const ta = document.getElementById(`nt-${id}`);
+  if(!ta) return;
+  const s = ta.selectionStart;
+  const e = ta.selectionEnd;
+  const sel = ta.value.slice(s,e);
+  const tpl = sel ? `\`\`\`java\n${sel}\n\`\`\`` : '```java\n// paste your code here\n```';
+  ta.value = ta.value.slice(0,s) + tpl + ta.value.slice(e);
+  const newPos = sel ? s+tpl.length : s+9; // position cursor after ```java\n
+  ta.setSelectionRange(newPos,newPos);
+  ta.focus();
+}
 
 // ── Toggle ──
 function toggle(id){
-  if(done.has(id)){ done.delete(id); delete eMap[id]; }
-  else { done.add(id); pickEmoji(id); }
+  if(done.has(id)){
+    done.delete(id);delete eMap[id];delete revisions[id];
+    closeNotes(id);
+  } else {
+    done.add(id);pickEmoji(id);
+    recordActivity();
+    setTimeout(()=>openNotes(id),250); // auto-prompt for first note
+  }
   save();
-  const row = document.querySelector(`[data-id="${id}"]`);
+  const row=document.querySelector(`[data-id="${id}"]`);
   if(row){
-    const isDone = done.has(id);
-    row.classList.toggle('done', isDone);
-    const btn = row.querySelector('.etog');
-    btn.classList.toggle('on', isDone);
-    btn.textContent = isDone ? eMap[id] : '—';
-    applyRowVis(row, id);
+    const isDone=done.has(id);
+    row.classList.toggle('done',isDone);
+    const btn=row.querySelector('.etog');
+    btn.classList.toggle('on',isDone);
+    btn.textContent=isDone?eMap[id]:'—';
+    const revEl=row.querySelector('.rev-cnt');
+    if(revEl){
+      const rc=revisions[id]||0;
+      revEl.textContent='↺'+(rc||'');
+      revEl.classList.toggle('active',rc>0);
+    }
+    applyRowVis(row,id);
   }
   updateStats();
 }
 
+// ── Revise ──
+function revise(id){
+  if(!done.has(id)) return;
+  revisions[id]=(revisions[id]||0)+1;
+  recordActivity();
+  save();
+  const el=document.querySelector(`[data-rev="${id}"]`);
+  if(el){ el.textContent='↺'+revisions[id]; el.classList.add('active'); }
+  updateNewLabel(id);
+  setTimeout(()=>openNotes(id),150); // auto-prompt for revision note
+}
+
 // ── Stats ──
 function updateStats(){
-  const dc = [...done].filter(id=>PROBLEMS.find(p=>p.id===id)).length;
-  const cc = PROBLEMS.filter(p=>p.confirmed&&done.has(p.id)).length;
-  const ec = PROBLEMS.filter(p=>p.diff==='Easy'&&done.has(p.id)).length;
-  const hc = PROBLEMS.filter(p=>p.diff==='Hard'&&done.has(p.id)).length;
-  const pct = Math.round(dc/TOTAL*100);
+  const dc=[...done].filter(id=>PROBLEMS.find(p=>p.id===id)).length;
+  const ec=PROBLEMS.filter(p=>p.diff==='Easy'&&done.has(p.id)).length;
+  const mc=PROBLEMS.filter(p=>p.diff==='Medium'&&done.has(p.id)).length;
+  const hc=PROBLEMS.filter(p=>p.diff==='Hard'&&done.has(p.id)).length;
+  const ms=PROBLEMS.filter(p=>p.ms&&done.has(p.id)).length;
+  const pct=Math.round(dc/TOTAL*100);
+  const totalSolved=ALREADY_SOLVED+dc;
+  const left=Math.max(0,350-totalSolved);
 
-  document.getElementById('s-done').textContent = dc;
-  document.getElementById('s-conf').textContent = cc;
-  document.getElementById('s-easy').textContent = ec;
-  document.getElementById('s-hard').textContent = hc;
-  document.getElementById('prog-txt').textContent = `${dc} / ${TOTAL}`;
-  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('s-done').textContent=dc;
+  document.getElementById('s-easy').textContent=ec;
+  document.getElementById('s-med').textContent=mc;
+  document.getElementById('s-hard').textContent=hc;
+  document.getElementById('s-ms').textContent=ms;
+  document.getElementById('prog-txt').textContent=`${dc} / ${TOTAL}`;
+  document.getElementById('prog-fill').style.width=pct+'%';
+  const cd=document.getElementById('countdown');
+  cd.textContent=left===0?'350+\nDone!':left+'\nto go';
 
-  YEARS.forEach(y=>{
-    const yp = PROBLEMS.filter(p=>p.year===y.id);
-    const yd = yp.filter(p=>done.has(p.id)).length;
-    const f  = document.getElementById(`mf-${y.id}`);
-    const c  = document.getElementById(`pc-${y.id}`);
-    if(f) f.style.width = (yp.length ? Math.round(yd/yp.length*100):0)+'%';
-    if(c) c.textContent = `${yd}/${yp.length}`;
-  });
-}
-
-// ── Filter ──
-function applyRowVis(row, id){
-  const isDone = done.has(id);
-  const isConf = row.dataset.conf==='true';
-  let vis = true;
-  if(filt==='pending' && isDone)  vis=false;
-  if(filt==='done'    && !isDone) vis=false;
-  if(filt==='conf'    && !isConf) vis=false;
-  row.classList.toggle('hide', !vis);
-}
-function applyFilters(){
-  document.querySelectorAll('.prow').forEach(row=>applyRowVis(row, parseInt(row.dataset.id)));
-  document.querySelectorAll('.year-block').forEach(yb=>{
-    yb.style.display = yb.querySelectorAll('.prow:not(.hide)').length ? '' : 'none';
+  PHASES.forEach(ph=>{
+    const pp=PROBLEMS.filter(p=>p.phase===ph.id);
+    const pd=pp.filter(p=>done.has(p.id)).length;
+    const f=document.getElementById(`mf-${ph.id}`);
+    const c=document.getElementById(`pc-${ph.id}`);
+    if(f) f.style.width=(pp.length?Math.round(pd/pp.length*100):0)+'%';
+    if(c) c.textContent=`${pd}/${pp.length}`;
   });
 }
 
 // ── Render ──
 function render(){
-  const app = document.getElementById('app');
-  app.innerHTML = '';
+  const app=document.getElementById('app');
+  app.innerHTML='';
 
-  YEARS.forEach(y=>{
-    const yProbs = PROBLEMS.filter(p=>p.year===y.id);
-    const sec = document.createElement('div');
-    sec.className = 'year-block';
+  PHASES.forEach((ph,i)=>{
+    const phP=PROBLEMS.filter(p=>p.phase===ph.id);
+    const weeks=[...new Set(phP.map(p=>p.week))].sort((a,b)=>a-b);
 
-    sec.innerHTML = `
-      <div class="year-hdr" onclick="this.closest('.year-block').classList.toggle('closed')">
-        <div class="yh-left">
-          <span class="yh-num">${y.id}</span>
-          <span class="yh-title">${y.label}</span>
-          <span class="yh-sub">${y.sub}</span>
+    const sec=document.createElement('div');
+    sec.className='phase';
+    sec.dataset.p=ph.id;
+
+    sec.innerHTML=`
+      <div class="phase-hdr" onclick="this.closest('.phase').classList.toggle('closed')">
+        <div class="ph-title-wrap">
+          <span class="ph-num">Phase 0${ph.id}</span>
+          <span class="ph-title">${ph.title}</span>
+          <span class="ph-sub">${ph.sub}</span>
         </div>
-        <span class="yh-badge">${yProbs.filter(p=>p.confirmed).length} confirmed · ${yProbs.length} total</span>
-        <div class="yh-bar">
-          <div class="mini-track"><div class="mini-fill" id="mf-${y.id}" style="width:0%"></div></div>
-          <span class="yh-cnt" id="pc-${y.id}">0/${yProbs.length}</span>
+        <span class="ph-wk">${ph.weeks}</span>
+        <div class="ph-bar-wrap">
+          <div class="mini-track"><div class="mini-fill" id="mf-${ph.id}" style="width:0%"></div></div>
+          <span class="ph-cnt" id="pc-${ph.id}">0/${phP.length}</span>
         </div>
-        <span class="yh-chev">▾</span>
+        <span class="ph-chev">▾</span>
       </div>
-      <div class="year-body" id="yb-${y.id}"></div>`;
+      <div class="phase-body" id="pb-${ph.id}"></div>
+    `;
 
-    const body = sec.querySelector(`#yb-${y.id}`);
-    yProbs.forEach(p=>{
-      const isDone = done.has(p.id);
-      const row = document.createElement('div');
-      row.className = `prow${isDone?' done':''}`;
-      row.dataset.id   = p.id;
-      row.dataset.diff = p.diff;
-      row.dataset.conf = p.confirmed;
+    const body=sec.querySelector(`#pb-${ph.id}`);
+    weeks.forEach(wk=>{
+      const wp=phP.filter(p=>p.week===wk);
+      const wDiv=document.createElement('div');
+      wDiv.className='week-block';
+      wDiv.dataset.week=wk;
 
-      const diffClass = p.diff==='Easy'?'b-easy':p.diff==='Medium'?'b-medium':'b-hard';
-      const isSql = p.topic.toLowerCase().includes('sql');
+      const lbl=document.createElement('div');
+      lbl.className='week-lbl';
+      lbl.textContent=`Week ${wk}`;
+      wDiv.appendChild(lbl);
 
-      row.innerHTML = `
-        <button class="etog${isDone?' on':''}" onclick="toggle(${p.id})">${isDone?(eMap[p.id]||'🍀'):'—'}</button>
-        <a class="pname" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.name}</a>
-        <div class="badges">
-          <span class="badge ${isSql?'b-sql':diffClass}">${isSql?'SQL':p.diff}</span>
-          <span class="badge b-topic">${p.topic}</span>
-        </div>
-        ${p.confirmed ? `<span class="conf-tag">★ Confirmed</span>` : `<span class="rec-tag">→ Rec</span>`}`;
+      wp.forEach(p=>{
+        const isDone=done.has(p.id);
+        const row=document.createElement('div');
+        row.className=`prow${isDone?' done':''}`;
+        row.dataset.id=p.id;
+        row.dataset.diff=p.diff;
+        row.dataset.ms=p.ms;
 
-      body.appendChild(row);
+        const rc=revisions[p.id]||0;
+        const nc=noteCount(p.id);
+        const nextAttempt=nc+1;
+        row.innerHTML=`
+          <div class="etog-wrap">
+            <button class="etog${isDone?' on':''}" onclick="toggle(${p.id})">${isDone?(eMap[p.id]||'🍀'):'—'}</button>
+            <span class="rev-cnt${rc>0?' active':''}" data-rev="${p.id}" onclick="revise(${p.id})" title="Log a revision">↺${rc||''}</span>
+          </div>
+          <span class="pnum">${p.id}</span>
+          <a class="pname" href="${p.url}" target="_blank" rel="noopener noreferrer">${p.name}</a>
+          <div class="badges">
+            ${p.ms?`<span class="badge b-ms">★</span>`:''}
+            <span class="badge b-${p.diff.toLowerCase()}">${p.diff}</span>
+            <span class="badge b-topic">${p.topic}</span>
+          </div>
+          <button class="notes-btn${nc>0?' has-notes':''}" data-nb="${p.id}" onclick="toggleNotes(${p.id})" title="Notes">${nc>0?`✎ <span class='nb-dot'>·${nc}</span>`:'✎'}</button>
+        `;
+
+        // notes panel — lives below the row
+        const notePanel=document.createElement('div');
+        notePanel.className='notes-panel';
+        notePanel.id=`np-${p.id}`;
+        notePanel.innerHTML=`
+          <div class="notes-feed" id="nf-${p.id}"></div>
+          <div class="notes-new">
+            <div class="note-toolbar">
+              <div class="note-new-label" id="nl-${p.id}">Attempt ${nextAttempt}</div>
+              <button class="btn-insert-code" onclick="insertCode(${p.id})" title="Insert code block">&lt;/&gt; code</button>
+            </div>
+            <textarea class="note-ta" id="nt-${p.id}" rows="3"
+              placeholder="What did you learn? Key insight, edge case, pattern you missed… Use \`\`\`java … \`\`\` for code blocks"></textarea>
+            <div class="note-actions">
+              <button class="note-cancel" onclick="closeNotes(${p.id})">Cancel</button>
+              <button class="note-save" onclick="saveNote(${p.id})">Save note</button>
+            </div>
+          </div>
+        `;
+        wDiv.appendChild(row);
+        wDiv.appendChild(notePanel);
+        // populate existing notes
+        if(nc>0) renderFeed(p.id);
+      });
+      body.appendChild(wDiv);
     });
     app.appendChild(sec);
   });
@@ -535,31 +1777,84 @@ function render(){
   updateStats();
 }
 
-// ── Filter listeners ──
+// ── Filter logic ──
+function applyRowVis(row,id){
+  const isDone=done.has(id);
+  const d=row.dataset.diff;
+  const ms=row.dataset.ms==='true';
+  let vis=true;
+  if(filt==='pending'&&isDone) vis=false;
+  if(filt==='done'&&!isDone)   vis=false;
+  if(filt==='ms'&&!ms)         vis=false;
+  if(diffF&&d!==diffF)         vis=false;
+  row.classList.toggle('hide',!vis);
+}
+
+function applyFilters(){
+  document.querySelectorAll('.prow').forEach(row=>applyRowVis(row,parseInt(row.dataset.id)));
+  document.querySelectorAll('.week-block').forEach(wb=>{
+    wb.style.display=wb.querySelectorAll('.prow:not(.hide)').length?'':'none';
+  });
+  document.querySelectorAll('.phase').forEach(ph=>{
+    ph.style.display=ph.querySelectorAll('.prow:not(.hide)').length?'':'none';
+  });
+}
+
 document.querySelectorAll('[data-f]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('[data-f]').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on'); filt=btn.dataset.f; applyFilters();
   });
 });
+document.querySelectorAll('[data-d]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    if(diffF===btn.dataset.d){
+      diffF=null; document.querySelectorAll('[data-d]').forEach(b=>b.classList.remove('on'));
+    } else {
+      document.querySelectorAll('[data-d]').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on'); diffF=btn.dataset.d;
+    }
+    applyFilters();
+  });
+});
 document.getElementById('clear-btn').addEventListener('click',()=>{
-  filt='all';
+  filt='all'; diffF=null;
   document.querySelectorAll('[data-f]').forEach(b=>b.classList.remove('on'));
   document.querySelector('[data-f="all"]').classList.add('on');
+  document.querySelectorAll('[data-d]').forEach(b=>b.classList.remove('on'));
   applyFilters();
 });
 
-// ── Sticky filters pin ──
+render();
+updateStreakDisplay(); // initialise streak counter in header
+
+// ── Sticky filters: lock just below the header ──
 (function(){
-  const hdr=document.querySelector('.header');
-  const fw=document.querySelector('.filters-wrap');
-  if(!hdr||!fw) return;
-  const pin=()=>{ fw.style.top=hdr.offsetHeight+'px'; };
-  pin(); window.addEventListener('resize',pin);
+  const hdr = document.querySelector('.header');
+  const fw  = document.querySelector('.filters-wrap');
+  if (!hdr || !fw) return;
+  const pin = () => { fw.style.top = hdr.offsetHeight + 'px'; };
+  pin();
+  window.addEventListener('resize', pin);
 })();
 
-render();
-initFb(); // auto-connect Firebase and load cloud data
+// ── Close sync modal on overlay click ──
+document.getElementById('sync-overlay').addEventListener('click', function(e){
+  if(e.target === this) closeSyncModal();
+});
+
+// ── Background Carousel ──
+(function(){
+  const slides = document.querySelectorAll('.cs');
+  if (!slides.length) return;
+  let cur = 0;
+  slides[0].classList.add('on');
+  setInterval(() => {
+    slides[cur].classList.remove('on');
+    cur = (cur + 1) % slides.length;
+    slides[cur].classList.add('on');
+  }, 4500);
+})();
 </script>
 </body>
 </html>
