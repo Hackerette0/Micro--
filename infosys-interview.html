@@ -299,6 +299,129 @@
 
 <div class="container">
 
+  <!-- ══════════════════════════════ WARM-UP ══════════════════════════════ -->
+  <div class="section-header" id="warmup-hdr" onclick="toggleWarmup()" style="cursor:pointer;user-select:none;">
+    <div class="section-icon part-b-icon">W</div>
+    <div class="section-desc">
+      <h2 style="color: var(--year-b)">Warm-Up — High Repeat Probability <span id="warmup-chev" style="font-size:14px;margin-left:8px;display:inline-block;transition:transform .2s;">▾</span></h2>
+      <p>Simple questions interviewers use to break the ice or test basics before the main problem • &gt;40% chance of appearing verbally or on whiteboard • click to collapse</p>
+    </div>
+  </div>
+  <div id="warmup-body">
+  <div class="year-block">
+    <div class="year-label"><span class="year-tag confirmed-year">Must Know</span></div>
+    <div class="q-grid">
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Palindrome Check</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Strings · Two Pointers</div>
+        <div class="q-desc">Check if a string (or number) reads the same forwards and backwards. One of the most common icebreaker problems in Indian company interviews — know both the string reverse and two-pointer approach.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/valid-palindrome/" target="_blank">LeetCode #125</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/c-program-check-given-string-palindrome/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Reverse a Linked List</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Linked List · Pointers</div>
+        <div class="q-desc">Reverse a singly linked list iteratively and recursively. Asked in nearly every Infosys SP technical round as a baseline check — know both approaches and be ready to trace through with a diagram.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/reverse-linked-list/" target="_blank">LeetCode #206</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/reverse-a-linked-list/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Find Middle of Linked List</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Linked List · Slow-Fast Pointers</div>
+        <div class="q-desc">Find the middle node of a linked list in one pass using the slow and fast pointer technique. Interviewers specifically ask this to test whether you know Floyd's two-pointer pattern beyond just cycle detection.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/middle-of-the-linked-list/" target="_blank">LeetCode #876</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/write-a-c-function-to-find-the-middle-of-the-linked-list/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">First Non-Repeating Character</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Strings · HashMap</div>
+        <div class="q-desc">Find the first character in a string that does not repeat. Tests frequency counting with a HashMap — a clean O(n) problem that interviewers use to check if you default to brute force or think optimally.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/first-unique-character-in-a-string/" target="_blank">LeetCode #387</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/given-a-string-find-its-first-non-repeating-character/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Missing Number (1 to N)</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Arrays · Math</div>
+        <div class="q-desc">Given an array of n-1 numbers from 1 to n, find the missing one. Know the sum formula approach O(1) space — interviewers follow up asking you to avoid XOR and then asking for XOR anyway. Know both.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/missing-number/" target="_blank">LeetCode #268</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/find-the-missing-number/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Armstrong Number</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Math · Number Theory</div>
+        <div class="q-desc">Check if a number equals the sum of its own digits each raised to the power of the number of digits (e.g. 153 = 1³ + 5³ + 3³). A classic Infosys favourite — comes up repeatedly in screening and warm-up rounds.</div>
+        <div class="q-links">
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/program-to-find-armstrong-numbers-between-1-to-1000/" target="_blank">GFG — Armstrong</a>
+          <a class="q-link lc-link" href="https://leetcode.com/problems/self-dividing-numbers/" target="_blank">LeetCode #728 (similar)</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Fibonacci (Iterative)</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Math · DP Basics</div>
+        <div class="q-desc">Print or return the nth Fibonacci number. Know iterative O(1) space — if you write recursion, interviewers will immediately ask you to optimise it. Knowing memoisation on top is a bonus that impresses.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/fibonacci-number/" target="_blank">LeetCode #509</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/program-for-nth-fibonacci-number/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+      <div class="q-card easy-card">
+        <div class="q-top">
+          <div class="q-title">Anagram Check</div>
+          <div class="q-badges"><span class="badge easy">Easy</span><span class="badge confirmed">✓</span></div>
+        </div>
+        <div class="q-topic">Strings · Sorting / HashMap</div>
+        <div class="q-desc">Check if two strings are anagrams of each other. Know both the sort-and-compare approach and the frequency array O(n) approach — interviewers ask which is better and why. Always say frequency array.</div>
+        <div class="q-links">
+          <a class="q-link lc-link" href="https://leetcode.com/problems/valid-anagram/" target="_blank">LeetCode #242</a>
+          <a class="q-link gfg-link" href="https://www.geeksforgeeks.org/check-whether-two-strings-are-anagram-of-each-other/" target="_blank">GFG</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  </div><!-- end warmup-body -->
+
+  <div class="divider"></div>
+
   <!-- ══════════════════════════════ PART A ══════════════════════════════ -->
   <div class="section-header">
     <div class="section-icon part-a-icon">A</div>
@@ -840,6 +963,7 @@
     </div>
   </div>
 
+
 </div>
 
 <!-- FOOTER -->
@@ -972,6 +1096,14 @@
     localStorage.setItem(SK, JSON.stringify([...done]));
     updateProgress();
   }
+
+  window.toggleWarmup = function(){
+    const body = document.getElementById('warmup-body');
+    const chev = document.getElementById('warmup-chev');
+    const hidden = body.style.display === 'none';
+    body.style.display = hidden ? '' : 'none';
+    chev.style.transform = hidden ? '' : 'rotate(-90deg)';
+  };
 
   function updateProgress(){
     const total = document.querySelectorAll('.q-card').length;
