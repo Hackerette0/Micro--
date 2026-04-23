@@ -775,8 +775,9 @@
 <header class="header">
   <div class="header-inner">
     <div class="brand-name">M<span class="ms-i">i</span>cro--</div>
-    <a href="index.html"   class="nav-tab active">MS Tracker</a>
-    <a href="infosys.html" class="nav-tab">Infosys SP</a>
+    <a href="index.html"            class="nav-tab active">MS Tracker</a>
+    <a href="infosys.html"          class="nav-tab">Infosys SP</a>
+    <a href="infosys-interview.html" class="nav-tab">In-Person Qs</a>
 
     <div class="stats-strip">
       <div class="sbox">
@@ -1765,12 +1766,14 @@ function render(){
         `;
         wDiv.appendChild(row);
         wDiv.appendChild(notePanel);
-        // populate existing notes
-        if(nc>0) renderFeed(p.id);
+        // mark panel open now; feed is rendered after sec is in DOM (see below)
+        if(nc>0) notePanel.classList.add('open');
       });
       body.appendChild(wDiv);
     });
     app.appendChild(sec);
+    // NOW the section is in the document — safe to call getElementById
+    phP.forEach(p=>{ if(noteCount(p.id)>0) renderFeed(p.id); });
   });
 
   applyFilters();
