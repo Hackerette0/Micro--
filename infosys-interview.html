@@ -291,6 +291,10 @@
   <div class="legend-item"><span class="badge hard">Hard</span></div>
   <div class="legend-item"><span class="badge confirmed">✓ Confirmed</span></div>
   <div class="legend-item"><span class="badge predicted">✦ Predicted</span></div>
+  <div class="progress-wrap">
+    <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:0%"></div></div>
+    <span id="prog-label">0 / 0 done</span>
+  </div>
 </div>
 
 <div class="container">
@@ -845,6 +849,142 @@
   <a href="https://leetcode.com/discuss/post/7302950/" target="_blank">LeetCode Discuss</a> &nbsp;·&nbsp;
   Good luck Sucharitha 🚀
 </div>
+
+<style>
+  /* Done card */
+  .q-card.done {
+    opacity: 0.45;
+    border-color: #22c55e44 !important;
+  }
+  .q-card.done::before { background: #22c55e !important; }
+  .q-card.done .q-title { text-decoration: line-through; color: #555; }
+
+  /* Done toggle button */
+  .done-btn {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    border: 1.5px solid #2e3148;
+    background: transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px;
+    color: transparent;
+    transition: all 0.15s;
+    z-index: 2;
+    flex-shrink: 0;
+  }
+  .done-btn:hover { border-color: #22c55e; color: #22c55e; }
+  .q-card.done .done-btn {
+    background: #22c55e22;
+    border-color: #22c55e;
+    color: #22c55e;
+  }
+
+  /* Shift badges to leave room for button */
+  .q-top { padding-right: 32px; }
+
+  /* Year label collapsible */
+  .year-label {
+    cursor: pointer;
+    user-select: none;
+  }
+  .year-label:hover { opacity: 0.8; }
+  .year-chev {
+    font-size: 11px; color: #555;
+    transition: transform 0.2s;
+    margin-left: 6px;
+    display: inline-block;
+  }
+  .year-block.collapsed .year-chev { transform: rotate(-90deg); }
+  .year-block.collapsed .q-grid { display: none; }
+
+  /* Progress bar in legend */
+  .progress-wrap {
+    margin-left: auto;
+    display: flex; align-items: center; gap: 10px;
+    font-size: 12px; color: #555;
+  }
+  .prog-bar {
+    width: 120px; height: 4px;
+    background: #1e2030; border-radius: 2px; overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%; background: #22c55e;
+    border-radius: 2px;
+    transition: width 0.3s;
+  }
+  #prog-label { color: #94a3b8; }
+</style>
+
+<script>
+(function(){
+  const SK = 'infy_interview_v1';
+  let done = new Set(JSON.parse(localStorage.getItem(SK)||'[]'));
+
+  // --- Make year blocks collapsible ---
+  document.querySelectorAll('.year-block').forEach(block => {
+    const lbl = block.querySelector('.year-label');
+    if(!lbl) return;
+
+    // Add chevron
+    const chev = document.createElement('span');
+    chev.className = 'year-chev';
+    chev.textContent = '▾';
+    lbl.appendChild(chev);
+
+    lbl.addEventListener('click', () => {
+      block.classList.toggle('collapsed');
+    });
+  });
+
+  // --- Add done buttons to each card, assign IDs ---
+  let cardIdx = 0;
+  document.querySelectorAll('.q-card').forEach(card => {
+    const titleEl = card.querySelector('.q-title');
+    if(!titleEl) return;
+
+    // Stable ID from title text
+    const id = 'c' + cardIdx++;
+    card.dataset.cid = id;
+
+    // Add done button
+    const btn = document.createElement('button');
+    btn.className = 'done-btn';
+    btn.title = 'Mark done';
+    btn.textContent = '✓';
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      toggleDone(card, id);
+    });
+    card.appendChild(btn);
+
+    // Restore state
+    if(done.has(id)) card.classList.add('done');
+  });
+
+  updateProgress();
+
+  function toggleDone(card, id){
+    if(done.has(id)){ done.delete(id); card.classList.remove('done'); }
+    else            { done.add(id);    card.classList.add('done');    }
+    localStorage.setItem(SK, JSON.stringify([...done]));
+    updateProgress();
+  }
+
+  function updateProgress(){
+    const total = document.querySelectorAll('.q-card').length;
+    const count = done.size;
+    const pct   = total ? Math.round(count/total*100) : 0;
+
+    let lbl = document.getElementById('prog-label');
+    let fill = document.getElementById('prog-fill');
+    if(lbl)  lbl.textContent  = count + ' / ' + total + ' done';
+    if(fill) fill.style.width = pct + '%';
+  }
+})();
+</script>
 
 </body>
 </html>
